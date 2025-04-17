@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import lombok.Data;
 
 @Data
-public class Chat_comment{
+public class Chat{
     private int room_id;
     private int user_id;
     private String user_name;
