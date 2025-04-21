@@ -2,6 +2,11 @@ package com.example.demo.entity;
 
 import lombok.Data;
 
+/*
+ * チャットルーム用エンティティ
+ * 作成者　森川
+ */
+
 @Data
 public class Room{
     private int room_id;
