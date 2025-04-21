@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class Chat_service_impl implements Chat_service{
+	@Lazy
 	private final Chat_mapper chat_mapper;
 
 	@Override

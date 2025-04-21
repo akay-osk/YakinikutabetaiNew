@@ -17,10 +17,10 @@ import com.example.demo.entity.Chat;
 public interface Chat_mapper {
 	
     //指定IDデータ取得
-	@Select("SELECT * FROM chat WHERE id = #{room_id}")
+	@Select("SELECT * FROM chat WHERE room_id = #{room_id}")
     Chat selectById(@Param("room_id") Integer id);
 	
     //コメント書き込み
-	@Insert("INSERT INTO chat (chat_comment) VALUES (#{user_name}, #{chat_comment}, CURRENT_TIMESTAMP)")
+	@Insert("INSERT INTO chat (user_name, chat_comment, created_at) VALUES (#{user_name}, #{chat_comment}, CURRENT_TIMESTAMP)")
     void insert(Chat chat);
 }

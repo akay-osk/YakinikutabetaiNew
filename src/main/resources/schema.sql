@@ -1,9 +1,9 @@
-drop table if exists user cascade;
+/*drop table if exists user cascade;
 drop table if exists matching cascade;
 drop table if exists room cascade;
 drop table if exists chat cascade;
 drop table if exists blocking cascade;
-
+*/
 --ユーザーテーブル
 CREATE TABLE user(
 	-- 会員ID : 主キー
@@ -33,7 +33,7 @@ CREATE TABLE user(
 	-- アイコン
 	user_icom BYTEA,
 	-- アドレス
-	user_address VARCHAR(100) NOOT NULL,
+	user_address VARCHAR(100) NOT NULL,
 	-- ブロックユーザー
 	blocking_user_id INTEGER REFERENCES blocking(block_user_id)
 );
