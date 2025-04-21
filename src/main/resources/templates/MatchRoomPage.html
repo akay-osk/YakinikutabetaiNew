@@ -1,10 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>MatchRoomPage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャットルーム</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        #new-message {
+            width: 75%;
+        }
+        button {
+            width: 20%;
+        }
+    </style>
 </head>
 <body>
-	<h1>マッチ画面</h1>
+    <h1>チャットルーム</h1>
+    <div id="messages"></div>
+    <input type="text" id="new-message" placeholder="メッセージを入力">
+    <button id="send-button">送信</button>
+
+    <script>
+        // DOM要素を取得
+        const messagesDiv = document.getElementById("messages");
+        const newMessageInput = document.getElementById("new-message");
+        const sendButton = document.getElementById("send-button");
+
+        // メッセージを取得して表示する関数
+        function loadMessages() {
+            fetch("/api/chat") // エンドポイントからメッセージを取得
+                .then(response => response.json())
+                .then(data => {
+                    messagesDiv.innerHTML = ""; // メッセージエリアをクリア
+                    data.forEach(message => {
+                        const p = document.createElement("p");
+                        p.textContent = message.chat_comment;
+                        messagesDiv.appendChild(p);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching messages:", error);
+                });
+        }
+
+        // メッセージを送信する関数
+        function sendMessage() {
+            const newMessage = newMessageInput.value;
+
+            if (newMessage.trim() === "") {
+                alert("メッセージを入力してください。");
+                return;
+            }
+
+            fetch("/api/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ chat_comment: newMessage })
+            })
+            .then(response => {
+                if (response.ok) {
+                    const p = document.createElement("p");
+                    p.textContent = newMessage;
+                    messagesDiv.appendChild(p); // 新しいメッセージを画面に追加
+                    newMessageInput.value = ""; // 入力欄をクリア
+                } else {
+                    console.error("Failed to send message.");
+                }
+            })
+            .catch(error => {
+                console.error("Error sending message:", error);
+            });
+        }
+
+        // 初期メッセージをロード
+        loadMessages();
+
+        // 送信ボタンのクリックイベントリスナー
+        sendButton.addEventListener("click", sendMessage);
+    </script>
 </body>
 </html>

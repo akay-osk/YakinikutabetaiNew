@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,7 @@ import com.example.demo.entity.Chat;
  * チャットルーム用マッパー
  * 作成者　森川
  */
-
+@Mapper
 @RequestMapping("api/chat")
 public interface Chat_mapper {
 	
