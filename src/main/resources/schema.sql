@@ -5,15 +5,11 @@ drop table if exists chat cascade;
 drop table if exists blocking cascade;
 */
 
--- ブロックユーザーテーブル
-CREATE TABLE blocking(
-	block_user_id INTEGER REFERENCES user(user_id)
-);
 
 
 --ユーザーテーブル
 CREATE TABLE user(
-	-- 会員ID : 主キー
+	-- ユーザーID : 主キー
 	user_id SERIAL PRIMARY KEY,
 	-- 外部認証 : 
 	user_pass VARCHAR(100) NOT NULL,
@@ -41,8 +37,6 @@ CREATE TABLE user(
 	user_icom BYTEA,
 	-- アドレス
 	user_address VARCHAR(100) NOT NULL,
-	-- ブロックユーザー
-	blocking_user_id INTEGER REFERENCES blocking(block_user_id)
 );
 
 
@@ -90,5 +84,14 @@ CREATE TABLE chat(
 	chat_comment TEXT,
 	-- 時間
 	create_at TIMESTAMP
+);
+
+
+-- ブロックユーザーテーブル
+CREATE TABLE blocking(
+	-- ユーザーID
+	 user_id INTEGER user(user_id),
+	-- 上記ユーザーIDがブロックしているユーザーID
+	blocking_user_id INTEGER user(user_id)
 );
 
