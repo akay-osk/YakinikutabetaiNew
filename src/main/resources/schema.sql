@@ -33,7 +33,7 @@ CREATE TABLE user(
 	-- アイコン
 	user_icom BYTEA,
 	-- アドレス
-	user_address VARCHAR(100)
+	user_address VARCHAR(100) NOOT NULL,
 	-- ブロックユーザー
 	blocking_user_id INTEGER REFERENCES blocking(block_user_id)
 );
