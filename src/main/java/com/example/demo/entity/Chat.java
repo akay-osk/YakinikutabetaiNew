@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 /*
@@ -13,5 +15,5 @@ public class Chat{
     private int user_id;
     private String user_name;
     private String chat_comment;
-    private String created_at;
+    private LocalDateTime created_at;
 }
