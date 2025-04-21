@@ -4,6 +4,13 @@ drop table if exists room cascade;
 drop table if exists chat cascade;
 drop table if exists blocking cascade;
 */
+
+-- ブロックユーザーテーブル
+CREATE TABLE blocking(
+	block_user_id INTEGER REFERENCES user(user_id)
+);
+
+
 --ユーザーテーブル
 CREATE TABLE user(
 	-- 会員ID : 主キー
@@ -23,7 +30,7 @@ CREATE TABLE user(
 	-- 喫煙者か
 	user_smoker BOOLEAN,
 	-- 飲酒するか
-	user_dinker BOOLEAN,
+	user_drinker BOOLEAN,
 	-- 紹介文
 	user_detail VARCHAR(50),
 	-- 評価good
@@ -59,7 +66,7 @@ CREATE TABLE matching(
 	blocking_user_id INTEGER REFERENCES user(blocking_user_id),
 	);
 
-
+-- ルームテーブル
 CREATE TABLE room(
  	-- ルームID : 主キー
 	room_id SERIAL PRIMARY KEY,
@@ -71,7 +78,7 @@ CREATE TABLE room(
 	matching_id INTEGER REFERENCES matching(matching_id)
 );
 
-
+-- チャットテーブル
 CREATE TABLE chat(
 	-- ルームID 
 	room_id INTEGER REFERENCES room(room_id),
@@ -83,9 +90,5 @@ CREATE TABLE chat(
 	chat_comment TEXT,
 	-- 時間
 	create_at TIMESTAMP
-);
-
-CREATE TABLE blocking(
-	block_user_id INTEGER REFERENCES user(user_id)
 );
 
