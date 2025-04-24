@@ -8,6 +8,6 @@ import com.example.demo.entity.Chat;
  */
 
 public interface Chat_service {
-    Chat findByIdChatComment(Integer id);
+    Chat findByIdChat(Integer id);
     void insertChat(Chat chat);
 }
