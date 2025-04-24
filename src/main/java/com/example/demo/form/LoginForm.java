@@ -4,7 +4,10 @@ import jakarta.validation.constraints.NotEmpty;
 
 import lombok.Data;
 
-//  バリデーション設定フォーム
+/*
+ * バリデーション
+ * 作成者 北川
+ */
 
 @Data
 public class LoginForm {

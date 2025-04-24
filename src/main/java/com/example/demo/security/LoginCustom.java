@@ -12,6 +12,11 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.service.LoginService;
 
+/*
+ * DBと照合してログインできるか判定してるやつ
+ * 作成者 北川
+ */
+
 @Component
 public class LoginCustom implements AuthenticationProvider{
 

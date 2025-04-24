@@ -6,6 +6,11 @@ import org.apache.ibatis.annotations.Select;
 
 import com.example.demo.entity.LoginEntity;
 
+/*
+ * DBアクセスインターフェース
+ * 作成者 北川
+ */
+
 @Mapper
 public interface Login_mapper {
 
