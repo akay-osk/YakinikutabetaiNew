@@ -1,21 +1,26 @@
 package com.example.demo.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.example.demo.security.LoginCustom;
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	
+	@Autowired
+	private LoginCustom loginCustom;
 	
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+	 SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http
+		.authenticationProvider(loginCustom)
 		//HTTPリクエストに対するセキュリティ設定
 		.authorizeHttpRequests(authz -> authz
 		//「/login」へのアクセスは認証を必要としない
@@ -26,14 +31,15 @@ public class SecurityConfig {
 		.formLogin(form -> form
 		//カスタムログインページのURLを指定
 		.loginPage("/login")
-		//ログイン処理のURLを指定
+		//ログイン処理のURLを指定 ↓難しいロジックのやつ
 		.loginProcessingUrl("/authentication")
 		//★アカウント名のname属性を指定
-		.usernameParameter("accountnameInput")
+		.usernameParameter("user_name")
 		//★パスワードのname属性を指定
-		.passwordParameter("passwordInput")
-		//★ログイン成功時のリダイレクト先を指定
-		.defaultSuccessUrl("/")
+		.passwordParameter("user_pass")
+		//★ログイン成功時のリダイレクト先を指定 
+		//.defaultSuccessUrl("/")
+		.defaultSuccessUrl("/success",true)
 		//★ログイン失敗時のリダイレクト先を指定
 		.failureUrl("/login?error"))
 		//★ログアウト設定

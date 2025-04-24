@@ -4,12 +4,14 @@ import jakarta.validation.constraints.NotEmpty;
 
 import lombok.Data;
 
+//  バリデーション設定フォーム
+
 @Data
 public class LoginForm {
 //	アカウント名
-	@NotEmpty(message = "アカウント名を入力してください")
-	private String accountnameInput;
+	@NotEmpty(message = "登録名を入力してください")
+	private String user_name;
 //	パスワード
 	@NotEmpty(message = "パスワードを入力してください")
-	private String passwordInput;
+	private String user_pass;
 }
