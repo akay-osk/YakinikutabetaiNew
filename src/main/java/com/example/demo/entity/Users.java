@@ -16,7 +16,7 @@ public class Users {
 	private boolean user_gender;
 	private String user_likes;
 	private String user_detail;
-	private String user_icon;
+	private byte[] user_icon;
 	private String user_addrres;
 
 }
