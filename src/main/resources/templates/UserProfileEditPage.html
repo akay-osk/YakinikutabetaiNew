@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <title>sample</title>
-  </head>
-  <body>
-	
+ <head>
+   <meta charset="utf-8">
+   <title>UserProfileEdit</title>
+ </head>
+ <body>
 	
 	<!--
 		ファイルを読み込みするためのボタンを作成
@@ -14,174 +13,88 @@
 		https://magazine.techacademy.jp/magazine/25655
 		https://www.sejuku.net/blog/65045
 	-->
-	
+		
     <form id="form1">
       <input type="file" accept=".jpg,.jpeg,.png,.gif" id="file1"/>
       <br><br>
-	  <input type="submit" value="画像を保存" />
-	  <br><br>
-      <input type="submit" value="送信"/>
+	  <input type="submit" value="画像保存" />
     </form>
+	
+	<!-- 🔽 プレビュー表示エリアを追加 -->
+	<div id="previewArea"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script language="javascript" type="text/javascript">
+
+	<script>
+	
+		document.getElementById('file1').addEventListener('change', function () 
+		{
+	    	const file = this.files[0];
+
+	    	if (!file) return;
+
+	    	if (!file.type.startsWith('image/')) 
+			{
+	      		alert('画像ファイルを選択してください。');
+	      		return;
+	    	}
+
+	    	// プレビュー表示
+	    	const reader = new FileReader();
+	    	reader.onload = function (e) 
+			{
+	      		const preview = document.getElementById('previewArea');
+	      		preview.innerHTML = `<img src="${e.target.result}" width="300" alt="画像プレビュー">`;
+	   	 	};
+	    		reader.readAsDataURL(file);
+	  	});
 		
-	// ボタンを押したらファイル選択ダイアログを表示する
-    $("#open").on("click", () => { $("#file1").click(); return false; });
-       
-    // 送信ボタンが押されたときの処理
-    $("#form1").on("submit", () => 
-	{
-	    // ファイル要素から、選択されたファイルを取得する
-		const files = $("#file1")[0].files;
-
-        // ファイルが選択されていなかったら終了
-       	if (files.length === 0) 
+		document.getElementById('form1').addEventListener('submit', async (event) => 
 		{
-        	console.log("ファイルが選択されていません");
-        	return false;
-        }
+			event.preventDefault();
 
-        // 1つ目のファイルを取得する
-        const file = files[0];
+			const fileInput = document.getElementById('file1');
+			const file = fileInput.files[0];
 
-        // 選択されたファイル名を出力
-        const filename = file.name;
-        console.log(`選択されたファイル名:${filename}`);
-
-        // Submitイベントをキャンセルする
-        return false;
-    });
-	
-    </script>
-	
-	
-	
-	
-  </body>
-
-  <script>
-	document.getElementById('form1').addEventListener('submit', async (event) => 
-		{
-		  	event.preventDefault();
-
-		  	const fileInput = document.getElementById('file1');
-		  	const files = fileInput.files;
-
-		  	if (files.length === 0) 
+			if (!file) 
 			{
-		    	alert('画像ファイルを選択してください。');
-		    	return;
-		  	}
+				alert('ファイルが選択されていません。');
+				return;
+			}
 
-		  	const file = files[0];
-		  	const blob = file.slice(0, file.size, file.type);
-
-		  	try 
+			/*
+			const reader = new FileReader();
+			reader.onload = async function(e) 
 			{
-		    	const handle = await window.showSaveFilePicker({
-		      	suggestedName: file.name,
-		    types: [
-		        {
-		          description: '画像ファイル',
-		          accept: {
-		            'image/*': ['.jpg', '.jpeg', '.png', '.gif'],
-		          },
-		        },
-		      ],
-		    });
+				const arrayBuffer = e.target.result;
+				const uint8View = new Uint8Array(arrayBuffer);
+				const base64String = btoa(String.fromCharCode(...uint8View));
 
-		    const writable = await handle.createWritable();
-		    await writable.write(blob);
-		    await writable.close();
+				// Spring BootのAPIにPOST
+				const response = await fetch('/',
+				{
+					method: 'POST',
+					headers: 
+					{
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ image: base64String })
+				});
 
-		    alert('画像が保存されました。');
-		  } catch (error) {
-		    console.error('ファイルの保存に失敗しました:', error);
-		    alert('ファイルの保存に失敗しました。');
-		  }
+				if (response.ok) 
+				{
+					alert('画像を保存しました！');
+					
+				} 
+				else 
+				{
+					alert('保存に失敗しました。');
+				}
+			};
+
+			reader.readAsArrayBuffer(file);
+			*/
 		});
 		
 	</script>
-  
-<!--	
-<script type="text/javascript">
-	// https://atmarkit.itmedia.co.jp/ait/articles/1112/16/news135.html の処理をそのまま持ってきた
-  	
-	// File API実装チェック
-  	if (window.File) 
-	{
-    	window.alert("File APIが実装されてます。");
-    	// File APIが実装されている場合には、dropイベントを登録
-    	document.getElementById("drop").addEventListener("drop", onDrop, false);
-  	}
-	else 
-	{
-    	window.alert("本ブラウザではFile APIが使えません");
-  	}
-
-  	// Drop領域にドロップした際のファイルのプロパティ情報読み取り処理
-    function onDrop(event) 
-	{
-      	var files = event.dataTransfer.files;
-      	var disp = document.getElementById("disp");
-      	disp.innerHTML = "";
-
-      	// ファイルの配列から1つずつファイルを選択
-      	for (var i=0; i< files.length; i++) 
-		{
-        	var f = files[i];
-        	// （1）FileReaderオブジェクトの生成
-        	var reader = new FileReader();
-
-        	// （2）画像ファイルかテキスト・ファイルかを判定
-        	if (!f.type.match('image.*')) 
-			{
-          		alert("画像ファイル以外は表示できません。");
-          		continue;
-       		}
-
-        	// （3）エラー発生時の処理
-        	reader.onerror = function (evt) 
-			{
-          		disp.innerHTML = "読み取り時にエラーが発生しました。";
-        	}
-
-        	// （4）画像ファイルの場合の処理
-        	if (f.type.match('image.*')) 
-			{
-          		// ファイル読取が完了した際に呼ばれる処理
-          		reader.onload = function (evt) {
-            	var li = document.createElement('li');
-            	var img = document.createElement('img');
-            	img.src = evt.target.result;
-            	li.appendChild(img);
-            	li.innerHTML += "<br />";
-            	disp.appendChild(li);
-          	}
-			
-          	// readAsDataURLメソッドでファイルの内容を取得
-          	reader.readAsDataURL(f);
-        }
-
-    	// （6）ブラウザ上でファイルを展開する挙動を抑止
-    	event.preventDefault();
-    }
-
-    function onDragOver(event) 
-	{
-      	// （6）ブラウザ上でファイルを展開する挙動を抑止
-     	event.preventDefault();
-    }
-	
-  </script>
-
-<section id="main">
-  <p>ドラッグアンドドロップで1つから複数のファイルのプロパティを取得します。</p>
-  <div id="drop" style="width:700px; height:150px; padding:10px; border:3px solid" ondragover="onDragOver(event)" ondrop="onDrop(event)"  >ここにドロップしたファイルのプロパティを読み込みます。</div>
-  <p>ファイルプロパティ表示</p>
-  <div id="disp" ></div>
-</section>
--->
-
-</html>
+</body>
