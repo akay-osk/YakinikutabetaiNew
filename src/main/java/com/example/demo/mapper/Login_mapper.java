@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import com.example.demo.entity.LoginEntity;
 
 /*
- * DBアクセスインターフェース
+ * DBアクセスインターフェース 
  * 作成者 北川
  */
 

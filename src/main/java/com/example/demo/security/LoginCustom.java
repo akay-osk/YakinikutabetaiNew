@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.service.LoginService;
 
 /*
- * DBと照合してログインできるか判定してるやつ
+ * DBと照合してログインできるか判定してるやつ 
  * 作成者 北川
  */
 

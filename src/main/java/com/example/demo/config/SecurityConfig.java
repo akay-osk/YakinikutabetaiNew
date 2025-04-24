@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.example.demo.security.LoginCustom;
 
 /*
- * ログイン成功・失敗とログアウト時の処理。
+ * ログイン成功・失敗とログアウト時の処理。 
  * 作成者 北川
  */
 

@@ -7,7 +7,7 @@ import com.example.demo.entity.LoginEntity;
 import com.example.demo.mapper.Login_mapper;
 
 /*
- * DBに同じ情報があるか確認してるやつ
+ * DBに同じ情報があるか確認してるやつ 
  * 作成者 北川
  */
 
