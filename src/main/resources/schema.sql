@@ -11,7 +11,7 @@ drop table if exists chat cascade;
 CREATE TABLE users(
 	-- ユーザーID : 主キー
 	user_id SERIAL PRIMARY KEY,
-	-- 外部認証 : 
+	-- パスワード : 
 	user_pass VARCHAR(100) NOT NULL,
 	-- 登録名
 	user_name VARCHAR(50) NOT NULL,
@@ -20,19 +20,9 @@ CREATE TABLE users(
 	-- 性別
 	user_gender BOOLEAN NOT NULL,
 	-- 好きな部位
-	user_likes VARCHAR(50),
-	-- 焼肉奉行
-	user_bugyo BOOLEAN DEFAULT false,
-	-- 喫煙者か
-	user_smoker BOOLEAN DEFAULT false,
-	-- 飲酒するか
-	user_drinker BOOLEAN DEFAULT false,
+	user_likes VARCHAR(20),
 	-- 紹介文
-	user_detail VARCHAR(50),
-	-- 評価good
-	user_good INTEGER DEFAULT 0,
-	-- 評価bad
-	user_bad INTEGER DEFAULT 0,
+	user_detail VARCHAR(15),
 	-- アイコン
 	user_icon BYTEA,
 	-- アドレス
@@ -68,7 +58,9 @@ CREATE TABLE matching(
 	-- 人数
 	matching_member INTEGER,
 	-- ブロックしているユーザー
-	blocking_user_id INTEGER REFERENCES users(user_id)
+	blocking_user_id INTEGER REFERENCES users(user_id),
+	-- 希望エリア
+	matching_area VARCHAR(10)
 	);
 
 -- ルームテーブル
@@ -97,5 +89,17 @@ CREATE TABLE chat(
 	create_at TIMESTAMP
 );
 
+--　タグテーブル
+CREATE TABLE tags(
+	-- タグID
+	tag_id SERIAL PRIMARY KEY,
+	tag_name VARCHAR(10) NOT NULL
+);
 
+-- 	ユーザーとタグの中間テーブル
+CREATE TABLE user_tags(
+	user_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+	tag_id INTEGER NOT NULL REFERENCES tags(tag_id) ON DELETE CASCADE,
+	PRIMARY KEY (user_id,tag_id)
+);
 
