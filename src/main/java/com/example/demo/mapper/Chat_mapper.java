@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.entity.Chat;
 
@@ -13,11 +12,10 @@ import com.example.demo.entity.Chat;
  * 作成者　森川
  */
 @Mapper
-@RequestMapping("api/chat")
 public interface Chat_mapper {
 	
     //指定IDデータ取得
-	@Select("SELECT * FROM chat WHERE room_id = #{room_id}")
+	@Select("SELECT * FROM chat WHERE room_id = #{room_id} ORDER BY create_at")
     Chat selectById(@Param("room_id") Integer id);
 	
     //コメント書き込み
