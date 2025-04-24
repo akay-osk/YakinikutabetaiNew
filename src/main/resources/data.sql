@@ -4,7 +4,7 @@
 -- user 1件目
 INSERT INTO users(user_pass,user_name,user_age,user_gender,user_likes,user_detail,user_address)
 VALUES
-('aaa','じろう',35,false,'上ミノ','お酒が本体','aba@aaa');s
+('aaa','じろう',35,false,'上ミノ','お酒が本体','aba@aaa');
 
 -- user 2件目
 INSERT INTO users(user_pass,user_name,user_age,user_gender,user_likes,user_detail,user_address)
