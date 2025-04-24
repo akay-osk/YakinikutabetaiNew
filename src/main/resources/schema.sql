@@ -7,6 +7,7 @@ drop table if exists chat cascade;
 
 
 
+
 --ユーザーテーブル
 CREATE TABLE users(
 	-- ユーザーID : 主キー

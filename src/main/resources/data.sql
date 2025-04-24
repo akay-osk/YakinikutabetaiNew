@@ -1,7 +1,6 @@
 --　ダミーデータ　作成者　奥野
 
 
-
 -- user 1件目
 INSERT INTO users(user_pass,user_name,user_age,user_gender,user_likes,user_detail,user_address)
 VALUES

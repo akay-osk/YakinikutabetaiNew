@@ -7,6 +7,7 @@ import com.example.demo.entity.Users;
  * 作成者　奥野
  */
 
+
 public interface UsersService {
 
 	//	ユーザー情報新規登録

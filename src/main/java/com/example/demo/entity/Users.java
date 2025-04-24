@@ -6,7 +6,7 @@ import lombok.Data;
  * ユーザー用エンティティ
  * 作成者　奥野
  */
-
+ 
 @Data
 public class Users {
 	private int user_id;

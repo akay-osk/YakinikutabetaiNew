@@ -32,5 +32,5 @@ public interface UserTagsMapper {
 	 @Delete("DELETE FROM user_tags WHERE user_id =#{user_id}")
 	 void deleteByUserId(Integer userId);
 
-
+ 
 }

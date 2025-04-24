@@ -9,5 +9,5 @@ import lombok.Data;
 public class UserTags {
 	private Integer user_id;
 	private Integer tag_id;
-
+ 
 }
