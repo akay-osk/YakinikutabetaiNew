@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.form.LoginForm;
-import com.example.demo.test.User;
+import com.example.demo.entity.User;
 
 /*
  * MainControllerクラス
