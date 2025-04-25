@@ -16,7 +16,7 @@ INSERT INTO users(user_pass,user_name,user_age,user_gender,user_likes,user_detai
 VALUES
 ('ccc','すたみな太郎',28,false,'カルビ','米も喰え！！','bbb@kar');
 
--- 2025/04/25 ダミーデータ追加：坂井
+-- 2025/04/25 ダミーデータ(アイコン画像のデータを追加)追加：坂井
 -- user 4件目
 INSERT INTO users(user_pass,user_name,user_age,user_gender,user_likes,user_detail, user_icon, user_address)
 VALUES
