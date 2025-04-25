@@ -2,7 +2,7 @@ package com.example.demo.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.Users;
+import com.example.demo.entity.User;
 import com.example.demo.mapper.Icon_mapper;
 import com.example.demo.service.Icon_service;
 
@@ -19,7 +19,7 @@ public class Icon_service_impl implements Icon_service{
 	private final Icon_mapper icon_mapper;
 	
 	@Override
-	public Users selectByIcon(Integer id) {
+	public User selectByIcon(Integer id) {
 		return icon_mapper.selectByIcon(id);
 	}
 }

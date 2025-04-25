@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.example.demo.entity.Users;
+import com.example.demo.entity.User;
 
 /*
  * ユーザー用マッパー
@@ -22,11 +22,11 @@ public interface UsersMapper {
 	
 	//ユーザー情報新規登録
 	@Insert("INSERT INTO users (user_pass,user_name,user_age,user_gender,user_likes,user_detail,user_icon,user_address) VALUES (#{user_pass}, #{user_name}, #{user_age}, #{user_gender}, #{user_likes}, #{user_detail}, #{user_icon}, #{user_address} )")
-	void insert(Users users);
+	void insert(User users);
 	
 	//ユーザー情報更新
 	@Update("UPDATE users SET user_pass = #{user_pass},user_name = #{user_name},user_age = #{user_age},user_gender = #{user_gender} ,user_likes = #{user_likes},user_detail = #{user_detail} ,user_icon =  #{user_icon} ,user_address = #{user_address} WHERE id =#{id}")
-	void update(Users users);
+	void update(User users);
 
 	//ユーザー情報削除
 	@Delete("DELETE FROM users WHERE id = #{id}")
@@ -34,6 +34,6 @@ public interface UsersMapper {
 
 	//ユーザー情報取得
 	@Select("SELECT * FROM users WHERE user_id = #{user_id}")
-	Users selectByIdUsers(@Param("user_id") Integer id);
+	User selectByIdUsers(@Param("user_id") Integer id);
 	
 }

@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Users;
+import com.example.demo.entity.User;
 
 /*
  * ユーザー用サービス
@@ -11,16 +11,16 @@ import com.example.demo.entity.Users;
 public interface UsersService {
 
 	//	ユーザー情報新規登録
-	void insertUsers(Users users);
+	void insertUsers(User users);
 	
 	//	ユーザー情報更新
-	void updateUsers(Users users);
+	void updateUsers(User users);
 	
 	//  ユーザー情報削除
 	void deleteUsers(Integer id);
 	
 	// ユーザー情報取得
-	Users findByIdUsers(Integer id);
+	User findByIdUsers(Integer id);
 	
 
 }

@@ -3,7 +3,7 @@ package com.example.demo.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entity.Users;
+import com.example.demo.entity.User;
 import com.example.demo.mapper.UsersMapper;
 import com.example.demo.service.UsersService;
 /*
@@ -22,13 +22,13 @@ public class UsersServiceImpl implements UsersService {
 	private final UsersMapper usersMapper;
 	
 	@Override
-	public void insertUsers(Users users) {
+	public void insertUsers(User users) {
 		usersMapper.insert(users);
 	}
 
 	
 	@Override
-	public void updateUsers(Users users) {
+	public void updateUsers(User users) {
 		usersMapper.update(users);
 	}
 
@@ -38,7 +38,7 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public Users findByIdUsers(Integer id) {
+	public User findByIdUsers(Integer id) {
 		return usersMapper.selectByIdUsers(id);
 	}
 
