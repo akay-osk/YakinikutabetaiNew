@@ -12,16 +12,21 @@
 		[参考資料]
 		https://magazine.techacademy.jp/magazine/25655
 		https://www.sejuku.net/blog/65045
+		
+		画像データを base64 に変換 & base64 を 画像に変換
+		
+		[参考資料]
 		https://codelikes.com/javascript-image-to-base64/
 	-->
 		
       	<input type="file" accept=".jpg,.jpeg,.png,.gif" id="file1"/>
-		<!-- 🔽 プレビュー表示エリアを追加 -->
+		<!-- 🔽 プレビュー表示エリア -->
 		<div id="previewArea"></div>
       	<br><br>
+		
+		<!-- 🔽 プレビュー表示エリア２ base64 を 画像に変換 -->
     <form id="form1">
 	  	<input type="submit" value="画像保存" id="file2"/>
-		<!-- 🔽 再表示を追加 -->
 		<div id="previewArea2"></div>
     </form>
 	
@@ -80,9 +85,9 @@
 			document.getElementById('previewArea2').innerHTML = `<img src="${text}" width="200" alt="再表示画像">`;
 			*/
 
-			if (base64Text) 
+			if (base64Text)
 			{
-				document.getElementById('previewArea2').innerHTML = `<img src="${base64Text}" width="200" alt="再表示画像">`;
+				document.getElementById('previewArea2').innerHTML = `<img src="${base64Text}" width="150" height="150" alt="再表示画像">`;
 			} 
 			else 
 			{
