@@ -61,7 +61,7 @@
 	    	const reader = new FileReader();
 	    	reader.onload = function (e) 
 			{
-//				base64Text = event.currentTarget.result.split(',')[1];　data:image/jpeg;base64, ～　の形式で基本値がかえってくるので、
+//				base64Text = event.currentTarget.result.split(',')[1];　data:image/jpeg;base64, ～　の形式で基本値がかえってくるので、手前の部分がいらない場合はsplit で区切る
 				base64Text = e.currentTarget.result;	// base64 形式で値ががえってくる
 				console.log(base64Text);
 				

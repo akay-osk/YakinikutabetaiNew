@@ -8,7 +8,8 @@ import lombok.Data;
  */
  
 @Data
-public class Users {
+public class User 
+{
 	private int user_id;
 	private String user_pass;
 	private String user_name;
@@ -18,5 +19,4 @@ public class Users {
 	private String user_detail;
 	private byte[] user_icon;
 	private String user_addrres;
-
 }
