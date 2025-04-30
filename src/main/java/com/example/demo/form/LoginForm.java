@@ -11,10 +11,13 @@ import lombok.Data;
 
 @Data
 public class LoginForm {
-//	アカウント名
-	@NotEmpty(message = "登録名を入力してください")
+	
+	//アカウント名
+	@NotEmpty(message = "ユーザー名を入力してください")
 	private String user_name;
-//	パスワード
+	
+	//パスワード
 	@NotEmpty(message = "パスワードを入力してください")
 	private String user_pass;
+	
 }

@@ -40,5 +40,4 @@ public class LoginCustom implements AuthenticationProvider{
         return UsernamePasswordAuthenticationToken.class.equals(authentication);
     }
 
-	
 }

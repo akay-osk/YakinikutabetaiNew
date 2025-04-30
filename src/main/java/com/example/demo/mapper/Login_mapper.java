@@ -14,7 +14,9 @@ import com.example.demo.entity.LoginEntity;
 @Mapper
 public interface Login_mapper {
 
-	@Select("SELECT * FROM users WHERE user_name = #{user_name} AND user_pass = #{user_pass}")
-    LoginEntity findByLogin(@Param("user_name") String user_name, @Param("user_pass") String user_pass);
+	//ここでデータベースからユーザー名が一致するやつを探す。
+	//パスワードはハッシュ値との比較ができ名から一旦スルー。　
+	@Select("SELECT * FROM users WHERE user_name = #{user_name}")
+    LoginEntity findByName(@Param("user_name") String user_name);
 
 }

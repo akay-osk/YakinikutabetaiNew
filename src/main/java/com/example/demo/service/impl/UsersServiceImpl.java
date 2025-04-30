@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,6 +11,7 @@ import com.example.demo.service.UsersService;
 /*
  * ユーザーサービス実装
  * 作成者　奥野
+ * 
  */
 
 import lombok.RequiredArgsConstructor;
@@ -21,11 +24,17 @@ public class UsersServiceImpl implements UsersService {
 	
 	private final UsersMapper usersMapper;
 	
+	@Autowired //ハッシュ化追加 キタガワ
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public void insertUsers(User users) {
+		//ハッシュ化追加 キタガワ
+		String hashedPass = passwordEncoder.encode(users.getUser_pass());
+		users.setUser_pass(hashedPass);
+	
 		usersMapper.insert(users);
 	}
-
 	
 	@Override
 	public void updateUsers(User users) {
@@ -41,5 +50,5 @@ public class UsersServiceImpl implements UsersService {
 	public User findByIdUsers(Integer id) {
 		return usersMapper.selectByIdUsers(id);
 	}
-
+	 
 }
