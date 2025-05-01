@@ -38,6 +38,11 @@ public class UsersServiceImpl implements UsersService {
 	
 	@Override
 	public void updateUsers(User users) {
+		//アップデート時もハッシュ化 キタガワ
+		if(users.getUser_pass() != null && !users.getUser_pass().isEmpty()) {
+	    String hashedPass = passwordEncoder.encode(users.getUser_pass());
+	    users.setUser_pass(hashedPass);
+	   }
 		usersMapper.update(users);
 	}
 

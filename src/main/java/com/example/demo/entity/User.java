@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import lombok.Data;
@@ -25,13 +24,12 @@ public class User {
     @Size(min = 6, message = "パスワードは6文字以上で入力してください")
 	private String user_pass;
 	
-	@NotBlank(message = "ユーザー名は必須です")
+	@NotBlank(message = "ユーザーネームは必須です")
     @Size(max = 20, message = "名前は20文字以内で入力してください")
 	private String user_name;
 	
 	@Min(value = 20, message = "18歳以上である必要があります")
     @Max(value = 95, message = "年齢が高すぎます")
-	@Pattern(regexp="^[0-9]+$",message = "半角数字で入力してください")
 	private int user_age;
 	
 	//性別はBooleanやしバリデーションは省略
@@ -49,5 +47,5 @@ public class User {
 	
 	@NotBlank(message = "メールアドレスは必須です")
     @Email(message = "メールアドレスの形式が正しくありません")
-	private String user_addrres;
+	private String user_address;
 }
