@@ -32,5 +32,4 @@ public class Chat_service_impl implements Chat_service{
 		chat.setCreate_at(LocalDateTime.now());//記入時間書き込み
 		chat_mapper.insert(chat);
 	}
-	
 }
