@@ -28,7 +28,7 @@ CREATE TABLE users(
 	-- アイコン
 	user_icon BYTEA,
 	-- アドレス
-	user_address VARCHAR(255) NOT NULL
+	user_address VARCHAR(255) --NOT NULL
 );
 
 
@@ -47,22 +47,24 @@ CREATE TABLE blocking(
 CREATE TABLE matching(
 	-- マッチング条件ID : 主キー
 	matching_id SERIAL PRIMARY KEY,
+	-- 会員ID : user_id引用
+	user_id INTEGER NOT NULL REFERENCES users(user_id),
+--	-- ブロックしているユーザー
+--	blocking_user_id INTEGER REFERENCES users(user_id),
 	-- 参加日
 	matching_day DATE NOT NULL,
 	-- 時間
-	matching_time INTEGER NOT NULL,
-	-- 会員ID : user_id引用
-	user_id INTEGER NOT NULL REFERENCES users(user_id),
+	matching_time VARCHAR(10) CHECK(matching_time IN ('昼','夕方(16～19)','夜(19～)'))  NOT NULL,
 	-- 性別 
 	matching_gender BOOLEAN,
-	-- 年齢
-	matching_age INTEGER,
+	-- 下限年齢
+	matching_min_age INTEGER,
+	-- 上限年齢
+	matching_max_age INTEGER,
 	-- 人数
-	matching_member INTEGER,
-	-- ブロックしているユーザー
-	blocking_user_id INTEGER REFERENCES users(user_id),
+	matching_member BOOLEAN,
 	-- 希望エリア
-	matching_area VARCHAR(10)
+	matching_area VARCHAR(10) CHECK(matching_area IN ('なんば','梅田','鶴橋','どこでもよい')) NOT NULL
 	);
 
 -- ルームテーブル
@@ -104,4 +106,6 @@ CREATE TABLE user_tags(
 	tag_id INTEGER NOT NULL REFERENCES tags(tag_id) ON DELETE CASCADE,
 	PRIMARY KEY (user_id,tag_id)
 );
+
+
 

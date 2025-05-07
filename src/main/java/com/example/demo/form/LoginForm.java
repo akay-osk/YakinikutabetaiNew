@@ -1,6 +1,7 @@
 package com.example.demo.form;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -12,12 +13,14 @@ import lombok.Data;
 @Data
 public class LoginForm {
 	
-	//アカウント名
-	@NotEmpty(message = "ユーザー名を入力してください")
-	private String user_name;
-	
 	//パスワード
-	@NotEmpty(message = "パスワードを入力してください")
+	@NotBlank(message = "パスワードは必須です")
+	@Size(min = 6, message = "パスワードは6文字以上で入力してください")
 	private String user_pass;
+	
+	//ユーザー名
+	@NotBlank(message = "ユーザーネームは必須です")
+	@Size(max = 20, message = "名前は20文字以内で入力してください")
+	private String user_name;
 	
 }

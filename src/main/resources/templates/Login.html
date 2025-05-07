@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>LoginPage</title>
+    <meta charset="UTF-8">
+    <title>ログイン画面</title>
 </head>
 <body>
-	<h1>ユーザログイン画面</h1>
+	
+    <h2>ログイン</h2>
+	
+<!--	バリデーションをLoginFormクラスから引っ張ってくる-->
+	<form th:action="@{/authentication}" method="post" th:object="${loginForm}">
+	  
+	
+		<div>
+	       <label for="user_name">ユーザーネーム：</label>
+	       <input type="text" id="user_name" th:field="*{user_name}" />
+<!--	   ユーザー名のバリデーション表示-->
+	       <div th:if="${#fields.hasErrors('user_name')}" th:errors="*{user_name}" style="color: red;"></div>
+	    </div>
+		   
+	    <div>
+	       <label for="user_pass">パスワード：</label>
+	       <input type="password" id="user_pass" th:field="*{user_pass}" />
+<!--	   パスワードのバリデーション表示-->
+		   <div th:if="${#fields.hasErrors('user_pass')}" th:errors="*{user_pass}" style="color: red;"></div>
+	    </div>
+	       
+		
+		<div>
+	       <button type="submit">ログイン</button>
+	    </div>
+		
+	 </form>
+	
 </body>
 </html>

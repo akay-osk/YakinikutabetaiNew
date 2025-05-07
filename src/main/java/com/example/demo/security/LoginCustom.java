@@ -29,7 +29,7 @@ public class LoginCustom implements AuthenticationProvider{
         String user_pass = authentication.getCredentials().toString();
 
         if (loginService.login(user_name, user_pass)) {
-            return new UsernamePasswordAuthenticationToken(user_name, user_pass, Collections.emptyList());
+            return new UsernamePasswordAuthenticationToken(user_name, null, Collections.emptyList());
         } else {
             throw new BadCredentialsException("ユーザー名またはパスワードが間違っています");
         }

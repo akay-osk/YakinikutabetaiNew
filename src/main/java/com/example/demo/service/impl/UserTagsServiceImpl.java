@@ -39,5 +39,4 @@ public class UserTagsServiceImpl implements UserTagsService {
 		
 	}
 
- 
 }

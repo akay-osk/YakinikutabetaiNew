@@ -1,10 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>NewRegistrationPage</title>
+    <meta charset="UTF-8">
+    <title>新規登録</title>
 </head>
 <body>
-	<h1>アカウント新規登録画面</h1>
+    <h2>アカウント新規登録</h2>
+	
+<!--	th:object="${user}"はModel model.addAttribute("user", new User())がControllerにあること前提-->
+<!--	Userクラスのバリデーションを呼び出す-->
+    <form th:action="@{/register}" method="post" th:object="${user}" enctype="multipart/form-data">
+        
+		
+		<div>
+            <label>パスワード：</label>
+            <input type="password" th:field="*{user_pass}" />
+<!--            パスワードのバリデーション表示-->
+			<div th:if="${#fields.hasErrors('user_pass')}" th:errors="*{user_pass}" style="color: red;"></div>
+        </div>
+
+        <div>
+            <label>ユーザー名：</label>
+            <input type="text" th:field="*{user_name}" />
+<!--			ユーザー名のバリデーション表示-->
+            <div th:if="${#fields.hasErrors('user_name')}" th:errors="*{user_name}" style="color: red;"></div>
+        </div>
+
+        <div>
+            <label>年齢：</label>
+            <input type="number" th:field="*{user_age}" min="18" max="95" pattern="[0-9]+" title="半角数字で入力してください"/>
+<!--			年齢のバリデーション表示-->
+            <div th:if="${#fields.hasErrors('user_age')}" th:errors="*{user_age}" style="color: red;"></div>
+        </div>
+
+        <div>
+            <label>性別：</label>
+            <input type="radio" th:field="*{user_gender}" name="user_gender" value="true" /> 男性
+            <input type="radio" th:field="*{user_gender}" name="user_gender" value="false" /> 女性
+        </div>
+
+        <div>
+            <label>好きな部位：</label>
+            <input type="text" th:field="*{user_likes}" />
+<!--			好きな部位のバリデーションを表示-->
+            <div th:if="${#fields.hasErrors('user_likes')}" th:errors="*{user_likes}" style="color: red;"></div>
+        </div>
+
+        <div>
+            <label>紹介文：</label>
+			<style>
+			        textarea {
+			            min-height: 2cm; /* 初期の高さ */
+			            height: auto;
+			            overflow: hidden;
+			            resize: none; /* 手動リサイズを無効化 */
+			        }
+			    </style>
+
+            <!--			紹介分のバリデーションを表示-->
+            <div th:if="${#fields.hasErrors('user_detail')}" th:errors="*{user_detail}" style="color: red;"></div>
+        </div>
+		<textarea id="autoExpand"></textarea>
+
+
+        <div>
+            <label>アイコン画像：</label>
+            <input type="file" name="user_icon" />
+        </div>
+
+        <div>
+            <label>メールアドレス：</label>
+            <input type="email" th:field="*{user_address}" />
+<!--			メールアドレスのバリデーションを表示-->
+            <div th:if="${#fields.hasErrors('user_address')}" th:errors="*{user_address}" style="color: red;"></div>
+        </div>
+
+        <div>
+            <button type="submit">登録</button>
+        </div>
+    </form>
 </body>
+
 </html>
