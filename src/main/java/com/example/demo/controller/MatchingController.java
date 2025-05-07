@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.MatchingRequest;
+import com.example.demo.entity.Matching;
+import com.example.demo.service.MatchingService;
 
 /*
  * MatchingControllerクラス
@@ -21,20 +23,50 @@ import com.example.demo.entity.MatchingRequest;
 @RequestMapping("/matching")
 public class MatchingController {
 	
+	/*
+	 * 5/7追加　奥野
+	 */
+	@Autowired
+	private MatchingService matchingService;
+	
+	
+	
 	//マッチング希望条件検索
+	
+	/*
+	 *5/7 
+	 *Matchingrequestを用意していたMatchingに変更しました
+	 * 奥野
+	 */
 	@PostMapping("/search")
-	public String processSearch(@ModelAttribute MatchingRequest request, Model model) {
+	public String processSearch(@ModelAttribute Matching matching, Model model) {
 		
-		//DB検索処理
-		boolean found= true;	//仮
-		if(found) {
-			model.addAttribute("candidates", List.of(/* 候補 */));
+		//入力したマッチング条件をDBに保存
+		matchingService.insertMatching(matching);
+		
+		//検索実行
+		List<Matching> candidates = matchingService.findMatching(
+				matching.getUser_id(),
+				matching.getMatching_day(),
+				matching.getMatching_time(),
+				matching.isMatching_gender(),
+				matching.getMatching_min_age(),
+				matching.getMatching_max_age(),
+				matching.isMatching_member(),
+				matching.getMatching_area()
+				);
+		
+		// 結果の表示
+		if (!candidates.isEmpty()) {
+			model.addAttribute("candidates", candidates);
 			return "MatchingResult";
-		}else {
-			model.addAttribute("request", request);
+		} else {
+			model.addAttribute("request", matching);
 			return "MatchingNotFound";
 		}
+	
 	}
+	
 	
 	//マッチング候補から一つを選択し、チャットルームに参加する
 	@PostMapping("/select")
@@ -44,13 +76,6 @@ public class MatchingController {
 		return "redirect:/Chatroom";
 	}
 	
-	//検索内容を保存しマッチングリクエストを作成
-	@PostMapping("/save-request")
-	public String saveRequest(@ModelAttribute MatchingRequest request) {
-		
-		//リクエストをDB保存
-		return "redirect:/home";
-	}
 	
 	//条件を変更してマッチングを再検索
 	@PostMapping("/retry")
@@ -59,3 +84,4 @@ public class MatchingController {
 		return "redirect:/matching/search";
 	}
 }
+
