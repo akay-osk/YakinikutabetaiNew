@@ -11,6 +11,8 @@ import lombok.Data;
 public class Room{
     private int room_id;
     private int user_id;
+    private boolean is_single;
+    private boolean is_full;
     private String delete_at;
     private int matching_id;
 }

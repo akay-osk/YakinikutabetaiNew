@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Chat;
 
 /*
- * チャットルーム用サービス
+ * チャット用サービス
  * 作成者　森川
  */
 

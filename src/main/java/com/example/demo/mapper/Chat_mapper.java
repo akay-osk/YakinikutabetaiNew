@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import com.example.demo.entity.Chat;
 
 /*
- * チャットルーム用マッパー
+ * チャット用マッパー
  * 作成者　森川
  */
 @Mapper
