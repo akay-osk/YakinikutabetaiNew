@@ -34,10 +34,13 @@ CREATE TABLE users(
 
 -- ブロックユーザーテーブル
 CREATE TABLE blocking(
-	-- ユーザーID
-	 user_id INTEGER REFERENCES users(user_id),
-	-- 上記ユーザーIDがブロックしているユーザーID
-	blocking_user_id INTEGER REFERENCES users(user_id),
+	user_id INTEGER NOT NULL,
+    blocking_user_id INTEGER NOT NULL,
+    
+    -- 外部キー制約（usersテーブルのuser_idを参照）
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(user_id),
+    CONSTRAINT fk_blocking_user FOREIGN KEY (blocking_user_id) REFERENCES users(user_id),
+
 	  -- 一意制約を追加
     CONSTRAINT unique_block UNIQUE (user_id, blocking_user_id)
 );
@@ -76,7 +79,12 @@ CREATE TABLE room(
 	--　ルーム期限
 	delete_at TIMESTAMP,
 	-- マッチング希望条件id
-	matching_id INTEGER REFERENCES matching(matching_id)
+	matching_id INTEGER REFERENCES matching(matching_id),
+	-- 人数(trueなら1v1 falseなら複数人 )
+	is_single BOOLEAN,
+	-- 定員(trueなら満員 falseなら入室可)
+	is_full BOOLEAN
+	
 );
 
 -- チャットテーブル
@@ -106,6 +114,5 @@ CREATE TABLE user_tags(
 	tag_id INTEGER NOT NULL REFERENCES tags(tag_id) ON DELETE CASCADE,
 	PRIMARY KEY (user_id,tag_id)
 );
-
 
 
