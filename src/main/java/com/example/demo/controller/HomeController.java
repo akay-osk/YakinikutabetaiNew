@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /*
  * HomeControllerクラス
  * ホーム画面と3つの機能
- * 作成者 奥田
+ * 作成者 奥田あかね
  */
 
 @Controller
@@ -24,6 +24,8 @@ public class HomeController {
 	
 	@GetMapping("/current-matching")
 	public String showCurrentMatching() {
+		
+		//引数で@ModelAttribute で Room entityの情報を受け取る必要？
 		
 		return "Chatroom"; //マッチング中のチャットルームに遷移
 	}
