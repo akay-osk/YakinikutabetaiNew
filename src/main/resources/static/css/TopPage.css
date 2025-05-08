@@ -1,0 +1,95 @@
+@charset "UTF-8";
+/* ベース */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  background-color: #fff;
+}
+
+/* ヘッダー */
+header {
+  font-family: 'Sigmar', cursive;	
+  background-color: #FFE500;
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+  padding: 16px 24px;
+ 
+}
+
+.logo h1{
+	font-family: 'Sigmar', cursive;
+	  font-size: 40px;
+	  color: #000;
+	  margin: 0;
+  height: 33px;
+}
+.icon img{
+	width: 48px;
+	height: 32px;
+}
+
+
+
+/* メインビジュアル */
+.main-visual {
+  background-image: url('meat-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-visual h1 {
+  color: white;
+  font-size: 48px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+/* キャッチコピー */
+.catch-copy {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* ステップ */
+.steps {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  background-color: #F8F8F8;
+}
+.step {
+  text-align: center;
+}
+.step h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.step p {
+  font-size: 16px;
+}
+
+/* フッター */
+footer {
+  background-color: #222;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+.footer-content img {
+  height: 40px;
+  vertical-align: middle;
+}
+.footer-content span {
+  margin-left: 10px;
+  font-size: 20px;
+}
