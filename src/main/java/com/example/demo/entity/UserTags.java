@@ -9,5 +9,11 @@ import lombok.Data;
 public class UserTags {
 	private Integer user_id;
 	private Integer tag_id;
+	
+ public UserTags(Integer user_id, Integer tag_id) {
+	this.user_id = user_id;
+	this.tag_id = tag_id;
+	
+ 	}
  
 }

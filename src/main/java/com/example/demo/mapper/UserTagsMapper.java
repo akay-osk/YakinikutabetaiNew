@@ -30,7 +30,7 @@ public interface UserTagsMapper {
 	 
 	 //タグの削除
 	 @Delete("DELETE FROM user_tags WHERE user_id =#{user_id}")
-	 void deleteByUserId(Integer userId);
+	 void deleteByUserId(Integer user_id);
 
  
 }

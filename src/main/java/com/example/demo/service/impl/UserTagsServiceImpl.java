@@ -19,23 +19,18 @@ public class UserTagsServiceImpl implements UserTagsService {
 	
 	private final UserTagsMapper userTagsMapper;
 	@Override
-	public void saveUserTags(Integer user_id, List<Integer> tags_id) {
+	public void saveUserTags(Integer userId, List<Integer> tagsId) {
 		//既存のタグを削除
-		userTagsMapper.deleteByUserId(user_id);
+		userTagsMapper.deleteByUserId(userId);
 		
 		//6つまでに制限
-		List<UserTags> userTags = tags_id.stream()
-				.limit(6)
-				.map(tagid ->{
-					UserTags ut = new UserTags();
-					ut.setUser_id(user_id);
-					ut.setTag_id(tagid);
-					return ut;
-				})
-				.collect(Collectors.toList());
+		List<UserTags> userTags = tagsId.stream()
+			    .limit(6)
+			    .map(tagId -> new UserTags(userId, tagId))
+			    .collect(Collectors.toList());
 		
 		 if (!userTags.isEmpty()) 
-		userTagsMapper.insertUserTags(userTags);
+			 userTagsMapper.insertUserTags(userTags);
 		
 	}
 
