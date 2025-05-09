@@ -25,12 +25,12 @@ public class Room_service_impl implements Room_service{
 
 	@Override
 	public void insert(Room room) {
-		room_mapper.insert(room);
+		room_mapper.insertRoom(room);
 	}
 
 	@Override
 	public void delete(int roomId) {
-		room_mapper.delete(roomId);
+		room_mapper.deleteRoom(roomId);
 	}
 
 }

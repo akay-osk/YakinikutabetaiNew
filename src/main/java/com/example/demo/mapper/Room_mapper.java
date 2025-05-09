@@ -22,8 +22,8 @@ public interface Room_mapper {
 	
 	@Insert("INSERT INTO room(user_id, is_single, is_full, delete_at, matching_id) VALUES(#{user_id}, #{is_single}, #{is_full}, #{delete_at}, #{matching_id})")
 	@Options(useGeneratedKeys=true, keyProperty="room_id")
-	void insert(Room room);
+	void insertRoom(Room room);
 	
 	@Delete("DELETE FROM room WHERE room_id = #{room_id}")
-	void delete(@Param("room_id") int roomId);
+	void deleteRoom(@Param("room_id") int roomId);
 }
