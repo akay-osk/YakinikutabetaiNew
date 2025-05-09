@@ -4,7 +4,7 @@ import com.example.demo.entity.Room;
 
 /*
  * ルームサービス
- * 作成者　森川 
+ * 作成者　森川
  */
 
 public interface Room_service {
