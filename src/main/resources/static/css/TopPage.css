@@ -1,7 +1,7 @@
 /*作成者ナカムラ*/
 
 @charset "UTF-8";
-@charset "UTF-8";
+
 /* ベース */
 * {
   margin: 0;
@@ -13,6 +13,17 @@ body {
   line-height: 1.6;
   background-color: #fff;
 }
+.top-page {
+    width: 390px;
+/*	レスポンシブ対応
+	max-width: 390px;
+	width: 100%;
+*/
+	margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
 /* ヘッダー */
 header {
@@ -20,7 +31,10 @@ header {
   background-color: #FFE500;
   padding: 16px 24px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;  /* z-indexを有効にするためにposition指定 */
+  z-index: 10;  /* ヘッダーを前面に持ってくる */
 }
+
 .header-content {
   display: flex;
   justify-content: space-between;
@@ -48,32 +62,56 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.main-visual h1 {
-  color: white;
-  font-size: 56px;
-  text-shadow: 4px 4px 8px rgba(0,0,0,0.7);
-  font-family: 'Sigmar', cursive;
-  font-weight: bold;
+  position: relative;   /* 位置調整のためにrelativeに設定 */
+  z-index: 1;  /* ヘッダーより背面に配置 */
+  top: -50px;
 }
 
-/* キャッチコピー */
+/* ボタン */
 .catch-copy {
-  text-align: center;
+  display: flex;
+  justify-content: center; /* 横方向の中央揃え */
+  align-items: center;     /* 縦方向の中央揃え（必要なら） */
   margin: 40px 0;
-  font-size: 30px;
-  font-weight: bold;
-  color: #FF5722;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
-/* ステップ */
+.login-button {
+  display: inline-block;
+  background-color: #FF5722;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #e64a19;
+}
+
+/* レスポンシブ対応（フォントや余白の調整） */
+@media screen and (max-width: 600px) {
+  .catch-copy p {
+    font-size: 22px;
+  }
+
+  .login-button {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+}
+
 .steps {
   display: flex;
   justify-content: space-around;
+  gap: 16px;
   padding: 40px 20px;
   background-color: #F8F8F8;
+  flex-wrap: wrap; /* レスポンシブ用 */
 }
+
 .step {
   text-align: center;
   background-color: #FFF;
@@ -81,21 +119,27 @@ header {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   width: 30%;
+  min-width: 200px;
+  box-sizing: border-box;
 }
-.step h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-  color: #333;
-}
-.step p {
-  font-size: 16px;
-  color: #666;
+
+/* スマホ用：1列表示 */
+@media screen and (max-width: 768px) {
+  .steps {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step {
+    width: 80%;
+    margin-bottom: 20px;
+  }
 }
 
 /* フッター */
 footer {
-  background-color: #222;
-  color: white;
+  background-color: #FED01B;
+  color:  #000;
   text-align: center;
   padding: 20px 0;
 }
@@ -108,102 +152,4 @@ footer {
   font-size: 20px;
   font-weight: bold;
 }
-
-
-/* ベース 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'Roboto', sans-serif;
-  line-height: 1.6;
-  background-color: #fff;
-}
-
-/* ヘッダー 
-header {
-  font-family: 'Sigmar', cursive;	
-  background-color: #FFE500;
-  padding: 16px 24px;
- 
-}
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.logo h1{
-	font-family: 'Sigmar', cursive;
-	  font-size: 40px;
-	  color: #000;
-	  margin: 0;
-      height: 33px;
-}
-.icon img{
-	width: 48px;
-	height: 32px;
-}
-
-
-
-/* メインビジュアル 
-.main-visual {
-  background-image: url('/images/top.png');
-  background-size: cover;
-  background-position: center;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.main-visual h1 {
-  color: white;
-  font-size: 48px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-}
-
-/* キャッチコピー 
-.catch-copy {
-  text-align: center;
-  margin: 30px 0;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-/* ステップ 
-.steps {
-  display: flex;
-  justify-content: space-around;
-  padding: 20px;
-  background-color: #F8F8F8;
-}
-.step {
-  text-align: center;
-}
-.step h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-.step p {
-  font-size: 16px;
-}
-
-/* フッター 
-footer {
-  background-color: #222;
-  color: white;
-  text-align: center;
-  padding: 20px 0;
-}
-.footer-content img {
-  height: 40px;
-  vertical-align: middle;
-}
-.footer-content span {
-  margin-left: 10px;
-  font-size: 20px;
-} */
 

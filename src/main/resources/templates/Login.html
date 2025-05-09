@@ -13,13 +13,16 @@
     
     <!-- ヘッダー -->
     <div class="login-header">
-        <div class="logo">MeatUP!</div>
 		<div class="login-title">LOG IN</div>
+		<div class="login">
+	        <div class="logo">MeatUP!</div>
+			<div class="icon"><img src="/images/menu.png" alt="メニュー"></div>
+		</div>
     </div>
 
     <!-- ログインタイトル＋フォーム（中央寄せ） -->
     <div class="login-center">
-       
+        
 
         <form th:action="@{/authentication}" method="post" th:object="${loginForm}" class="login-form">
 
@@ -43,14 +46,12 @@
     </div>
 
     <!-- フッター -->
-    <div class="footer">
-        <div class="cow-icons">
-            <img src="/images/ushi-logo.png" alt="cow1">
-            <img src="/images/ushi-logo.png" alt="cow2">
-            <img src="/images/ushi-logo.png" alt="cow3">
-        </div>
-    </div>
-
-</div>
+	<footer>
+	   <div class="footer-content">
+	     <img src="/images/ushi-logo.png" alt="牛ロゴ">
+	     <span>YAKINIKU</span>
+	   </div>
+	 </footer>
+ 
 </body>
 </html>
