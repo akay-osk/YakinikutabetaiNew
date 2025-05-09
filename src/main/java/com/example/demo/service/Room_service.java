@@ -6,10 +6,11 @@ import com.example.demo.entity.Room;
 
 /*
  * ルームサービス
+<<<<<<< HEAD
  * 作成者　森川
  * 
  * 編集　奥野5/9
- */
+*/
 
 public interface Room_service {
     Room selectById(Integer roomId);

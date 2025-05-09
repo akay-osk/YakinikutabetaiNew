@@ -28,8 +28,9 @@ public class SecurityConfig {
 		.authenticationProvider(loginCustom)
 		//HTTPリクエストに対するセキュリティ設定
 		.authorizeHttpRequests(authz -> authz
-		//「/login」へのアクセスは認証を必要としない
-		.requestMatchers("/login").permitAll()
+		//静的リソースへのアクセスは認証不要/*静的リソースをセキュリティ対象から除外する設定				
+		//「/login」と「/register」へのアクセスは認証を必要としない(変更byナカムラ)
+		.requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()	
 		//その他のリクエストは認証が必要
 		.anyRequest().authenticated())
 		//フォームベースのログイン設定
