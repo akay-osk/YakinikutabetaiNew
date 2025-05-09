@@ -46,7 +46,9 @@
 	
 	<nav class="menu">
 		<button class="menu-btn"><span class="icon">✏️</span>プロフィール編集</button>
-		<button class="menu-btn"><span class="icon">↩️</span>ログアウト</button>
+		<form method="POST" action="/logout" style="display: inline;">
+		<button type="submit" class="menu-btn"><span class="icon">↩️</span>ログアウト</button>
+		</form>
 		<button class="menu-btn danger"><span class="icon">⚠️</span>アカウント削除</button>
 	</nav>
 </div>
