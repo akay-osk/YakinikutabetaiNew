@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entity.Matching;
 import com.example.demo.entity.Room;
 import com.example.demo.service.MatchingService;
 import com.example.demo.service.Room_service;
@@ -39,36 +42,36 @@ public class MatchingController {
 	 *Matchingrequestを用意していたMatchingに変更しました
 	 * 奥野
 	 */
-//	@PostMapping("/search")
-//	public String processSearch(@ModelAttribute Matching matching, Model model) {
-//		
-//		//入力したマッチング条件をDBに保存
-//		matchingService.insertMatching(matching);
-//		
-//		//検索実行
-//		List<Matching> candidates = matchingService.findMatching(
-//				matching.getUser_id(),
-//				matching.getMatching_day(),
-//				matching.getMatching_time(),
-//				matching.isMatching_gender(),
-//				matching.getMatching_min_age(),
-//				matching.getMatching_max_age(),
-//				matching.isMatching_member(),
-//				matching.getMatching_area()
-//				);
-//		
-//		// 結果の表示
-//		if (!candidates.isEmpty()) {
-//			model.addAttribute("candidates", candidates);
-//			return "MatchingResult";
-//		} else {
-//			model.addAttribute("request", matching);
-//			model.addAttribute("notFoundReason", "条件に合うユーザーが見つかりませんでした。条件を緩めて再検索してください。");
-//			return "MatchingNotFound";
-//		}
-//	
-//	}
-//	
+	@PostMapping("/search")
+	public String processSearch(@ModelAttribute Matching matching, Model model) {
+		
+		//入力したマッチング条件をDBに保存
+		matchingService.insertMatching(matching);
+		
+		//検索実行
+		List<Matching> candidates = matchingService.findMatching(
+				matching.getUser_id(),
+				matching.getMatching_day(),
+				matching.getMatching_time(),
+				matching.isMatching_gender(),
+				matching.getMatching_min_age(),
+				matching.getMatching_max_age(),
+				matching.isMatching_member(),
+				matching.getMatching_area()
+				);
+		
+		// 結果の表示
+		if (!candidates.isEmpty()) {
+			model.addAttribute("candidates", candidates);
+			return "MatchingResult";
+		} else {
+			model.addAttribute("request", matching);
+			model.addAttribute("notFoundReason", "条件に合うユーザーが見つかりませんでした。条件を緩めて再検索してください。");
+			return "MatchingNotFound";
+		}
+	
+	}
+	
 //	
 //	//マッチング候補から一つを選択し、チャットルームに参加する
 //	@PostMapping("/select")
@@ -146,8 +149,8 @@ public class MatchingController {
 	                List<Integer> users = roomService.getUsersInRoom(r.getRoom_id());
 	                if (!users.contains(myUserId)) {
 	                    roomService.addUserToRoom(r.getRoom_id(), myUserId);
-	                    // 満員チェック（例: 8人）→フラグ更新必要
-	                    if (users.size() + 1 >= 8) {
+	                    // 満員チェック（例: 50人）→フラグ更新必要
+	                    if (users.size() + 1 >= 50) {
 	                        r.set_full(true);
 	                        roomService.updateRoom(r); // updateRoomメソッド要実装
 	                    }
@@ -162,6 +165,7 @@ public class MatchingController {
 	            room.set_single(false);
 	            room.set_full(false);
 	            room.setDelete_at(null);
+	      
 	            roomService.insert(room);
 	            roomService.addUserToRoom(room.getRoom_id(), myUserId);
 	        }

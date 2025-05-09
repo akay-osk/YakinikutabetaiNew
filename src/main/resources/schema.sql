@@ -2,6 +2,7 @@ drop table if exists users cascade;
 drop table if exists blocking cascade;
 drop table if exists matching cascade;
 drop table if exists room cascade;
+drop table if exists room_user cascade;
 drop table if exists chat cascade;
 drop table if exists tags cascade;
 drop table if exists user_tags cascade;
@@ -90,7 +91,7 @@ CREATE TABLE room_user(
 	user_id INTEGER NOT NULL REFERENCES users(user_id),
 	-- 複合主キー
 	PRIMARY KEY(room_id,user_id)
-)
+);
 
 
 -- チャットテーブル
