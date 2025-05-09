@@ -7,5 +7,42 @@
 <body>
 	<h1>マッチング希望条件検索ページ</h1>
 
+	<form action="/matching/search" method="post">
+		<label>ユーザーID: <input type="number" name="user_id" required></label><br>
+		<label>日付: <input type="date" name="matching_day" required></label><br>
+		<label>時間帯:
+			<select name="matching_time">
+				<option value="昼">昼</option>
+				<option value="夕方(16～19)">夕(16時～19時)</option>
+				<option value="夜(19～)">夜(19時～)</option>
+			</select>
+		</label><br>
+		<label>性別（希望）:
+			<select name="matching_gender">
+				<option value="true">同性希望</option>
+				<option value="false">異性可</option>
+			</select>
+		</label><br>
+		<label>年齢（最小）: <input type="number" name="matching_min_age" required></label><br>
+		<label>年齢（最大）: <input type="number" name="matching_max_age" required></label><br>
+		<label>希望人数:
+			<select name="matching_member">
+				<option value="true">2人で</option>
+				<option value="false">複数人で</option>
+			</select>
+		</label><br>
+		<label>エリア:
+			<select name="matching_area">
+			  <option value="なんば">なんば</option>
+			  <option value="梅田">梅田</option>
+			  <option value="鶴橋">鶴橋</option>
+			  <option value="どこでもよい">どこでもよい</option>
+			</select>
+
+		</label><br><br>
+
+		<button type="submit">検索</button>
+	</form>
+
 </body>
 </html>

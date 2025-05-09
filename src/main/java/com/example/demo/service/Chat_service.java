@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import com.example.demo.entity.Chat;
 
 /*
@@ -8,6 +10,6 @@ import com.example.demo.entity.Chat;
  */
 
 public interface Chat_service {
-    Chat findByIdChat(Integer id);
+    List<Chat> findByIdChat(int roomId);
     void insertChat(Chat chat);
 }

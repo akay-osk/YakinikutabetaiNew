@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +24,8 @@ public class Chat_service_impl implements Chat_service{
 	private final Chat_mapper chat_mapper;
 
 	@Override
-	public Chat findByIdChat(Integer id) {
-		return chat_mapper.selectById(id);
+	public List<Chat> findByIdChat(int roomId) {
+		return chat_mapper.selectById(roomId);
 	}
 
 	@Override

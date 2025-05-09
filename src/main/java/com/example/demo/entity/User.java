@@ -58,6 +58,9 @@ public class User {
 	
 	//アップロードされた画像を受け取る
 	private MultipartFile iconFile;
+	
+	//パスワードアップデート時の一時受け取り（データベースには保存されない）
+	private String newPassword;
 
 }
 
