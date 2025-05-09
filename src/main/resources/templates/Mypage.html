@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Mypage</title>
+<link rel="stylesheet" href="/css/mypage.css"/>
 </head>
 <body>
-	<h1>マイページ</h1>
+	<header class="header">
+	<div class="logo">Meat UP! </div>
+	<div class="title">MY PAGE</div>
+	</header>
+	
+	<main class="profile-card">
+		<div class="profile-header">
+			<span class="id-label">ID:</span>
+			<span class="username">ユーザーネーム：</span>
+		</div>
+		
+		<div class="personal-section">
+			<div class="profile-icon">❓</div>
+			<div class="profile-info">
+				<div class="intro">ひとこと：</div>
+				<div class="favorite">好きな部位：</div>
+			</div>
+		</div>
+		
+		<div class="tags">
+			<div class="tag">タグ</div>
+			<div class="tag">タグ</div>
+			<div class="tag">タグ</div>
+			<div class="tag">タグ</div>
+			<div class="tag">タグ</div>
+			<div class="tag">タグ</div>
+			<div class="tag">タグ</div>
+		</div>
+		
+		<div class="rating">
+			<button class="block-btn">BLOCK</button>
+			<span class="sad-face">☹️</span>
+		</div>
+	</main>
+	
+	<nav class="menu">
+		<button class="menu-btn"><span class="icon">✏️</span>プロフィール編集</button>
+		<button class="menu-btn"><span class="icon">↩️</span>ログアウト</button>
+		<button class="menu-btn danger"><span class="icon">⚠️</span>アカウント削除</button>
+	</nav>
 </body>
 </html>

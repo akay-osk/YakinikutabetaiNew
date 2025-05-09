@@ -1,0 +1,116 @@
+@charset "UTF-8";
+body{
+	margin: 0;
+	font-family: 'Helvetica Neue', sans-serif;
+	background-color: #f5f5f5;
+}
+
+.header{
+	background-color: #FFD700;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	font-weight: bold;
+}
+
+.logo{
+	color: black;
+	font-size: 14px;
+}
+
+.title{
+	font-size: 22px;
+	font-weight: 900;
+}
+
+.profile-card{
+	background-color: #f2f7e8;
+	border: 3px solid #000;
+	margin: 10px;
+	border-radius: 15px;
+	padding: 15px;
+}
+
+.profile-header{
+	display: flex;
+	justify-content: space-between;
+	font-weight: bold;
+	margin-bottom: 10px
+}
+
+.personal-section{
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.profile-icon{
+	font-size: 50px;
+	background-color: #ddd;
+	border-radius: 50%;
+	padding: 10px;
+	margin-right: 15px;
+}
+
+.profile-info div{
+	background-color: #ddd;
+	padding: 5px 10px;
+	margin-bottom: 5px;
+	border-radius: 5px;
+}
+
+.tags{
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+	margin-bottom: 10px;
+}
+
+.tag{
+	background-color: #e0e0e0;
+	border-radius: 8px;
+	padding: 5px 10px;
+}
+
+.block-btn{
+	margin-left: 10px;
+	background: black;
+	color: white;
+	border: none;
+	padding: 4px 10px;
+	border-radius: 8px;
+}
+
+.sad-face{
+	margin-left: 10px;
+	font-size: 20px;
+}
+
+.menu{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px;
+}
+
+.menu-btn{
+	background-color: #2b2b2b;
+	color: white;
+	border: none;
+	padding: 12px;
+	border-radius: 10px;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	justify-content: center;
+}
+
+.menu-btn.danger{
+	background-color: #e63946;
+}
+
+.icon{
+	font-size: 18px;
+}
