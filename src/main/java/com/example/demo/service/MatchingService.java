@@ -26,4 +26,6 @@ public interface MatchingService {
 			String matching_area
 			);
 
+	Matching findByUserId(int userId);
+
 }

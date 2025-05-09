@@ -34,4 +34,8 @@ public interface MatchingMapper {
 			@Param("matching_member") boolean matching_member,
 			@Param("matching_area") String matching_area
 			);
+	
+	@Select("SELECT * FROM matching WHERE user_id = #{userId} ORDER BY matching_id DESC LIMIT 1")
+	Matching selectByUserId(@Param("userId") int userId);
+
 }

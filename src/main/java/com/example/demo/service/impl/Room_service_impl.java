@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 /*
  * ルームサービス実装
  * 作成者　森川
+ * 
+ * 編集　奥野5/9
  */
 @Service
 @Transactional
@@ -31,6 +35,26 @@ public class Room_service_impl implements Room_service{
 	@Override
 	public void delete(int roomId) {
 		room_mapper.deleteRoom(roomId);
+	}
+	
+	@Override
+	public void addUserToRoom(int roomId, int userId) {
+		room_mapper.insertRoomUser(roomId, userId);
+	}
+	
+	@Override
+	public List<Integer> getUsersInRoom(int roomId){
+		return room_mapper.selectUserIdsInRoom(roomId);
+	}
+
+	@Override
+	public List<Room> getAllRooms() {
+		return room_mapper.selectAllRooms();
+	}
+	
+	@Override
+	public void updateRoom(Room room) {
+	    room_mapper.updateRoom(room);
 	}
 
 }

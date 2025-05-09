@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>プロフィール編集</title>
+</head>
+<body>
+    <h2>プロフィール編集</h2>
+
+    <form th:action="@{/updateProfile}" method="post" th:object="${user}" enctype="multipart/form-data">
+
+        <!-- ユーザーネーム -->
+        <div>
+            <label>ユーザーネーム：</label>
+            <input type="text" th:field="*{user_name}" />
+            <div th:if="${#fields.hasErrors('user_name')}" th:errors="*{user_name}" style="color: red;"></div>
+        </div>
+		<br>
+		
+		<!-- パスワード（任意） -->
+        <div>
+            <label>パスワード（変更する場合のみ入力）：</label>
+            <input type="password" th:field="*{newPassword}" />
+            <div th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" style="color: red;"></div>
+        </div>
+		<br>
+		
+        <!-- 年齢 -->
+        <div>
+            <label>年齢：</label>
+            <input type="number" th:field="*{user_age}" min="20" max="100" />
+            <div th:if="${#fields.hasErrors('user_age')}" th:errors="*{user_age}" style="color: red;"></div>
+        </div>
+		<br>
+
+        <!-- 性別 -->
+        <div>
+            <label>性別：</label>
+            <input type="radio" th:field="*{user_gender}" name="user_gender" value="true" /> 男性
+            <input type="radio" th:field="*{user_gender}" name="user_gender" value="false" /> 女性
+        </div>
+		<br>
+
+		<!-- 好きな部位 -->
+		<div>
+		    <label>好きな部位：</label>
+		    <input type="text" th:field="*{user_likes}" />
+		    <div th:if="${#fields.hasErrors('user_likes')}" th:errors="*{user_likes}" style="color: red;"></div>
+		</div>
+		<br>
+
+		<!-- 紹介文 -->
+		<div>
+		    <label>紹介文：</label>
+		    <style>
+		        textarea {
+		            min-height: 2cm;
+		            height: auto;
+		            overflow: hidden;
+		            resize: none;
+		        }
+		    </style>
+
+		    <div th:if="${#fields.hasErrors('user_detail')}" th:errors="*{user_detail}" style="color: red;"></div>
+		    <textarea th:field="*{user_detail}" id="autoExpand"></textarea>
+		</div>
+		<br>
+        
+
+		<!-- 新しいアイコン画像をアップロード（変更しない場合は未選択） -->
+		<div>
+		    <label>新しいアイコン画像をアップロード：</label>
+		    <input type="file" th:field="*{iconFile}" accept="image/*">
+		</div>
+		<br>
+
+        <!-- タグ選択 -->
+        <div>
+            <label>タグ選択 (最大6つまで)：</label>
+            <div>
+                <input type="checkbox" th:field="*{tag_id}" value="1" class="tag-checkbox"> タバコ〇
+                <input type="checkbox" th:field="*{tag_id}" value="2" class="tag-checkbox"> タバコ×
+                <input type="checkbox" th:field="*{tag_id}" value="3" class="tag-checkbox"> お酒好き
+                <input type="checkbox" th:field="*{tag_id}" value="4" class="tag-checkbox"> 下戸です
+				<input type="checkbox" th:field="*{tag_id}" value="5" class="tag-checkbox"> 焼肉奉行！
+				<input type="checkbox" th:field="*{tag_id}" value="6" class="tag-checkbox"> 食べる専門！
+				<input type="checkbox" th:field="*{tag_id}" value="7" class="tag-checkbox"> ご飯派
+				<input type="checkbox" th:field="*{tag_id}" value="8" class="tag-checkbox"> デザート必須
+				<input type="checkbox" th:field="*{tag_id}" value="9" class="tag-checkbox"> よく焼き派
+				<input type="checkbox" th:field="*{tag_id}" value="10" class="tag-checkbox"> 野菜必須！
+				<input type="checkbox" th:field="*{tag_id}" value="11" class="tag-checkbox"> 冷麺必須！
+            </div>
+            <p style="color: red;" id="tagError"></p>
+        </div>
+		
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const checkboxes = document.querySelectorAll(".tag-checkbox");
+				const errorMsg = document.getElementById("tagError");
+
+			checkboxes.forEach(checkbox => {
+			checkbox.addEventListener("change", function () {
+				validateTagSelection();
+			});
+		   });
+
+			function validateTagSelection() {
+			const selected = document.querySelectorAll(".tag-checkbox:checked");
+
+				// 最大6つまで選択
+				if (selected.length > 6) {
+					selected[selected.length - 1].checked = false;
+					errorMsg.textContent = "タグは最大6つまで選択可能です。";
+				return;
+				} else {
+				 	errorMsg.textContent = "";
+				}
+
+				// タバコ〇とタバコ×の同時選択を禁止
+				  const tobaccoYes = document.querySelector('input[value="1"]:checked'); // タバコ〇
+				  const tobaccoNo = document.querySelector('input[value="2"]:checked'); // タバコ×
+
+				 if (tobaccoYes && tobaccoNo) {
+				 	tobaccoNo.checked = false; // タバコ×を解除
+				 	errorMsg.textContent = "タバコ〇とタバコ×はどちらかのみ選択してください。";
+				 }
+				}
+			 });
+		</script>
+		<br>
+
+        <!-- 送信ボタン -->
+        <div>
+            <button type="submit">プロフィールを編集</button>
+        </div>
+
+    </form>
+</body>
+</html>

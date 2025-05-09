@@ -48,4 +48,10 @@ public class MatchingServiceImpl implements MatchingService {
 					);
 	}
 
+	@Override
+	public Matching findByUserId(int userId) {
+	    return matchingMapper.selectByUserId(userId);
+	}
+
+
 }
