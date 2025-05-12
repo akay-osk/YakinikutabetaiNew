@@ -1,57 +1,46 @@
 <!--修正byナカムラ-->
+<!--追い修正ヤブキ-->
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>ログイン画面</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Sigmar&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/Login.css">
+	<div th:with="title='LOG IN'">
+		<div th:replace="common :: common-head(${title})"></div>
+	</div>
+
+	<!-- 各ページ用のcssはこの下に -->
+	<link rel="stylesheet" href="/css/Login.css">
 </head>
+
 <body>
-<div class="login-page">
-    
-    <!-- ヘッダー -->
-    <div class="login-header">
-		<div class="login-title">LOG IN</div>
-		<div class="login">
-	        <div class="logo">MeatUP!</div>
-			<div class="icon"><img src="/images/menu.png" alt="メニュー"></div>
+	<section th:with="title='LOG IN'">
+		<header th:replace="common :: header(${title})"></header>
+
+		<!-- フォーム -->
+		<div class="login-center">
+			<form th:action="@{/authentication}" method="post" th:object="${loginForm}" class="login-form">
+
+				<div class="input-field">
+					<label for="user_name" class="label">ユーザーネーム：</label>
+					<input type="text" id="user_name" th:field="*{user_name}" class="input" />
+					<div th:if="${#fields.hasErrors('user_name')}" th:errors="*{user_name}" class="error-message"></div>
+				</div>
+
+				<div class="input-field">
+					<label for="user_pass" class="label">パスワード：</label>
+					<input type="password" id="user_pass" th:field="*{user_pass}" class="input" />
+					<div th:if="${#fields.hasErrors('user_pass')}" th:errors="*{user_pass}" class="error-message"></div>
+				</div>
+
+				<div class="button-wrapper">
+					<button type="submit" class="login-button">ログイン</button>
+				</div>
+
+			</form>
 		</div>
-    </div>
 
-    <!-- ログインタイトル＋フォーム（中央寄せ） -->
-    <div class="login-center">
-        
-
-        <form th:action="@{/authentication}" method="post" th:object="${loginForm}" class="login-form">
-
-            <div class="input-field">
-                <label for="user_name" class="label">ユーザーネーム：</label>
-                <input type="text" id="user_name" th:field="*{user_name}" class="input" />
-                <div th:if="${#fields.hasErrors('user_name')}" th:errors="*{user_name}" class="error-message"></div>
-            </div>
-
-            <div class="input-field">
-                <label for="user_pass" class="label">パスワード：</label>
-                <input type="password" id="user_pass" th:field="*{user_pass}" class="input" />
-                <div th:if="${#fields.hasErrors('user_pass')}" th:errors="*{user_pass}" class="error-message"></div>
-            </div>
-
-            <div class="button-wrapper">
-                <button type="submit" class="login-button">ログイン</button>
-            </div>
-
-        </form>
-    </div>
-
-    <!-- フッター -->
-	<footer>
-	   <div class="footer-content">
-	     <img src="/images/ushi-logo.png" alt="牛ロゴ">
-	     <span>YAKINIKU</span>
-	   </div>
-	 </footer>
- 
+		<!-- フッター -->
+		<footer th:replace="common :: footer"></footer>
+	</section>
 </body>
 </html>
