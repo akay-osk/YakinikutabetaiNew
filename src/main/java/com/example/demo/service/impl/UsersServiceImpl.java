@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -94,6 +95,11 @@ public class UsersServiceImpl implements UsersService {
 	public User findByIdUsers(Integer id) {
 		return usersMapper.selectByIdUsers(id);
 	}
+
+	@Override
+    public Optional<User> findByUsername(String username) {
+        return Optional.ofNullable(usersMapper.findByUsername(username));
+    }
 	
 
 	 

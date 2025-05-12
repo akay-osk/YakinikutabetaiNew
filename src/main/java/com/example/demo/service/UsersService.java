@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.Optional;
+
 import com.example.demo.entity.User;
 
 /*
@@ -21,6 +23,7 @@ public interface UsersService {
 	
 	// ユーザー情報取得
 	User findByIdUsers(Integer id);
-	
 
+	//CustomUserDetails用
+	Optional<User> findByUsername(String username);
 }
