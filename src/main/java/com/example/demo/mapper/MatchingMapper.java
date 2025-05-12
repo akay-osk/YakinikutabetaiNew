@@ -39,6 +39,6 @@ public interface MatchingMapper {
 	Matching selectByUserId(@Param("userId") int userId);
 	
 	@Delete("DELETE * FROM mathing WHERE matching_id =#{mayching_id}")
-	void delete(Matching matching);
+	void delete(Integer matchingId);
 	
 }

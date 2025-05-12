@@ -26,7 +26,7 @@ public interface MatchingService {
 			);
 
 	Matching findByUserId(int userId);
-
-	void delete(Matching matching);
+	
+	void delete(Integer matchingId);
 
 }

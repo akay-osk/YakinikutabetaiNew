@@ -52,8 +52,8 @@ public class MatchingServiceImpl implements MatchingService {
 	}
 	
 	@Override
-	public void delete(Matching matching) {
-		matchingMapper.delete(matching);
+	public void delete(Integer matchingId) {
+		matchingMapper.delete(matchingId);
 	}
 
 

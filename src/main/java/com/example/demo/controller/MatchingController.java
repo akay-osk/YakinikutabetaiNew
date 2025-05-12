@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.entity.Matching;
 import com.example.demo.entity.Room;
+import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.MatchingService;
 import com.example.demo.service.Room_service;
 
@@ -186,12 +191,49 @@ public class MatchingController {
 	    return "redirect:/Chatroom?room_id=" + room.getRoom_id();
 	}
 
-	
+	@GetMapping("/check-status")
+	@ResponseBody
+	public Map<String, Object> checkMatchingStatus(@RequestParam int userId) {
+	    Map<String, Object> result = new HashMap<>();
+	    
+	    Room room = roomService.findRoomByUserId(userId); // 参加中のルームを取得（未実装なら作る必要あり）
+	    
+	    if (room != null) {
+	        result.put("matched", true);
+	        result.put("roomId", room.getRoom_id());
+	    } else {
+	        result.put("matched", false);
+	    }
+	    
+	    return result;
+	}
+
+	@GetMapping("/notfound")
+	public String showNotFoundPage(Model model) {
+	    org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+	    Integer userId = userDetails.getUserId();
+
+	    model.addAttribute("user_id", userId);
+	    return "MatchingNotFound";
+	}
+
 	
 	//条件を変更してマッチングを再検索
 	@PostMapping("/retry")
 	public String retrySearch() {
-		
+		  // ログイン中のユーザー情報を取得
+	    org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+	    Integer userId = userDetails.getUserId();
+
+	    // 現在のマッチング条件を削除
+	    Matching matching = matchingService.findByUserId(userId);
+	    if (matching != null) {
+	        matchingService.delete(matching.getMatching_id());
+	    }
+	 
+	    
 		return "redirect:/matching/search";
 	}
 }

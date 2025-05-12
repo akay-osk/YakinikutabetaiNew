@@ -5,6 +5,29 @@
 <title>MatchingNotFoundPage</title>
 </head>
 <body>
-	<h1>マッチング不成立画面</h1>
+	<h1>マッチング待機中</h1>
+	<p>現在待機中です...<br>マッチング成立までしばらくお待ちください。</p>
+
+	    <a href="/matching/form" class="btn">条件を変更する</a>
+
+		<script th:inline="javascript">
+		    const userId = /*[[${user_id}]]*/ 0;
+
+	        function checkMatchingStatus() {
+	            fetch(`/matching/check-status?userId=${userId}`)
+	                .then(response => response.json())
+	                .then(data => {
+	                    if (data.matched && data.roomId) {
+	                        window.location.href = `/Chatroom?room_id=${data.roomId}`;
+	                    }
+	                })
+	                .catch(error => console.error("チェック失敗:", error));
+	        }
+
+	        // 5秒ごとに確認
+	        setInterval(checkMatchingStatus, 5000);
+	    </script>
+	
+	
 </body>
 </html>

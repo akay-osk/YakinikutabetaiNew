@@ -43,5 +43,8 @@ public interface Room_mapper {
 	
 	@Update("UPDATE room SET is_single = #{is_single}, is_full = #{is_full}, delete_at = #{delete_at} WHERE room_id = #{room_id}")
 	void updateRoom(Room room);
+	
+	@Select("SELECT r.* FROM room r JOIN room_user ru ON r.room_id = ru.room_id WHERE ru.user_id = #{userId} ORDER BY r.room_id DESC LIMIT 1")
+		Room findRoomByUserId(@Param("userId") int userId);
 
 }

@@ -56,5 +56,9 @@ public class Room_service_impl implements Room_service{
 	public void updateRoom(Room room) {
 	    room_mapper.updateRoom(room);
 	}
-
+	
+	@Override
+	public Room findRoomByUserId(int userId) {
+	    return room_mapper.findRoomByUserId(userId);
+	}
 }

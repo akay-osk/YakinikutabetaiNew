@@ -18,5 +18,6 @@ public interface Room_service {
     List<Integer> getUsersInRoom(int roomId);
 	List<Room> getAllRooms();
 	void updateRoom(Room room);
+	Room findRoomByUserId(int userId);
 
 }
