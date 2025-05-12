@@ -34,13 +34,13 @@ public class MainController {
 	
 	//アカウント新規登録画面表示
 	@GetMapping("/register")
-	public String showRegistrationPage() {
+	public String showRegistrationPage(Model model) {
+		model.addAttribute("user", new User());
 		return "Register";
 	}
 	
 	@PostMapping("/register")
 	public String processRegistration(@ModelAttribute User user) {
-		
 		//ユーザー登録処理
 		//userService.save(user);
 		
