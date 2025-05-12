@@ -2,6 +2,7 @@ drop table if exists users cascade;
 drop table if exists blocking cascade;
 drop table if exists matching cascade;
 drop table if exists room cascade;
+drop table if exists room_user cascade;
 drop table if exists chat cascade;
 drop table if exists tags cascade;
 drop table if exists user_tags cascade;
@@ -74,18 +75,24 @@ CREATE TABLE matching(
 CREATE TABLE room(
  	-- ルームID : 主キー
 	room_id SERIAL PRIMARY KEY,
-	-- ユーザーID
-	user_id INTEGER REFERENCES users(user_id),
 	--　ルーム期限
 	delete_at TIMESTAMP,
-	-- マッチング希望条件id
-	matching_id INTEGER REFERENCES matching(matching_id),
 	-- 人数(trueなら1v1 falseなら複数人 )
 	is_single BOOLEAN,
 	-- 定員(trueなら満員 falseなら入室可)
 	is_full BOOLEAN
-	
 );
+
+-- ルームとユーザー対応の中間テーブル
+CREATE TABLE room_user(
+	-- ルームID
+	room_id INTEGER NOT NULL REFERENCES room(room_id),
+	-- 会員ID
+	user_id INTEGER NOT NULL REFERENCES users(user_id),
+	-- 複合主キー
+	PRIMARY KEY(room_id,user_id)
+);
+
 
 -- チャットテーブル
 CREATE TABLE chat(
