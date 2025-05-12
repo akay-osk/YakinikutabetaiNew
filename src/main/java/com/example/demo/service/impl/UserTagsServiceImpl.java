@@ -62,6 +62,13 @@ public class UserTagsServiceImpl implements UserTagsService {
             userTagsMapper.insertUserTags(userTags);
 
         }
-    }
+	    }
+		@Override
+		public List<String> getTagNamesForUser(int userId) {
+	    return  userTagsMapper.findTagNamesByUserId(userId);
+	}
+
+		
+		
 
 }

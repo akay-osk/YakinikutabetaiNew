@@ -11,4 +11,6 @@ public interface UserTagsService {
 	// ユーザーIDに対して最大６つのタグIDを保存
 	void saveUserTags(Integer user_id, List<Integer> tag_id);
 
+	List<String> getTagNamesForUser(int userId);
+
 }

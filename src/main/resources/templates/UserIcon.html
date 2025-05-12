@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="user-profile" th:each="user : ${users}">
+	    <img src="th:src='@{${user.user_icon}}'" alt="User Icon" class="user-icon" data-user-id="[[${user.id}]]">
+	    <div class="popup-profile" id="popup-profile-[[${user.id}]]">
+	        <p>NAME: [[${user.user_name}]]</p>
+	        <p>年齢: [[${user.user_age}]]</p>
+	        <!-- 必要に応じて他の情報を追加 -->
+	    </div>
+	</div>
+
+	
+</body>
+</html>

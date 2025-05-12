@@ -16,7 +16,6 @@ public interface MatchingService {
 	
 	//マッチング検索
 	List<Matching> findMatching(
-			int user_id,
 			LocalDate matching_day,
 			String matching_time,
 			boolean matching_gender,
@@ -27,5 +26,7 @@ public interface MatchingService {
 			);
 
 	Matching findByUserId(int userId);
+
+	void delete(Matching matching);
 
 }

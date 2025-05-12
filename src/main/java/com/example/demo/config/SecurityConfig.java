@@ -30,7 +30,8 @@ public class SecurityConfig {
 		.authorizeHttpRequests(authz -> authz
 		//静的リソースへのアクセスは認証不要/*静的リソースをセキュリティ対象から除外する設定				
 		//「/login」と「/register」へのアクセスは認証を必要としない(変更byナカムラ)
-		.requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()	
+		.requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/images/**", "/webjars/**",
+                "/matching/form", "/matching/search,/matching/join").permitAll()	
 		//その他のリクエストは認証が必要
 		.anyRequest().authenticated())
 		//フォームベースのログイン設定

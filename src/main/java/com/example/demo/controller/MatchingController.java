@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,18 @@ public class MatchingController {
 	 *Matchingrequestを用意していたMatchingに変更しました
 	 * 奥野
 	 */
+	
+	// 検索フォームを表示するGETメソッドを追加
+	@GetMapping("/form")
+	public String showMatchingForm(Model model) {
+	    model.addAttribute("matching", new Matching()); // 空のMatchingオブジェクトを渡す
+	    return "MatchingSearch"; // templatesに置いたHTMLファイル名（拡張子は不要）
+	}
+
+	
+	
+	
+	
 	@PostMapping("/search")
 	public String processSearch(@ModelAttribute Matching matching, Model model) {
 		
@@ -50,7 +63,6 @@ public class MatchingController {
 		
 		//検索実行
 		List<Matching> candidates = matchingService.findMatching(
-				matching.getUser_id(),
 				matching.getMatching_day(),
 				matching.getMatching_time(),
 				matching.isMatching_gender(),

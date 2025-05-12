@@ -27,7 +27,6 @@ public class MatchingServiceImpl implements MatchingService {
 
 	@Override
 	public List<Matching> findMatching(
-			int user_id,
 			LocalDate matching_day, 
 			String matching_time,
 			boolean matching_gender, 
@@ -37,7 +36,6 @@ public class MatchingServiceImpl implements MatchingService {
 			String matching_area) {
 		
 			return matchingMapper.findMatching(
-					user_id,
 					matching_day,
 					matching_time,
 					matching_gender,
@@ -51,6 +49,11 @@ public class MatchingServiceImpl implements MatchingService {
 	@Override
 	public Matching findByUserId(int userId) {
 	    return matchingMapper.selectByUserId(userId);
+	}
+	
+	@Override
+	public void delete(Matching matching) {
+		matchingMapper.delete(matching);
 	}
 
 

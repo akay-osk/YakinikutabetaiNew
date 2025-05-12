@@ -8,7 +8,6 @@
 	<h1>マッチング希望条件検索ページ</h1>
 
 	<form action="/matching/search" method="post">
-		<label>ユーザーID: <input type="number" name="user_id" required></label><br>
 		<label>日付: <input type="date" name="matching_day" required></label><br>
 		<label>時間帯:
 			<select name="matching_time">
@@ -23,8 +22,19 @@
 				<option value="false">異性可</option>
 			</select>
 		</label><br>
-		<label>年齢（最小）: <input type="number" name="matching_min_age" required></label><br>
-		<label>年齢（最大）: <input type="number" name="matching_max_age" required></label><br>
+		<label>年齢（最小）: <input type="number" name="matching_min_age" min="20" max="90" required></label><br>
+		<label>年齢（最大）: <input type="number" name="matching_max_age" min="20" max="90"  required></label><br>
+		<script>
+		  document.querySelector("form").addEventListener("submit", function(event) {
+		    const minAge = document.querySelector("input[name='matching_min_age']").value;
+		    const maxAge = document.querySelector("input[name='matching_max_age']").value;
+
+		    if (parseInt(minAge) > parseInt(maxAge)) {
+		      alert("最小年齢は最大年齢以下でなければなりません。");
+		      event.preventDefault(); // フォーム送信をキャンセル
+		    }
+		  });
+		</script>
 		<label>希望人数:
 			<select name="matching_member">
 				<option value="true">2人で</option>
