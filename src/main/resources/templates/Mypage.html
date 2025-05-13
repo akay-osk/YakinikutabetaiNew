@@ -1,56 +1,66 @@
+<!--作成者 奥田-->
+<!--2025/5/13 現時点で未完成なのでブラウザ上でエラー出ます-->
 <!DOCTYPE html>
-<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Mypage</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Sigmar&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/mypage.css"/>
-</head>
-<body>
-<div class="mypage">
-	<header class="header">
-	<div class="logo">Meat UP! </div>
-	<div class="title">MY PAGE</div>
-	</header>
+	<div th:with="title='MY PAGE'">
+		<div th:replace="common :: common-head(${title})"></div>
+	</div>
 	
-	<main class="profile-card">
-		<div class="profile-header">
-			<span class="id-label">ID:</span>
-			<span class="username">ユーザーネーム：</span>
-		</div>
+	<!--Mypage用のcss-->
+	<link rel="stylesheet" href="/css/mypage.css">
+</head>
+
+<body>
+	<section th:with="title='MY PAGE'">
+		<header th:replace="common :: header(${title})"></header>
 		
-		<div class="personal-section">
-			<div class="profile-icon">❓</div>
-			<div class="profile-info">
-				<div class="intro">ひとこと：</div>
-				<div class="favorite">好きな部位：</div>
+		<!--プロフィールカード-->
+		<div class="profile-card">
+			<div class="profile-top">
+				<span class="user-id" th:text="|ID: ${user_id}|">ID:</span>
+				<span class="username" th:text="|ユーザーネーム: ${user_name}|">ユーザーネーム：</span>
+			</div>
+			
+			<div class="profile-mid">
+				<div class="profile-icon">
+					<img th:src="@{/profile-image/{id}(id=${user.id})}" alt="プロフィール画像" class="profile-img">
+				</div>
+				<div class="profile-info">
+					<div class="intro-comment" th:text="|ひとこと: ${}|">ひとこと：</div>
+					<div class="favorite">好きな部位：</div>
+				</div>
+			</div>
+		
+			<div class="tags">
+				<div class="tag">タグ</div>
+				<div class="tag">タグ</div>
+				<div class="tag">タグ</div>
+				<div class="tag">タグ</div>
+				<div class="tag">タグ</div>
+				<div class="tag">タグ</div>
+				<div class="tag">タグ</div>
+			</div>
+		
+			<div class="block">
+				<button class="block-btn">BLOCK</button>
+				<span class="sad-face">☹️</span>
 			</div>
 		</div>
-		
-		<div class="tags">
-			<div class="tag">タグ</div>
-			<div class="tag">タグ</div>
-			<div class="tag">タグ</div>
-			<div class="tag">タグ</div>
-			<div class="tag">タグ</div>
-			<div class="tag">タグ</div>
-			<div class="tag">タグ</div>
-		</div>
-		
-		<div class="rating">
-			<button class="block-btn">BLOCK</button>
-			<span class="sad-face">☹️</span>
-		</div>
-	</main>
 	
-	<nav class="menu">
-		<button class="menu-btn"><span class="icon">✏️</span>プロフィール編集</button>
-		<form method="POST" action="/logout" style="display: inline;">
-		<button type="submit" class="menu-btn"><span class="icon">↩️</span>ログアウト</button>
-		</form>
-		<button class="menu-btn danger"><span class="icon">⚠️</span>アカウント削除</button>
-	</nav>
-</div>
+		<nav class="menu">
+			<button class="menu-btn"><span class="icon">✏️</span>プロフィール編集</button>
+			
+			<form method="POST" action="/logout" style="display: inline;">
+			<button type="submit" class="menu-btn"><span class="icon">↩️</span>ログアウト</button>
+			</form>
+			
+			<button class="menu-btn danger"><span class="icon">⚠️</span>アカウント削除</button>
+		
+		</nav>
+		
+		<!--フッター-->
+		<footer th:replace="common :: footer"></footer>
+	</section>
 </body>
 </html>
