@@ -2,85 +2,9 @@
 
 @charset "UTF-8";
 
-
-/* リセットと共通設定 */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #F5F5F5;
-}
-
-/* レイアウト */
-.login-page {
-    width: 390px;
-/*	レスポンシブ対応
-	max-width: 390px;
-	width: 100%;
-*/
-	margin: 0 auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-
-/* ヘッダー */
-.login-header {
-    height: 62px;
-    background-color: #FED01B;
-	position: relative; 
-}
-
-.logo {
-    font-family: 'Sigmar', sans-serif;
-    font-size: 20px;
-    color: #000000;
-	line-height: 1; /* 行の高さを調整して、余計な余白をなくす */
-	margin-top: 0;
-}
-
-.login-title {
-    font-family: 'Sigmar', sans-serif;
-    font-size: 30px;  
-    color: #000000;
-	position: absolute;  /* LOGIN文字を絶対配置 */
-	top: 50%;  /* 垂直方向に中央配置 */
-	left: 50%;  /* 水平方向に中央配置 */
-	transform: translate(-50%, -50%);
-}
-
-.icon img {
-  width: 48px;
-  height: 32px;
-  margin-top: 15px;
-  margin-right: 8px;
-  /*力技*/
-}
-
-.login {
-	display: flex;
-	justify-content: space-between;
-}
-
-
-/* 中央コンテンツ */
-.login-center {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* 縦中央 */
-    align-items: center;     /* 横中央 */
-}
-
-
-
 /* フォーム */
 .login-form {
+	margin: 0 auto;
     width: 320px;
     background: #D9D9D9;
     border-radius: 6px;
@@ -135,20 +59,4 @@ body {
     background-color: #444444;
 }
 
-/* フッター */
-footer {
-  background-color: #FED01B;
-  color:  #000;
-  text-align: center;
-  padding: 20px 0;
-}
-.footer-content img {
-  height: 40px;
-  vertical-align: middle;
-}
-.footer-content span {
-  margin-left: 10px;
-  font-size: 20px;
-  font-weight: bold;
-}
 
