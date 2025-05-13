@@ -1,155 +1,110 @@
 <!DOCTYPE html>
 <html lang="ja">
-<!--※スタイルあててないよ-->
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>MEAT UP!</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>MEAT UP! - チャットルーム</title>
+	<link rel="stylesheet" href="/css/Chatroom.css" />
 </head>
 
 <body>
 	<header>
-		<!-- 参加メンバーアイコン、退出ボタン -->
 		<h1>チャットルーム</h1>
 		<button id="exit">退出</button>
-		<div id="imageContainer"></div>
 	</header>
-	<main>
-		<!-- チャットルーム -->
-		<div id="chat"></div>
-		<button id="reload">再読み込み</button>
-		<input type="text" id="comment" placeholder="メッセージを入力">
-		<button id="send">送信</button>
-	</main>
-	<script>
-		const chat = document.getElementById("chat");
-		const comment = document.getElementById("comment");
-		const send = document.getElementById("send");
-		const reload = document.getElementById("reload");
 
-		async function fetch_message() {
+	<main>
+		<div id="chat"></div>
+
+		<button id="reload">再読み込み</button>
+		<div class="input-area">
+			<input type="text" id="comment" placeholder="メッセージを入力" />
+			<button id="send">送信</button>
+	</main>
+
+	<script>
+		const chatBox = document.getElementById("chat");
+		const commentInput = document.getElementById("comment");
+		const sendButton = document.getElementById("send");
+		const reloadButton = document.getElementById("reload");
+		const exitButton = document.getElementById("exit");
+
+		// チャット履歴を取得
+		async function fetchChatHistory() {
 			try {
-				const response = await fetch('/api/chat');
-				if (!response.ok) {
-					throw new Error('エラーが発生しました！' + response.statusText);
-				}
-				const messages = await response.json();//jsonデータ取得
+				const res = await fetch('/chatroom/history');
+				if (!res.ok) throw new Error('履歴取得失敗');
+				const messages = await res.json();
 				displayMessages(messages);
-			} catch (error) {
-				console.error('メッセージ取得中にエラー発生！', error);
+			} catch (err) {
+				console.error("履歴取得エラー:", err);
+				chatBox.innerHTML = "<p>チャット履歴の取得に失敗しました。</p>";
 			}
 		}
-		// チャットメッセージを表示する関数
+
+		// チャット履歴を表示
 		function displayMessages(messages) {
 			chat.innerHTML = ''; // 古いメッセージをクリア
 			messages.forEach(message => {
 				const messageElement = document.createElement('div');
+				const isSelf = message.user_name === userName;
 
-				// データのフォーマット
+				messageElement.classList.add('message');
+				messageElement.classList.add(isSelf ? 'self' : 'other');
+
 				messageElement.innerHTML = `
-                    <p><strong>${message.user_name}</strong> [${message.created_at}]</p>
-                    <p>${message.chat_comment}</p>
-                    <hr>
-                `;
+	      <div class="message-info">${message.user_name} [${message.created_at}]</div>
+	      <div>${message.chat_comment}</div>
+	    `;
+
 				chat.appendChild(messageElement);
 			});
 
-			// 最新のメッセージにスクロール
 			chat.scrollTop = chat.scrollHeight;
 		}
-		//メッセージ送信
-		send.addEventListener("click", async () => {
-			const message = comment.value.trim();
-			if (message) {
-				try {
-					const response = await fetch('/api/chat', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({chat_comment: message, user_name: "自分の名前"}),
-					});
-					if (!response.ok) {
-						throw new Error('送信中にエラー発生: ' + response.statusText);
-					}
-					comment.value = ""; // 入力フィールドをクリア
-					fetch_message(); // メッセージを再取得
-				} catch (error) {
-					console.error('メッセージ送信中にエラー:', error);
-				}
-			}
-		});
-		// 再読み込みボタンのイベントリスナーを追加
-		reload.addEventListener("click", () => {
-			fetch_message(); // メッセージを再取得
-			// 最新のメッセージにスクロール
-			chat.scrollTop = chat.scrollHeight;
-		});
 
-		// バックエンドから複数のBase64データを取得し画像を表示する関数
-		async function fetchAndDisplayImages() {
+
+		// メッセージ送信
+		sendButton.addEventListener("click", async () => {
+			const comment = commentInput.value.trim();
+			if (!comment) return;
+
 			try {
-				// バックエンドからBase64データを取得
-				const response = await fetch('/api/getBase64Images'); // APIエンドポイントを指定
-				if (!response.ok) {
-					throw new Error('データの取得に失敗しました: ' + response.statusText);
-				}
-
-				// JSON形式で複数のBase64データを取得
-				const base64DataArray = await response.json(); // 例: ["data:image/png;base64,...", "data:image/jpeg;base64,..."]
-
-				// コンテナ要素
-				const container = document.getElementById('imageContainer');
-
-				// それぞれのBase64データを画像に変換して表示
-				base64DataArray.forEach(base64Data => {
-					const img = document.createElement('img');
-					img.src = base64Data; // Base64データをsrcに設定
-					img.alt = "画像";
-					img.style.width = "150px"; // 各画像のサイズを統一
-					img.style.height = "150px";
-					img.style.objectFit = "cover"; // 画像を収める
-					img.style.border = "1px solid #ccc"; // デザイン調整
-					container.appendChild(img);
+				const res = await fetch('/chatroom/insert', {
+					method: 'POST',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify({chat_comment: comment})
 				});
-			} catch (error) {
-				console.error('画像表示中にエラーが発生しました: ', error);
-			}
-		}
 
-		// 関数を実行して画像を取得・表示
-		fetchAndDisplayImages();
-
-		// 退出ボタンのクリックイベントリスナーを設定
-		const exit = document.getElementById("exit");
-		exit.addEventListener("click", async () => {
-			// 確認ダイアログを表示
-			const confirmation = confirm("本当に退出しますか？");
-			console.log("ユーザーの選択:", confirmation ? "OK" : "キャンセル");
-
-			if (confirmation) {
-				try {
-					// サーバーのエンドポイントにリクエストを送信
-					const response = await fetch('/exit', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-					});
-
-					if (!response.ok) {
-						throw new Error('退出処理に失敗しました: ' + response.statusText);
-					}
-
-					// 成功した場合、ホームページにリダイレクト
-					window.location.href = "/home";
-				} catch (error) {
-					console.error('退出中にエラーが発生しました:', error);
-					alert('退出処理中にエラーが発生しました。再試行してください。');
-				}
+				if (!res.ok) throw new Error("送信失敗");
+				commentInput.value = '';
+				await fetchChatHistory(); // 送信後に履歴再読み込み
+			} catch (err) {
+				console.error("送信エラー:", err);
+				alert("メッセージの送信に失敗しました。");
 			}
 		});
+
+		// 再読み込み
+		reloadButton.addEventListener("click", fetchChatHistory);
+
+		// 退出処理
+		exitButton.addEventListener("click", async () => {
+			if (!confirm("本当に退出しますか？")) return;
+
+			try {
+				const res = await fetch('/chatroom/exit', {method: 'POST'});
+				if (!res.ok) throw new Error("退出失敗");
+				window.location.href = "/home"; // homeに遷移
+			} catch (err) {
+				console.error("退出エラー:", err);
+				alert("退出に失敗しました。");
+			}
+		});
+
+		// 初回読み込み
+		window.addEventListener("DOMContentLoaded", fetchChatHistory);
 	</script>
 </body>
 

@@ -13,7 +13,7 @@ import com.example.demo.service.Chat_service;
 import lombok.RequiredArgsConstructor;
 
 /*
- * チャットルーム用サービス実装
+ * チャット用サービス実装
  * 作成者　森川
  */
 

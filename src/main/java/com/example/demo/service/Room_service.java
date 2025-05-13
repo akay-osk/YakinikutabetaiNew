@@ -19,5 +19,5 @@ public interface Room_service {
 	List<Room> getAllRooms();
 	void updateRoom(Room room);
 	Room findRoomByUserId(int userId);
-
+	void exitByUserId(int userId);
 }

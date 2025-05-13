@@ -61,4 +61,27 @@ public class Room_service_impl implements Room_service{
 	public Room findRoomByUserId(int userId) {
 	    return room_mapper.findRoomByUserId(userId);
 	}
+
+	@Override
+	public void exitByUserId(int userId) {
+	    // ユーザーが所属するルームを取得
+	    Room room = room_mapper.findRoomByUserId(userId);
+
+	    // もしユーザーがルームに所属していなければ、何もしない
+	    if (room == null) {
+	        // ユーザーがルームに所属していない場合の処理
+	        throw new IllegalArgumentException("指定されたユーザーはルームに所属していません。");
+	    }
+
+	    // そのユーザーをルームから削除
+	    room_mapper.deleteByUserId(userId);
+
+	    // そのルームに残っているユーザーを確認
+	    List<Integer> remainingUsers = room_mapper.selectUserIdsInRoom(room.getRoom_id());
+
+	    // 残っているユーザーがいなければ、ルームを削除
+	    if (remainingUsers.isEmpty()) {
+	        room_mapper.deleteRoom(room.getRoom_id());
+	    }
+	}
 }
