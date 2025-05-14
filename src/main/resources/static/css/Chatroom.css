@@ -9,10 +9,15 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-image: url("/monochrome_cow2.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 header {
-  background-color: #00c300;
+  background-color: #FED01B;
   color: white;
   padding: 10px 16px;
   display: flex;
@@ -21,15 +26,15 @@ header {
 }
 
 header h1 {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin: 0;
 }
 
 #exit {
   background-color: #fff;
-  color: #00c300;
+  color: #FED01B;
   border: none;
-  padding: 6px 12px;
+  padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
@@ -65,7 +70,7 @@ main {
 
 /* 自分のメッセージ（右寄せ） */
 .message.self {
-  background-color: #dcf8c6;
+  background-color: #FFDCCD;
   align-self: flex-end;
 }
 
@@ -93,7 +98,7 @@ main {
 
 #send {
   padding: 10px 16px;
-  background-color: #00c300;
+  background-color: #FED01B;
   color: white;
   border: none;
   border-radius: 6px;

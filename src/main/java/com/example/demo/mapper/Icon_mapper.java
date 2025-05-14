@@ -13,6 +13,6 @@ import com.example.demo.entity.User;
 
 @Mapper
 public interface Icon_mapper {
-	@Select("SELECT user_icon FROM users WHERE user_id = #{user_id}")
+	@Select("SELECT user_icon, user_name FROM users WHERE user_id = #{user_id}")
 	User selectByIcon(@Param("user_id") Integer id);
 }
