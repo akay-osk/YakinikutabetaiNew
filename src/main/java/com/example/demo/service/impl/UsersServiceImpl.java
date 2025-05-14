@@ -39,7 +39,7 @@ public class UsersServiceImpl implements UsersService {
 		String hashedPass = passwordEncoder.encode(users.getUser_pass());
 		users.setUser_pass(hashedPass);
 		
-		//
+		//アイコン画像の保存判定
 		if (users.getIconFile() != null && !users.getIconFile().isEmpty()) {
 	        try {
 	            users.setUser_icon(users.getIconFile().getBytes());
