@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Room;
+import com.example.demo.entity.RoomUser;
 import com.example.demo.mapper.Room_mapper;
 import com.example.demo.service.Room_service;
 
@@ -83,5 +84,10 @@ public class Room_service_impl implements Room_service{
 	    if (remainingUsers.isEmpty()) {
 	        room_mapper.deleteRoom(room.getRoom_id());
 	    }
+	}
+
+	@Override
+	public List<RoomUser> getRoomUser(Integer roomId) {
+		return room_mapper.findByRoomId(roomId);
 	}
 }
