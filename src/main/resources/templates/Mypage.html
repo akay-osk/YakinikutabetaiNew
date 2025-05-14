@@ -18,28 +18,23 @@
 		<!--プロフィールカード-->
 		<div class="profile-card">
 			<div class="profile-top">
-				<span class="user-id" th:text="|ID: ${user_id}|">ID:</span>
-				<span class="username" th:text="|ユーザーネーム: ${user_name}|">ユーザーネーム：</span>
+				<span class="user-id" th:text="|ID: ${userId}|">ID:</span>
+				<span class="username" th:text="|ユーザーネーム: ${username}|">ユーザーネーム：</span>
 			</div>
 			
 			<div class="profile-mid">
 				<div class="profile-icon">
-					<img th:src="@{/profile-image/{id}(id=${user.id})}" alt="プロフィール画像" class="profile-img">
+					<img th:if="${profileImageBase64 != null}" th:src="'data:image'" class="profile-img">
 				</div>
 				<div class="profile-info">
-					<div class="intro-comment" th:text="|ひとこと: ${}|">ひとこと：</div>
-					<div class="favorite">好きな部位：</div>
+					<div class="intro-comment" th:text="|ひとこと: ${introComment}|">ひとこと</div>
+					<div class="favorite-part" th:text="|好きな部位: ${favoritePart}">好きな部位</div>
 				</div>
 			</div>
 		
 			<div class="tags">
-				<div class="tag">タグ</div>
-				<div class="tag">タグ</div>
-				<div class="tag">タグ</div>
-				<div class="tag">タグ</div>
-				<div class="tag">タグ</div>
-				<div class="tag">タグ</div>
-				<div class="tag">タグ</div>
+				<div class="tag" th:each="tag : ${tags}" th:text="${tag}">タグ</div>
+				
 			</div>
 		
 			<div class="block">
@@ -49,13 +44,17 @@
 		</div>
 	
 		<nav class="menu">
-			<button class="menu-btn"><span class="icon">✏️</span>プロフィール編集</button>
+			<a href="/profile/editt">
+				<button class="menu-btn"><span class="icon">✏️</span>プロフィール編集</button>
+			</a>
 			
 			<form method="POST" action="/logout" style="display: inline;">
-			<button type="submit" class="menu-btn"><span class="icon">↩️</span>ログアウト</button>
+				<button type="submit" class="menu-btn"><span class="icon">↩️</span>ログアウト</button>
 			</form>
 			
-			<button class="menu-btn danger"><span class="icon">⚠️</span>アカウント削除</button>
+			<form method="POST" action="/account/delete" style="display: inline;">
+				<button class="menu-btn danger"><span class="icon">⚠️</span>アカウント削除</button>
+			</form>
 		
 		</nav>
 		

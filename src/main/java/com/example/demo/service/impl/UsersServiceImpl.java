@@ -3,6 +3,8 @@ package com.example.demo.service.impl;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UsersMapper;
+import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.UserTagsService;
 import com.example.demo.service.UsersService;
 /*
@@ -18,12 +21,13 @@ import com.example.demo.service.UsersService;
  * 
  */
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-
+@Data
 public class UsersServiceImpl implements UsersService {
 	
 	private final UsersMapper usersMapper;
@@ -101,6 +105,12 @@ public class UsersServiceImpl implements UsersService {
         return Optional.ofNullable(usersMapper.findByUsername(username));
     }
 	
+	public int getCurrentUserId() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+		int currentUserId = userDetails.getUserId();
+        return currentUserId;
+	}
 
 	 
 }
