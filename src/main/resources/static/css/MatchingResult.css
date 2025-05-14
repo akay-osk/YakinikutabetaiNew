@@ -2,38 +2,93 @@
 .tag-candidates {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
+    padding: 10px 0;
 }
 
 .tag-option-row {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
-    padding: 10px 15px;
-    border-radius: 10px;
-    background-color: #fff;
-    gap: 15px;
+    justify-content: space-between; /* ラジオボタンを右端に */
+    border: 2px solid #f0c000;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background-color: #fffefc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
 }
 
 .tag-text {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 12px;
     white-space: nowrap;
 }
 
 .tag-icons {
     display: flex;
-    gap: 8px;
-    flex-shrink: 0;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .user-icon {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     cursor: pointer;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    transition: transform 0.2s ease;
+}
+.user-icon:hover {
+    transform: scale(1.1);
 }
 
 .radio-button {
     margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+.radio-button input[type="radio"] {
+    transform: scale(1.2);
+}
+.page-title {
+  font-family: 'Sigmar', cursive;
+  font-size: 32px;
+  text-align: center;
+  margin: 30px 0 20px;
+  color: #333;
+}
+
+/* MatchingSucceeded - ユーザーアイコンとラジオボタン整列 */
+
+.user-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.user-icon-wrapper {
+    margin-right: 10px;
+}
+
+.radio-button {
+    margin-left: 10px;
+}
+
+.join-button {
+    margin-top: 20px;
+}
+
+/* ポップアップ表示用スタイル */
+.popup-profile {
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
 }
