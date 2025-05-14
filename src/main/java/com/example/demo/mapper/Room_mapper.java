@@ -7,10 +7,13 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.entity.Room;
+import com.example.demo.entity.RoomUser;
 
 /*
  * ルームマッパー
@@ -49,4 +52,18 @@ public interface Room_mapper {
 
 	@Delete("DELETE FROM room_user WHERE user_id = #{userId}")
 	void deleteByUserId(@Param("userId") int userId);
+
+	@Select("SELECT r.*, u.* FROM room r JOIN room_user ru ON r.room_id = ru.room_id JOIN users u ON u.user_id = ru.user_id WHERE r.room_id = #{roomId}")
+	@Results({
+	    @Result(property = "room_id", column = "room_id"),
+	    @Result(property = "user_id", column = "user_id"),
+	    @Result(property = "user.user_name", column = "user_name"),
+	    @Result(property = "user.user_age", column = "user_age"),
+	    @Result(property = "user.user_icon", column = "user_icon"),
+	    @Result(property = "user.user_likes", column = "user_likes"),
+	    @Result(property = "user.user_detail", column = "user_detail"),
+	    @Result(property = "user.user_gender", column = "user_gender")
+	})
+	List<RoomUser> findByRoomId(@Param("roomId") Integer roomId);
+
 }

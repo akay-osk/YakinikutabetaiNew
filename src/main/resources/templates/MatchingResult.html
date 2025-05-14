@@ -3,38 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <title>MatchingSucceeded</title>
+<link rel="stylesheet" href="/css/MatchingResult.css"> 
+
 </head>
 <body>
 	<h1>マッチング成立画面</h1>
 	
-	<form action="/matching/join" method="post">
+	<form action="/matching/select" method="post">
 	    <div class="tag-candidates">
-
-	        <div class="tag-option-row" th:each="tag, iterStat : ${tagList}" th:if="${iterStat.index} < 3">
+	        <div class="tag-option-row" th:each="room : ${roomList}">
+				<div class="user-item">
+			
+				
 				<span class="tag-text">参加中のユーザー</span>
 
 	            <div class="tag-icons">
-					<div th:each="user, stat : ${tag.users}" th:if="${stat.index} < 3" class="user-icon-wrapper">
-	                <img th:src="@{${user.user_icon}}" class="user-icon" th:alt="${user.user_name}"
-	                     data-user-id="[[${user.id}]]">
-
-	                <div class="popup-profile" th:id="'popup-profile-' + ${user.id}">
-	                    <!-- Ajaxで補完される領域 -->
-	                </div>
+	                <div th:each="roomUser, stat : ${room.roomUsers}" th:if="${stat.index} < 3" class="user-item">
+	                    <!-- ユーザーアイコン -->
+	                    <div class="user-icon-wrapper">
+	                        <img th:src="@{'/user/icon/' + ${roomUser.user.user_icon}}" class="user-icon" th:alt="${roomUser.user.user_name}"
+	                             th:attr="data-user-id=${roomUser.user.user_id}">
+	                    </div>
+  						<!-- ポップアップ用プロフィール -->
+	                    <div class="popup-profile" th:id="'popup-profile-' + ${roomUser.user.user_id}">
+	                        <!-- Ajaxで補完される領域 -->
+	                    </div>
+	                    </div>
+	                </div>	
+						<!-- ラジオボタン -->
+					  <div class="radio-button">
+					    <label>
+					      <input type="radio" name="selectedRoomId" th:value="${room.room_id}" required>
+					    </label>
+				</div>
 	            </div>
 	        </div>
+	    </div>
 
-	    </div>
-	    </div>
+	    <!-- 参加するボタン -->
 	    <button type="submit" class="join-button">参加する</button>
 	</form>
-	
 	
 	<script>
 		document.addEventListener("DOMContentLoaded", () => {
 		    document.querySelectorAll('.user-icon-wrapper').forEach(wrapper => {
 		        const icon = wrapper.querySelector('.user-icon');
-		        const popup = wrapper.querySelector('.popup-profile');
+				const popup = wrapper.parentElement.querySelector('.popup-profile');
 		        const userId = icon.getAttribute("data-user-id");
 
 		        let fetched = false;
@@ -44,7 +58,7 @@
 		                fetch(`/user/detail/${userId}`)
 		                    .then(response => response.json())
 		                    .then(data => {
-		                        popup.innerHTML = `
+		                        popup.innerHTML = ` 
 		                            <strong>${data.userName}</strong><br>
 		                            年齢：${data.userAge}歳<br>
 		                            性別：${data.gender}<br>
@@ -65,7 +79,6 @@
 		        });
 		    });
 		});
-
 	</script>
 
 </body>

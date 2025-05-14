@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.entity.Matching;
 import com.example.demo.entity.Room;
+import com.example.demo.entity.RoomUser;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.MatchingService;
 import com.example.demo.service.Room_service;
@@ -129,67 +130,30 @@ public class MatchingController {
 //	}
 	
 	@PostMapping("/select")
-	public String selectCandidate(@RequestParam Integer candidateId, @RequestParam Integer myUserId) {
+	public String selectRoom(@RequestParam Integer selectedRoomId) {
 
-	    // ユーザーの希望条件から「1対1 or 複数人」を判断
-	    boolean isGroup = matchingService.findByUserId(myUserId).isMatching_member();
+	    // ログイン中のユーザー情報を取得
+	    org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+	    Integer myUserId = userDetails.getUserId();
 
-	    List<Room> allRooms = roomService.getAllRooms();
-	    Room room = null;
+	    
+	    
+	    // ルームにユーザーを追加
+	    roomService.addUserToRoom(selectedRoomId, myUserId);
 
-	    if (!isGroup) {
-	        // ---------- 1対1 ----------
-	        for (Room r : allRooms) {
-	            if (r.is_single()) {
-	                List<Integer> users = roomService.getUsersInRoom(r.getRoom_id());
-	                if (users.contains(myUserId) && users.contains(candidateId) && users.size() == 2) {
-	                    room = r;
-	                    break;
-	                }
-	            }
-	        }
-
-	        if (room == null) {
-	            room = new Room();
-	            room.set_single(true);
-	            room.set_full(true);
-	            room.setDelete_at(null);         
-	            roomService.insert(room);
-	            roomService.addUserToRoom(room.getRoom_id(), myUserId);
-	            roomService.addUserToRoom(room.getRoom_id(), candidateId);
-	        }
-
-	    } else {
-	        // ---------- 複数人 ----------
-	        for (Room r : allRooms) {
-	            if (!r.is_single() && !r.is_full()) {
-	                List<Integer> users = roomService.getUsersInRoom(r.getRoom_id());
-	                if (!users.contains(myUserId)) {
-	                    roomService.addUserToRoom(r.getRoom_id(), myUserId);
-	                    // 満員チェック（例: 50人）→フラグ更新必要
-	                    if (users.size() + 1 >= 50) {
-	                        r.set_full(true);
-	                        roomService.updateRoom(r); // updateRoomメソッド要実装
-	                    }
-	                    room = r;
-	                    break;
-	                }
-	            }
-	        }
-
-	        if (room == null) {
-	            room = new Room();
-	            room.set_single(false);
-	            room.set_full(false);
-	            room.setDelete_at(null);
-	      
-	            roomService.insert(room);
-	            roomService.addUserToRoom(room.getRoom_id(), myUserId);
-	        }
-	    }
-
-	    return "redirect:/Chatroom?room_id=" + room.getRoom_id();
+	    // チャットルームに遷移
+	    return "redirect:/Chatroom?room_id=" + selectedRoomId;
 	}
+
+	@GetMapping("/select")
+	public String showMatchingSucceededPage(Model model) {
+	    List<Room> roomList = roomService.getAllRooms(); // 全ルーム取得でOK
+	    model.addAttribute("roomList", roomList);
+	    return "MatchingResult"; // ← これはHTMLファイル名に合わせて変更
+	}
+
+	
 
 	@GetMapping("/check-status")
 	@ResponseBody
@@ -236,5 +200,27 @@ public class MatchingController {
 	    
 		return "redirect:/matching/search";
 	}
+	
+	@GetMapping("/chatroom")
+	public String showChatroom(@RequestParam("room_id") Integer roomId, Model model) {
+	    model.addAttribute("roomId", roomId);
+	    return "chatroom";
+	}
+
+    @GetMapping("/matching/select")
+    public String showMatchingResult(Model model) {
+        // ダミーデータを準備
+        List<Room> roomList = roomService.getAllRooms(); // DBからルームを取得
+        // ルームごとのユーザー情報を追加
+        for (Room room : roomList) {
+            List<RoomUser> roomUsers = roomService.getRoomUser(room.getRoom_id()); // 各ルームの参加ユーザーを取得
+            room.setRoomUsers(roomUsers); // ルームにユーザーをセット
+        }
+
+        // モデルにルームリストを追加
+        model.addAttribute("roomList", roomList);
+
+        return "MatchingResult"; // HTMLテンプレート名
+    }
 }
 

@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import lombok.Data;
 
 /*
@@ -9,8 +11,10 @@ import lombok.Data;
 
 @Data
 public class Room{
-    private int room_id;
+    private int room_id; 
+    private String delete_at;
     private boolean is_single;
     private boolean is_full;
-    private String delete_at;
+    // RoomUserのリストを追加
+    private List<RoomUser> roomUsers;
 }

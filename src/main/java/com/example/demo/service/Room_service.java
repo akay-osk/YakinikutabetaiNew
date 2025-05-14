@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import com.example.demo.entity.Room;
+import com.example.demo.entity.RoomUser;
 
 /*
  * ルームサービス
@@ -20,4 +21,5 @@ public interface Room_service {
 	void updateRoom(Room room);
 	Room findRoomByUserId(int userId);
 	void exitByUserId(int userId);
+	List<RoomUser>getRoomUser(Integer roomId);
 }

@@ -10,5 +10,6 @@ import lombok.Data;
 public class RoomUser {
 	private int room_id;
 	private int user_id;
+	private User user;
 
 }
