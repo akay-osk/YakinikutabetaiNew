@@ -35,53 +35,62 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final Chat_service chat_service;
-    private final Room_service room_service;
+	private final Chat_service chat_service;
+	private final Room_service room_service;
 
-   
-    //チャットを新規作成
-    @PostMapping("/insert")
-    public ResponseEntity<?> createChat(@Valid @RequestBody Chat chat, BindingResult result) {
-        if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body("無効なチャットデータです");
-        }
-        chat_service.insertChat(chat);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+	//ユーザー名を取得
+	@GetMapping("/getUserName")
+	public String getUserName() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null || !auth.isAuthenticated()) {
+			throw new RuntimeException("認証されていないユーザーです");
+		}
+		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+		return userDetails.getUsername();
+	}
 
-    //チャット履歴取得
-    @GetMapping("/history")
-    public ResponseEntity<List<Chat>> getChatByRoomId() {
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-        int userId = userDetails.getUserId();
-        Room room = room_service.findRoomByUserId(userId);
-        if (room == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+	//チャットを新規作成
+	@PostMapping("/insert")
+	public ResponseEntity<?> createChat(@Valid @RequestBody Chat chat, BindingResult result) {
+		if (result.hasErrors()) {
+			return ResponseEntity.badRequest().body("無効なチャットデータです");
+		}
+		chat_service.insertChat(chat);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
 
+	//チャット履歴取得
+	@GetMapping("/history")
+	public ResponseEntity<List<Chat>> getChatByRoomId() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+		int userId = userDetails.getUserId();
+		Room room = room_service.findRoomByUserId(userId);
+		if (room == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 
-        List<Chat> chat = chat_service.findByIdChat(room.getRoom_id());
-        if (chat.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(chat);
-    }
+		List<Chat> chat = chat_service.findByIdChat(room.getRoom_id());
+		if (chat.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok(chat);
+	}
 
-    //ユーザーがチャットルームから退出
-    @PostMapping("/exit")
-    public ResponseEntity<String> exitRoom() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-        int userId = userDetails.getUserId();
-        String username = userDetails.getUsername();
-        Room room = room_service.findRoomByUserId(userId);
+	//ユーザーがチャットルームから退出
+	@PostMapping("/exit")
+	public ResponseEntity<String> exitRoom() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+		int userId = userDetails.getUserId();
+		String username = userDetails.getUsername();
+		Room room = room_service.findRoomByUserId(userId);
 
-        if (room != null) {
-            room_service.exitByUserId(userId);
-            return ResponseEntity.ok(username + " が退出しました。");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("チャットルームが見つかりません。");
-        }
-    }
+		if (room != null) {
+			room_service.exitByUserId(userId);
+			return ResponseEntity.ok(username + " が退出しました。");
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("チャットルームが見つかりません。");
+		}
+	}
 }

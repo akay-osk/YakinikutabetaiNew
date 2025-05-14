@@ -21,6 +21,7 @@
 		<div class="input-area">
 			<input type="text" id="comment" placeholder="メッセージを入力" />
 			<button id="send">送信</button>
+		</div>
 	</main>
 
 	<script>
@@ -30,22 +31,43 @@
 		const reloadButton = document.getElementById("reload");
 		const exitButton = document.getElementById("exit");
 
+		// ユーザー名取得
+		async function fetchUserName() {
+			try {
+				const res = await fetch('/getUserName');
+				if (res.ok) {
+					const userName = await res.text();  // ユーザー名を取得
+					console.log("Current user name:", userName);
+					return userName;  // ユーザー名を返す
+				} else {
+					throw new Error("認証されていないユーザーです");
+				}
+			} catch (error) {
+				console.error("Error fetching user name:", error);
+				alert(error.message);  // エラーメッセージを表示
+				return null;
+			}
+		}
+
 		// チャット履歴を取得
-		async function fetchChatHistory() {
+		async function fetchChatHistory(userName) {
 			try {
 				const res = await fetch('/chatroom/history');
 				if (!res.ok) throw new Error('履歴取得失敗');
 				const messages = await res.json();
-				displayMessages(messages);
+
+				if (userName) {
+					displayMessages(messages, userName);  // ユーザー名を引数として渡して表示
+				}
 			} catch (err) {
 				console.error("履歴取得エラー:", err);
 				chatBox.innerHTML = "<p>チャット履歴の取得に失敗しました。</p>";
 			}
 		}
 
-		// チャット履歴を表示
-		function displayMessages(messages) {
-			chat.innerHTML = ''; // 古いメッセージをクリア
+		// チャットメッセージを表示
+		function displayMessages(messages, userName) {
+			chatBox.innerHTML = '';  // 古いメッセージをクリア
 			messages.forEach(message => {
 				const messageElement = document.createElement('div');
 				const isSelf = message.user_name === userName;
@@ -54,16 +76,23 @@
 				messageElement.classList.add(isSelf ? 'self' : 'other');
 
 				messageElement.innerHTML = `
-	      <div class="message-info">${message.user_name} [${message.created_at}]</div>
-	      <div>${message.chat_comment}</div>
-	    `;
+		            <div class="message-info">${message.user_name} [${message.created_at}]</div>
+		            <div>${message.chat_comment}</div>
+		        `;
 
-				chat.appendChild(messageElement);
+				chatBox.appendChild(messageElement);
 			});
 
-			chat.scrollTop = chat.scrollHeight;
+			chatBox.scrollTop = chatBox.scrollHeight;
 		}
 
+		// 初回読み込み時にユーザー名を取得して履歴を表示
+		window.addEventListener("DOMContentLoaded", async () => {
+			const userName = await fetchUserName();
+			if (userName) {
+				await fetchChatHistory(userName);
+			}
+		});
 
 		// メッセージ送信
 		sendButton.addEventListener("click", async () => {
@@ -79,7 +108,8 @@
 
 				if (!res.ok) throw new Error("送信失敗");
 				commentInput.value = '';
-				await fetchChatHistory(); // 送信後に履歴再読み込み
+				const userName = await fetchUserName();  // ユーザー名を取得
+				await fetchChatHistory(userName); // 送信後に履歴再読み込み
 			} catch (err) {
 				console.error("送信エラー:", err);
 				alert("メッセージの送信に失敗しました。");
@@ -87,7 +117,12 @@
 		});
 
 		// 再読み込み
-		reloadButton.addEventListener("click", fetchChatHistory);
+		reloadButton.addEventListener("click", async () => {
+			const userName = await fetchUserName();
+			if (userName) {
+				await fetchChatHistory(userName);
+			}
+		});
 
 		// 退出処理
 		exitButton.addEventListener("click", async () => {
@@ -96,15 +131,12 @@
 			try {
 				const res = await fetch('/chatroom/exit', {method: 'POST'});
 				if (!res.ok) throw new Error("退出失敗");
-				window.location.href = "/home"; // homeに遷移
+				window.location.href = "/home";
 			} catch (err) {
 				console.error("退出エラー:", err);
 				alert("退出に失敗しました。");
 			}
 		});
-
-		// 初回読み込み
-		window.addEventListener("DOMContentLoaded", fetchChatHistory);
 	</script>
 </body>
 
