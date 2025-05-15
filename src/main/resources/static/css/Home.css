@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+/* 共通ベースを意識したフォントやサイズ感 */
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #fffdf9;
+    color: #333;
+    padding:80px 10px 100px; /* ヘッダー＋フッター分の余白を確保 */
+    box-sizing: border-box;
+}
+
+/* 見出し */
+h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-top: 80px;
+	margin-bottom: 10px;
+    font-family: 'Sigmar', cursive;
+    color: #c62828;
+}
+
+/* バナー表示用スタイル */
+.banner-container {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.banner {
+    padding: 10px 20px;
+    margin: 10px auto;
+    border-radius: 12px;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 0.9rem;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.banner:hover {
+    transform: scale(1.03);
+}
+
+.banner.matched {
+    background-color: #fff0f0;
+    border: 2px solid #ef5350;
+    color: #b71c1c;
+}
+
+.banner.waiting {
+    background-color: #e0f2f1;
+    border: 2px solid #26a69a;
+    color: #004d40;
+}
+
+.banner-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* フォームスタイル */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff9f0;
+    border: 2px solid #ffccbc;
+    border-radius: 15px;
+    padding: 25px 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+form label {
+    display: block;
+    margin: 6px 0;
+    font-weight: bold;
+}
+
+form input[type="date"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    width: 100%;
+    background-color: #ff7043;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #f4511e;
+}

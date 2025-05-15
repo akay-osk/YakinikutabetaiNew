@@ -17,7 +17,8 @@ body {
     width: 420px;
     margin: 0 auto;
     background: #fffefc;
-    overflow: hidden;
+    overflow-x: hidden;
+	overflow-y: auto;
     min-height: 100vh;
 }
 section {

@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>MatchingSucceeded</title>
+<div th:with="title='MATCHIG'">
+		<div th:replace="common :: common-head(${title})"></div>
+	</div>
+	
+
 <link rel="stylesheet" href="/css/MatchingResult.css"> 
 
 </head>
 <body>
-	<h1>マッチング成立画面</h1>
-	
-	<form action="/matching/select" method="post">
+	<section th:with="title='MATCHIG'">
+		<header th:replace="common :: header(${title})"></header>
+	<form action="/select" method="post">
 	    <div class="tag-candidates">
 	        <div class="tag-option-row" th:each="room : ${roomList}">
 				<div class="user-item">
@@ -43,7 +46,8 @@
 	    <!-- 参加するボタン -->
 	    <button type="submit" class="join-button">参加する</button>
 	</form>
-	
+	<footer th:replace="common :: footer"></footer>
+		</section>
 	<script>
 		document.addEventListener("DOMContentLoaded", () => {
 		    document.querySelectorAll('.user-icon-wrapper').forEach(wrapper => {
