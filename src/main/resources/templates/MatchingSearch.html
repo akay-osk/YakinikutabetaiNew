@@ -1,35 +1,10 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<!--meta head-->
-	<div th:fragment="common-head(title)">
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title th:text="${title}">MatchingSearchBasedOnConditions</title>
-		<!--共通css-->
-		<!--導入？のページは仕様が違うようなのでログイン以降のページに適用-->
-		<link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
-		<!--google font-->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link
-			href="https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&family=Sigmar&display=swap"
-			rel="stylesheet">
-	</div>
-</head>
+<head th:replace="common.html :: common-head('ページタイトル')"></head>
 
 <body>
-	<!--headder-->
-	<div th:fragment="header(title)" class="header">
-		<div class="header_inner">
-			<div class="upper"><h2 class="logo"><a th:href="@{/}" class="ff-sigma">Meat UP!</a></h2></div>
-			<div class="bottom">
-				<div class="page-title"><h1 class="ff-sigma" th:text="${title}">Default Title</h1></div>
-				<div class="header-cow"><img th:src="@{/images/cow.png}" alt="ヘッダー牛さん"></div>
-			</div>
-		</div>
-	</div>
+	<div th:replace="common.html :: header('ようこそ')"></div>
 
 
 	<h1>マッチング希望条件検索ページ</h1>
@@ -71,15 +46,9 @@
 		<button type="submit">検索</button>
 	</form>
 
-	<!--footer-->
-	<div th:fragment="footer" class="footer">
-		<div class="footer_inner">
-			<img class="footer-cow" th:src="@{/images/meat.png}" alt="フッター牛さん">
-			<h2 class="ff-sigma">Meat UP!</h2>
-		</div> 
-	</div>
-	
-	
+	<div th:replace="common.html :: footer"></div>
+
+
 	<script>
 		document.querySelector("form").addEventListener("submit", function (event) {
 			const minAge = document.querySelector("input[name='matching_min_age']").value;
