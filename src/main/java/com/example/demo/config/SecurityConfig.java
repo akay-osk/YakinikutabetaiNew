@@ -45,8 +45,7 @@ public class SecurityConfig {
 		//★パスワードのname属性を指定
 		.passwordParameter("user_pass")
 		//★ログイン成功時のリダイレクト先を指定 
-		//.defaultSuccessUrl("/")
-		.defaultSuccessUrl("/success",true)
+		.defaultSuccessUrl("/home")
 		//★ログイン失敗時のリダイレクト先を指定
 		.failureUrl("/login?error"))
 		//★ログアウト設定
