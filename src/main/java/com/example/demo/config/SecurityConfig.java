@@ -13,7 +13,7 @@ import com.example.demo.security.LoginCustom;
  * ログイン成功・失敗とログアウト時の処理。 
  * 作成者 北川
  */
-
+ 
 
 @Configuration
 @EnableWebSecurity
