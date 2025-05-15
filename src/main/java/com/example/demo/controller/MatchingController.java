@@ -11,13 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.entity.Matching;
 import com.example.demo.entity.Room;
-import com.example.demo.entity.RoomUser;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.MatchingService;
 import com.example.demo.service.Room_service;
@@ -29,7 +27,6 @@ import com.example.demo.service.Room_service;
  */
 
 @Controller
-@RequestMapping("/matching")
 public class MatchingController {
 	
 	/*
@@ -50,18 +47,18 @@ public class MatchingController {
 	 * 奥野
 	 */
 	
-	// 検索フォームを表示するGETメソッドを追加
-	@GetMapping("/form")
-	public String showMatchingForm(Model model) {
-	    model.addAttribute("matching", new Matching()); // 空のMatchingオブジェクトを渡す
-	    return "MatchingSearch"; // templatesに置いたHTMLファイル名（拡張子は不要）
-	}
 
-	
-	
-	
-	
-	@PostMapping("/search")
+
+	    @GetMapping("/home")
+	    public String showHome(Model model) {
+	        model.addAttribute("matching", new Matching());
+	        model.addAttribute("hasMatchingRoom", true); // or false
+	        model.addAttribute("isWaitingForMatch", false); // or true
+	        
+	        return "Home";  // ← HTMLファイル名が Home.html の場合
+	    }
+		
+	@PostMapping("/home")
 	public String processSearch(@ModelAttribute Matching matching, Model model) {
 		
 		//入力したマッチング条件をDBに保存
@@ -198,7 +195,7 @@ public class MatchingController {
 	    }
 	 
 	    
-		return "redirect:/matching/search";
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/chatroom")
@@ -207,20 +204,20 @@ public class MatchingController {
 	    return "chatroom";
 	}
 
-    @GetMapping("/matching/select")
-    public String showMatchingResult(Model model) {
-        // ダミーデータを準備
-        List<Room> roomList = roomService.getAllRooms(); // DBからルームを取得
-        // ルームごとのユーザー情報を追加
-        for (Room room : roomList) {
-            List<RoomUser> roomUsers = roomService.getRoomUser(room.getRoom_id()); // 各ルームの参加ユーザーを取得
-            room.setRoomUsers(roomUsers); // ルームにユーザーをセット
-        }
-
-        // モデルにルームリストを追加
-        model.addAttribute("roomList", roomList);
-
-        return "MatchingResult"; // HTMLテンプレート名
-    }
+//    @GetMapping("/select/succeded")
+//    public String showMatchingResult(Model model) {
+//        // ダミーデータを準備
+//        List<Room> roomList = roomService.getAllRooms(); // DBからルームを取得
+//        // ルームごとのユーザー情報を追加
+//        for (Room room : roomList) {
+//            List<RoomUser> roomUsers = roomService.getRoomUser(room.getRoom_id()); // 各ルームの参加ユーザーを取得
+//            room.setRoomUsers(roomUsers); // ルームにユーザーをセット
+//        }
+//
+//        // モデルにルームリストを追加
+//        model.addAttribute("roomList", roomList);
+//
+//        return "MatchingResult"; // HTMLテンプレート名
+//    }
 }
 

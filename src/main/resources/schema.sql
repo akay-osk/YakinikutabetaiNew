@@ -27,7 +27,7 @@ CREATE TABLE users(
 	-- 紹介文
 	user_detail VARCHAR(15),
 	-- アイコン
-	user_icon TEXT,
+	user_icon BYTEA,
 	-- アドレス
 	user_address VARCHAR(255) --NOT NULL
 );
