@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import java.io.IOException;
+
 import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
@@ -43,14 +43,6 @@ public class UsersServiceImpl implements UsersService {
 		String hashedPass = passwordEncoder.encode(users.getUser_pass());
 		users.setUser_pass(hashedPass);
 		
-		//アイコン画像の保存判定
-		if (users.getIconFile() != null && !users.getIconFile().isEmpty()) {
-	        try {
-	            users.setUser_icon(users.getIconFile().getBytes());
-	        } catch (IOException e) {
-	            throw new RuntimeException("画像の読み込みに失敗しました", e);
-	        }
-		}
 		
 		//ユーザー情報を保存
 		usersMapper.insert(users);
@@ -75,13 +67,8 @@ public class UsersServiceImpl implements UsersService {
 	    }
 	    
 	    // アイコンの更新判定（登録があれば画像を保持）
-	    if (users.getIconFile() != null && !users.getIconFile().isEmpty()) {
-	    	try {
-	    		users.setUser_icon(users.getIconFile().getBytes());
-	        } catch (IOException e) {
-	            throw new RuntimeException("画像の読み込みに失敗しました", e);
-	        }
-	    } else {// 未登録なら元の画像を保持
+	    if (users.getUser_icon() == null && users.getUser_icon().isEmpty()) {
+	    	// 未登録なら元の画像を保持
 	        users.setUser_icon(existingUser.getUser_icon()); 
 	    }
 

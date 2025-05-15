@@ -71,9 +71,18 @@
 
         <div>
             <label>アイコン画像：</label>
-            <input type="file" th:field="*{iconFile}" accept="image/*">
-			<div th:if="${#fields.hasErrors('iconFile')}" th:errors="*{iconFile}" style="color: red;"></div>
-        </div>
+<!--			 画像選択 -->
+			  <input type="file" id="fileInput" accept="image/*" />
+
+<!--			   プレビュー -->
+			  <div id="previewArea"></div>
+
+			  <!-- Base64文字列を保持する hidden input -->
+			      <input type="hidden" th:field="*{user_icon}" id="base64Input" />
+			  </div>
+			  <br>
+
+		  </div>
 		<br>
 
 <!--        <div>-->
@@ -104,7 +113,50 @@
 		    <p style="color: red;" id="tagError"></p>
 		</div>
 	
+		
+        <div>
+            <button type="submit">登録</button>
+        </div>
+    </form>
+
 		<script>
+					//画像処理
+			      document.addEventListener("DOMContentLoaded", function () {
+			          const fileInput = document.getElementById("fileInput");
+			          const base64Input = document.getElementById("base64Input");
+			          const previewArea = document.getElementById("previewArea");
+
+			          fileInput.addEventListener("change", function () {
+			              const file = fileInput.files[0];
+			              if (!file) return;
+
+			              // 画像以外は拒否
+			              if (!file.type.startsWith("image/")) {
+			                  alert("画像ファイルを選択してください。");
+			                  fileInput.value = "";
+			                  return;
+			              }
+
+			              // 2MB制限
+			              if (file.size > 2 * 1024 * 1024) {
+			                  alert("画像は2MB以下にしてください。");
+			                  fileInput.value = "";
+			                  return;
+			              }
+
+			              const reader = new FileReader();
+			              reader.onload = function (e) {
+			                  const base64 = e.target.result;
+			                  base64Input.value = base64;
+
+			                  // プレビュー表示
+			                  previewArea.innerHTML = `<img src="${base64}" width="150" alt="プレビュー画像" />`;
+			              };
+			              reader.readAsDataURL(file);
+			          });
+			      });
+				  
+			//タグ
 		    document.addEventListener("DOMContentLoaded", function () {
 		        const checkboxes = document.querySelectorAll(".tag-checkbox");
 		        const errorMsg = document.getElementById("tagError");
@@ -138,12 +190,6 @@
 		        }
 		    });
 		</script>
-		
-        <div>
-            <button type="submit">登録</button>
-        </div>
-    </form>
-
 </body>
 
 </html>

@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -46,8 +45,8 @@ public class User {
 	@Size(max = 15, message = "詳細は15文字以内で入力してください")
 	private String user_detail;
 	
-	//画像データはバリデーションいらん
-	private byte[] user_icon;
+	@NotBlank(message = "画像が登録されていません")
+	private String user_icon; //Base64エンコードされた画像データ(文字列)
 	
 	@NotBlank(message = "メールアドレスは必須です")
     @Email(message = "メールアドレスの形式が正しくありません")
@@ -55,9 +54,6 @@ public class User {
 	
 	//選択されたタグのリスト
 	private List<Integer> tag_id;
-	
-	//アップロードされた画像を受け取る
-	private MultipartFile iconFile;
 	
 	//パスワードアップデート時の一時受け取り（データベースには保存されない）
 	private String newPassword;
