@@ -5,7 +5,7 @@
 	<!--meta head-->
 	<div th:fragment="common-head(title)">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title th:text="${title}">MatchingSearchBasedOnConditions</title>
+		<title th:text="${title}">Home</title>
 		<!--共通css-->
 		<!--導入？のページは仕様が違うようなのでログイン以降のページに適用-->
 		<link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
@@ -35,15 +35,15 @@
 	<!--マッチング状態バナー表示-->
 	<div class="banner-container">
 	    <div th:if="${hasMatchingRoom}" class="banner matched">
-	        <a th:href="@{/matching/succeeded}" class="banner-link">✨マッチングが成立しています！チャットルームへ</a>
+	        <a th:href="@{/Chatroom(room_id=${roomId})}" class="banner-link">✨マッチングが成立しています！チャットルームへ</a>
 	    </div>
 	    <div th:if="${isWaitingForMatch}" class="banner waiting">
-	        <a th:href="@{/matching/waiting}" class="banner-link">🔍検索条件を保存しています。待機画面へ</a>
+	        <a th:href="@{/notfound}" class="banner-link">🔍検索条件を保存しています。待機画面へ</a>
 	    </div>
 	</div>
 
 
-	<h1>HOME</h1>
+	<h1>マッチング検索</h1>
 
 	<form action="/home" method="post">
 		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
