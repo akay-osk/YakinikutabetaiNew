@@ -37,13 +37,7 @@ public class MypageController {
 		model.addAttribute("introComment", user.getUser_detail());
 		model.addAttribute("favoritePart", user.getUser_likes());
 		model.addAttribute("tags", user.getTag_id());	//List<Integer>
-		
-		if(user.getUser_icon() != null && user.getUser_icon().length > 0) {
-			String base64Image = Base64.getEncoder().encodeToString(user.getUser_icon());
-			model.addAttribute("profileImageBase64", base64Image);
-		}else {
-			model.addAttribute("profileImageBase64", null);		//null対応はデフォルト画像用意する？
-		}
+		model.addAttribute("profileImageBase64", user.getUser_icon());//フロントで画像処理お願いします。
 		
 		return "Mypage";
 		

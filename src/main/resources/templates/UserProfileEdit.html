@@ -7,7 +7,7 @@
 <body>
     <h2>プロフィール編集</h2>
 
-    <form th:action="@{/updateProfile}" method="post" th:object="${user}" enctype="multipart/form-data">
+	<form th:action="@{/user/update}" method="post" th:object="${user}" enctype="multipart/form-data">
 
         <!-- ユーザーネーム -->
         <div>
@@ -69,8 +69,18 @@
 
 		<!-- 新しいアイコン画像をアップロード（変更しない場合は未選択） -->
 		<div>
-		    <label>新しいアイコン画像をアップロード：</label>
-		    <input type="file" th:field="*{iconFile}" accept="image/*">
+		    <label>アイコン画像：</label>
+		    <input type="file" id="fileInput" accept="image/*" />
+		    <!-- プレビュー -->
+		    <div id="previewArea">
+		        <!-- 既存アイコンを表示（更新前） -->
+		        <img th:if="*{user_icon != null}" th:src="'data:image/png;base64,' + *{user_icon}" width="300" alt="現在のアイコン" />
+		    </div>
+		    <!-- Base64エンコードされた文字列を格納 -->
+		    <input type="hidden" th:field="*{user_icon}" id="base64Input" />
+		
+			<script>
+			</script>
 		</div>
 		<br>
 
@@ -93,7 +103,44 @@
             <p style="color: red;" id="tagError"></p>
         </div>
 		
+		<br>
+
+        <!-- 送信ボタン -->
+        <div>
+            <button type="submit">プロフィールを編集</button>
+        </div>
+
+    </form>
 		<script>
+			    const fileInput = document.getElementById("fileInput");
+			    const base64Input = document.getElementById("base64Input");
+			    const previewArea = document.getElementById("previewArea");
+
+			    fileInput.addEventListener("change", function () {
+			        const file = fileInput.files[0];
+			        if (!file) return;
+
+			        if (!file.type.startsWith("image/")) {
+			            alert("画像ファイルを選んでください。");
+			            return;
+			        }
+
+			        if (file.size > 2 * 1024 * 1024) {
+			            alert("画像は2MB以下にしてください。");
+			            return;
+			        }
+
+			        const reader = new FileReader();
+			        reader.onload = function (e) {
+			            const base64 = e.target.result;
+			            base64Input.value = base64.split(",")[1]; // data:image/png;base64, 以降を保存
+
+			            previewArea.innerHTML = `<img src="${base64}" width="300" alt="プレビュー" />`;
+			        };
+			        reader.readAsDataURL(file);
+			    });
+			
+			
 			document.addEventListener("DOMContentLoaded", function () {
 				const checkboxes = document.querySelectorAll(".tag-checkbox");
 				const errorMsg = document.getElementById("tagError");
@@ -127,13 +174,5 @@
 				}
 			 });
 		</script>
-		<br>
-
-        <!-- 送信ボタン -->
-        <div>
-            <button type="submit">プロフィールを編集</button>
-        </div>
-
-    </form>
 </body>
 </html>

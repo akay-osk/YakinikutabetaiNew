@@ -29,11 +29,11 @@ public class UserIconController {
 	
 	@GetMapping("/user/icon/{userId}")
 	@ResponseBody
-	public ResponseEntity<byte[]> getUserIcon(@PathVariable int userId) {
+	public ResponseEntity<String> getUserIcon(@PathVariable int userId) {
 	    User user = usersService.findByIdUsers(userId);
 	    return ResponseEntity.ok()
-	        .header(HttpHeaders.CONTENT_TYPE, "image/png")
-	        .body(user.getUser_icon());
+	        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
+	        .body(user.getUser_icon());//String型に変更、表でBase64文字列から画像バイナリに変換して返す
 	}
 
 	
