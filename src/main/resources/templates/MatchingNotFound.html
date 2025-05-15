@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="common.html :: common-head('ページタイトル')"></head>
-
+<head th:replace="common.html :: common-head('マッチング待機中')">
+</head>
 
 <body>
-	<div th:replace="common.html :: header('ようこそ')"></div>
-
-
+	<div th:replace="common.html :: header('マッチング待機中')"></div>
 
 	<p>現在待機中です...<br>マッチング成立までしばらくお待ちください。</p>
 
 	<a href="/retry" class="btn">条件を変更する</a>
 
 	<div th:replace="common.html :: footer"></div>
-
 
 	<script th:inline="javascript">
 		const userId = /*[[${user_id}]]*/ 0;

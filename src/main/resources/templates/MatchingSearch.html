@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="common.html :: common-head('ページタイトル')"></head>
+<head th:replace="common.html :: common-head('マッチング希望条件検索')">
+</head>
 
 <body>
-	<div th:replace="common.html :: header('ようこそ')"></div>
-
+	<div th:replace="common.html :: header('マッチング希望条件検索')"></div>
 
 	<h1>マッチング希望条件検索ページ</h1>
 
@@ -40,14 +40,12 @@
 				<option value="鶴橋">鶴橋</option>
 				<option value="どこでもよい">どこでもよい</option>
 			</select>
-
 		</label><br><br>
 
 		<button type="submit">検索</button>
 	</form>
 
 	<div th:replace="common.html :: footer"></div>
-
 
 	<script>
 		document.querySelector("form").addEventListener("submit", function (event) {
@@ -60,6 +58,6 @@
 			}
 		});
 	</script>
-</body>
 
+</body>
 </html>
