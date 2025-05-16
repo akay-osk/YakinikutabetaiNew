@@ -19,6 +19,7 @@ import com.example.demo.entity.Room;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.MatchingService;
 import com.example.demo.service.Room_service;
+import com.example.demo.service.UsersService;
 
 /*
  * MatchingControllerクラス
@@ -39,6 +40,9 @@ public class MatchingController {
 	@Autowired
 	private Room_service roomService;
 	
+	@Autowired
+	private UsersService usersService;
+	
 	//マッチング希望条件検索
 	
 	/*
@@ -50,10 +54,16 @@ public class MatchingController {
 
 
 	    @GetMapping("/home")
+	    
 	    public String showHome(Model model) {
+	    	int userId = usersService.getCurrentUserId();
+
+	        boolean hasMatchingRoom = usersService.hasRoom(userId);
+	        boolean isWaitingForMatch = usersService.hasWaitingCondition(userId);
+	    	
 	        model.addAttribute("matching", new Matching());
-	        model.addAttribute("hasMatchingRoom", true); // or false
-	        model.addAttribute("isWaitingForMatch", false); // or true
+	        model.addAttribute("hasMatchingRoom", hasMatchingRoom); // or false
+	        model.addAttribute("isWaitingForMatch", isWaitingForMatch); // or true
 	        
 	        return "Home";  // ← HTMLファイル名が Home.html の場合
 	    }

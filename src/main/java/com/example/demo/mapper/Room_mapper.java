@@ -66,4 +66,9 @@ public interface Room_mapper {
 	})
 	List<RoomUser> findByRoomId(@Param("roomId") Integer roomId);
 
+	// RoomMapper.java（MyBatisのインターフェース）
+
+	@Select("SELECT * FROM room_user WHERE user_id = #{userId} LIMIT 1")
+	RoomUser findRoomUserByUserId(@Param("userId") int userId);
+
 }
