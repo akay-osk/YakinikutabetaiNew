@@ -1,54 +1,48 @@
 <!--作成者ナカムラ-->
+<!--追い修正ヤブキ-->
 
 <!DOCTYPE html>
-<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meat UP!</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Sigmar&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/TopPage.css">
+	<div th:with="title='TOP PAGE'">
+		<div th:replace="common :: common-head(${title})"></div>
+	</div>
 
+	<!-- 各ページ用のcssはこの下に -->
+	<link rel="stylesheet" href="/css/TopPage.css">
 </head>
 <body>
-<div class="top-page">	
-  <header>
-    <div class="header-content">
-      <div class="logo"><h1>Meat UP!</h1></div>
-      <div class="icon"><img src="/images/menu.png" alt="メニュー"></div>
-    </div>
-  </header>
+	<section th:with="title='MEAT UP!'">
+		<header th:replace="common :: header(${title})"></header>
+		
+		<!-- 修正前のデータまま --->
+		<main>
+		    <section class="main-visual">
+		      
+		    </section>
 
-  <main>
-    <section class="main-visual">
-      
-    </section>
+		    <section class="catch-copy">
+		       <a href="/login" class="login-button">焼肉、一緒に行こ！</a>
+		    </section>
 
-    <section class="catch-copy">
-       <a href="/login" class="login-button">焼肉、一緒に行こ！</a>
-    </section>
-
-    <section class="steps">
-      <div class="step">
-        <h2>STEP 1</h2>
-        <p>まずは登録！プロフィールを設定しよう</p>
-      </div>
-      <div class="step">
-        <h2>STEP 2</h2>
-        <p>日時、ふたりで、みんなでワイワイなど行きたい条件を選んでマッチング</p>
-      </div>
-      <div class="step">
-        <h2>STEP 3</h2>
-        <p>マッチングしたらチャットルームへ あとは焼肉へGO！</p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-content">
-      <img src="/images/ushi-logo.png" alt="牛ロゴ">
-      <span>YAKINIKU</span>
-    </div>
-  </footer>
+		    <section class="steps">
+		      <div class="step">
+		        <h2>STEP 1</h2>
+		        <p>まずは登録！プロフィールを設定しよう</p>
+		      </div>
+		      <div class="step">
+		        <h2>STEP 2</h2>
+		        <p>日時、ふたりで、みんなでワイワイなど行きたい条件を選んでマッチング</p>
+		      </div>
+		      <div class="step">
+		        <h2>STEP 3</h2>
+		        <p>マッチングしたらチャットルームへ あとは焼肉へGO！</p>
+		      </div>
+		    </section>
+		  </main>
+		
+		<!-- フッター -->
+		<footer th:replace="common :: footer"></footer>
+	</section>
 </body>
 </html>

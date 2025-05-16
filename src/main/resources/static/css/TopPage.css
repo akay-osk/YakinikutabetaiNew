@@ -1,57 +1,7 @@
 /*作成者ナカムラ*/
+/*追い修正ヤブキ*/
 
 @charset "UTF-8";
-
-/* ベース */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'Roboto', sans-serif;
-  line-height: 1.6;
-  background-color: #fff;
-}
-.top-page {
-    width: 390px;
-/*	レスポンシブ対応
-	max-width: 390px;
-	width: 100%;
-*/
-	margin: 0 auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* ヘッダー */
-header {
-  font-family: 'Sigmar', cursive;
-  background-color: #FFE500;
-  padding: 16px 24px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;  /* z-indexを有効にするためにposition指定 */
-  z-index: 10;  /* ヘッダーを前面に持ってくる */
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo h1 {
-  font-family: 'Sigmar', cursive;
-  font-size: 48px;
-  color: #000;
-  margin: 0;
-}
-
-.icon img {
-  width: 48px;
-  height: 32px;
-}
 
 /* メインビジュアル */
 .main-visual {
@@ -91,36 +41,24 @@ header {
   background-color: #e64a19;
 }
 
-/* レスポンシブ対応（フォントや余白の調整） */
-@media screen and (max-width: 600px) {
-  .catch-copy p {
-    font-size: 22px;
-  }
-
-  .login-button {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
-}
-
 .steps {
-  display: flex;
+  /*display: flex;
   justify-content: space-around;
   gap: 16px;
   padding: 40px 20px;
   background-color: #F8F8F8;
-  flex-wrap: wrap; /* レスポンシブ用 */
+  flex-wrap: wrap;  レスポンシブ用 */
 }
 
 .step {
-  text-align: center;
+  /*text-align: center;
   background-color: #FFF;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   width: 30%;
   min-width: 200px;
-  box-sizing: border-box;
+  box-sizing: border-box;*/
 }
 
 /* スマホ用：1列表示 */
