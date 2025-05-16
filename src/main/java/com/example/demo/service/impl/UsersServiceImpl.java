@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,6 +40,7 @@ public class UsersServiceImpl implements UsersService {
 	private final MatchingMapper matchingMapper;
 	
 		//ハッシュ化追加 キタガワ
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Override

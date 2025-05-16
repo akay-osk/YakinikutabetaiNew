@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.dto.LoginForm;
 import com.example.demo.entity.User;
+import com.example.demo.service.UsersService;
 
 /*
  * MainControllerクラス
@@ -17,6 +19,9 @@ import com.example.demo.entity.User;
 
 @Controller
 public class MainController {
+	
+	@Autowired
+	private UsersService usersService;
 	
 	//トップ画面表示 
 	@GetMapping("/")
@@ -42,7 +47,7 @@ public class MainController {
 	@PostMapping("/register")
 	public String processRegistration(@ModelAttribute User user) {
 		//ユーザー登録処理
-		//userService.save(user);
+		usersService.insertUsers(user);
 		
 		return "redirect:/login";
 	}
