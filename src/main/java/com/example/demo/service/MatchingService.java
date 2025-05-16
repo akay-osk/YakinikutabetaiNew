@@ -22,11 +22,13 @@ public interface MatchingService {
 			int minAge,
 			int maxAge,
 			boolean matching_member,
-			String matching_area
+			String matching_area,
+			int user_id
 			);
 
 	Matching findByUserId(int userId);
 	
 	void delete(Integer matchingId);
+
 
 }

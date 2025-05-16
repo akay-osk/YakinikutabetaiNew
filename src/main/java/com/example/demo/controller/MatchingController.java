@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.entity.Matching;
 import com.example.demo.entity.Room;
+import com.example.demo.entity.RoomUser;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.MatchingService;
 import com.example.demo.service.Room_service;
@@ -65,12 +67,25 @@ public class MatchingController {
 	        model.addAttribute("hasMatchingRoom", hasMatchingRoom); // or false
 	        model.addAttribute("isWaitingForMatch", isWaitingForMatch); // or true
 	        
+	        // 🔽 マッチング中のルームIDを取得して渡す
+	        Room room = roomService.findRoomByUserId(userId);
+	        if (room != null) {
+	            model.addAttribute("roomId", room.getRoom_id());
+	        }
+	        
 	        return "Home";  // ← HTMLファイル名が Home.html の場合
 	    }
 		
 	@PostMapping("/home")
 	public String processSearch(@ModelAttribute Matching matching, Model model) {
-		
+		   // ログインユーザーのIDを取得（例）
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+	    int userId = userDetails.getUserId();
+
+	    // matchingにセット
+	    matching.setUser_id(userId);
+	
 		//入力したマッチング条件をDBに保存
 		matchingService.insertMatching(matching);
 		
@@ -82,7 +97,9 @@ public class MatchingController {
 				matching.getMatching_min_age(),
 				matching.getMatching_max_age(),
 				matching.isMatching_member(),
-				matching.getMatching_area()
+				matching.getMatching_area(),
+				userId
+				
 				);
 		
 		// 結果の表示
@@ -150,7 +167,7 @@ public class MatchingController {
 	    roomService.addUserToRoom(selectedRoomId, myUserId);
 
 	    // チャットルームに遷移
-	    return "redirect:/Chatroom?room_id=" + selectedRoomId;
+	    return "redirect:/chatroom?room_id=" + selectedRoomId;
 	}
 
 	@GetMapping("/select")
@@ -160,6 +177,19 @@ public class MatchingController {
 	    return "MatchingResult"; // ← これはHTMLファイル名に合わせて変更
 	}
 
+	@GetMapping("/chatroom")
+	public String showChatRoom(@RequestParam("room_id") Integer roomId, Model model) {
+	    // roomIdを使って必要な情報を取得
+	    Room room = roomService.selectById(roomId);
+	    model.addAttribute("room", room);
+	    
+	    List<RoomUser> users = roomService.getRoomUser(roomId);
+	    model.addAttribute("roomUsers", users);
+	    
+	    return "ChatRoom"; // ← 実際のチャット画面のHTML名
+	}
+
+	
 	
 
 	@GetMapping("/check-status")
@@ -208,11 +238,8 @@ public class MatchingController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/chatroom")
-	public String showChatroom(@RequestParam("room_id") Integer roomId, Model model) {
-	    model.addAttribute("roomId", roomId);
-	    return "chatroom";
-	}
+	
+	
 
 //    @GetMapping("/select/succeded")
 //    public String showMatchingResult(Model model) {

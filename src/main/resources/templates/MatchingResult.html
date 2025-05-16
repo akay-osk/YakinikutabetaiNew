@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<div th:with="title='MATCHIG'">
-		<div th:replace="common :: common-head(${title})"></div>
-	</div>
-	
-
+<head th:with="title='MATCHIG'">
+		<div th:replace="common :: common-head(${title})"></div>	
 <link rel="stylesheet" href="/css/MatchingResult.css"> 
-
 </head>
 <body>
-	<section th:with="title='MATCHIG'">
 		<header th:replace="common :: header(${title})"></header>
 	<form action="/select" method="post">
 	    <div class="tag-candidates">

@@ -24,7 +24,7 @@ public interface MatchingMapper {
 	
 	
 	//マッチング検索
-	@Select("SELECT * ,((CASE WHEN matching_gender = #{matching_gender} THEN 5 ELSE 0 END) +(CASE WHEN matching_time = #{matching_time} THEN 4 ELSE 0 END) +(CASE WHEN matching_member = #{matching_member} THEN 3 ELSE 0) + (CASE WHEN ABS((#{minAge} + #{maxAge}) /2 - (matching_min_age + matching_max_age) /2 ) <= 5 THEN 3 ELSE 0 END) + (CASE WHEN matching_area = #{matching_area} THEN 2 WHEN matching_area = 'どこでもよい' OR #{matching_area} = 'どこでもよい' THEN 1 ELSE 0 END)) AS matching_score FROM matching WHERE user_id != #{user_id} AND user_id NOT IN (SELECT blocking_user_id FROM blocking WHERE user_id = #{user_id}) AND matching_day = #{matching_day} AND matching_max_age >= #{minAge} AND matching_min_age <= #{maxAge} AND matching_member = #{matching_member} AND (matching_area = #{matching_area} OR matching_area = 'どこでもよい' OR #{matching_area} = 'どこでもよい') ORDER BY matching_score DESC  LIMIT 3")
+	@Select("SELECT * ,((CASE WHEN matching_gender = #{matching_gender} THEN 5 ELSE 0 END) +(CASE WHEN matching_time = #{matching_time} THEN 4 ELSE 0 END) +(CASE WHEN matching_member = #{matching_member} THEN 3 ELSE 0 END) + (CASE WHEN ABS((#{minAge} + #{maxAge}) /2 - (matching_min_age + matching_max_age) /2 ) <= 5 THEN 3 ELSE 0 END) + (CASE WHEN matching_area = #{matching_area} THEN 2 WHEN matching_area = 'どこでもよい' OR #{matching_area} = 'どこでもよい' THEN 1 ELSE 0 END)) AS matching_score FROM matching WHERE user_id != #{user_id} AND user_id NOT IN (SELECT blocking_user_id FROM blocking WHERE user_id = #{user_id}) AND matching_day = #{matching_day} AND matching_max_age >= #{minAge} AND matching_min_age <= #{maxAge} AND matching_member = #{matching_member} AND (matching_area = #{matching_area} OR matching_area = 'どこでもよい' OR #{matching_area} = 'どこでもよい') ORDER BY matching_score DESC  LIMIT 3")
 	List<Matching> findMatching(
 			@Param("matching_day") LocalDate matching_day,
 			@Param("matching_time") String matching_time,
@@ -32,14 +32,15 @@ public interface MatchingMapper {
 			@Param("minAge") int minAge,
 			@Param("maxAge") int maxAge,
 			@Param("matching_member") boolean matching_member,
-			@Param("matching_area") String matching_area
+			@Param("matching_area") String matching_area,
+			@Param("user_id") Integer user_id
 			);
 	
 	@Select("SELECT * FROM matching WHERE user_id = #{userId} ORDER BY matching_id DESC LIMIT 1")
 	Matching selectByUserId(@Param("userId") int userId);
 	
 	@Delete("DELETE  FROM matching WHERE matching_id =#{matching_id}")
-	void delete(@Param("matchimg_id") Integer matching_id);
+	void delete(@Param("matching_id") Integer matching_id);
 	
 	@Select("SELECT COUNT(*) FROM matching WHERE user_id = #{userId}")
     int countMatchingByUserId(@Param("userId") int userId) ;  // ← hasWaitingCondition用

@@ -33,7 +33,9 @@ public class MatchingServiceImpl implements MatchingService {
 			int minAge, 
 			int maxAge, 
 			boolean matching_member,
-			String matching_area) {
+			String matching_area,
+			int user_id
+			) {
 		
 			return matchingMapper.findMatching(
 					matching_day,
@@ -42,7 +44,8 @@ public class MatchingServiceImpl implements MatchingService {
 					minAge,
 					maxAge,
 					matching_member,
-					matching_area
+					matching_area, 
+					user_id
 					);
 	}
 

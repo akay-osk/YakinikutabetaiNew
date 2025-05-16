@@ -35,7 +35,7 @@
 	<!--マッチング状態バナー表示-->
 	<div class="banner-container">
 	    <div th:if="${hasMatchingRoom}" class="banner matched">
-	        <a th:href="@{/Chatroom(room_id=${roomId})}" class="banner-link">✨マッチングが成立しています！チャットルームへ</a>
+	        <a th:href="@{/chatroom(room_id=${roomId})}" class="banner-link">✨マッチングが成立しています！チャットルームへ</a>
 	    </div>
 	    <div th:if="${isWaitingForMatch}" class="banner waiting">
 	        <a th:href="@{/notfound}" class="banner-link">🔍検索条件を保存しています。待機画面へ</a>
@@ -47,28 +47,28 @@
 
 	<form action="/home" method="post">
 		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-		<label>日付: <input type="date" name="matching_day" required></label><br>
+		<label>日付: <input type="date" name="matching_day" required></label>
 		<label>時間帯:
 			<select name="matching_time">
 				<option value="昼">昼</option>
 				<option value="夕方(16～19)">夕(16時～19時)</option>
 				<option value="夜(19～)">夜(19時～)</option>
 			</select>
-		</label><br>
+		</label>
 		<label>性別（希望）:
 			<select name="matching_gender">
 				<option value="true">同性希望</option>
 				<option value="false">異性可</option>
 			</select>
-		</label><br>
-		<label>年齢（最小）: <input type="number" name="matching_min_age" min="20" max="90" required></label><br>
-		<label>年齢（最大）: <input type="number" name="matching_max_age" min="20" max="90" required></label><br>
+		</label>
+		<label>年齢（最小）: <input type="number" name="matching_min_age" min="20" max="90" required></label>
+		<label>年齢（最大）: <input type="number" name="matching_max_age" min="20" max="90" required></label>
 		<label>希望人数:
 			<select name="matching_member">
 				<option value="true">2人で</option>
 				<option value="false">複数人で</option>
 			</select>
-		</label><br>
+		</label>
 		<label>エリア:
 			<select name="matching_area">
 				<option value="なんば">なんば</option>
@@ -77,7 +77,7 @@
 				<option value="どこでもよい">どこでもよい</option>
 			</select>
 
-		</label><br><br>
+		</label><br>
 
 		<button type="submit">検索</button>
 	</form>
