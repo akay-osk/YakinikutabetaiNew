@@ -12,25 +12,28 @@
 	<link rel="stylesheet" href="/css/TopPage.css">
 </head>
 <body>
-	<section th:with="title='MEAT UP!'">
+	<section th:with="title='Meat UP!'" id="top-page">
 		<header th:replace="common :: header(${title})"></header>
 		
 		<!-- 修正前のデータまま --->
 		<main>
-		    <section class="main-visual">
+		    <div class="main-visual">
 		      
-		    </section>
+		    </div>
+			
+			<!--<div class="catch-copy">-->
+				<!--<a href="/login" class="login-button">焼肉、一緒に行こ！</a>-->
+				<div class="login-button">
+					<a href="/login">ログイン</a>
+				</div>
+		    <!--</div>-->
 
-		    <section class="catch-copy">
-		       <a href="/login" class="login-button">焼肉、一緒に行こ！</a>
-		    </section>
-
-		    <section class="steps">
-		      <div class="step">
+		    <div class="steps">
+		      <div class="step follow">
 		        <h2>STEP 1</h2>
 		        <p>まずは登録！プロフィールを設定しよう</p>
 		      </div>
-		      <div class="step">
+		      <div class="step follow">
 		        <h2>STEP 2</h2>
 		        <p>日時、ふたりで、みんなでワイワイなど行きたい条件を選んでマッチング</p>
 		      </div>
@@ -38,7 +41,7 @@
 		        <h2>STEP 3</h2>
 		        <p>マッチングしたらチャットルームへ あとは焼肉へGO！</p>
 		      </div>
-		    </section>
+		    </div>
 		  </main>
 		
 		<!-- フッター -->
