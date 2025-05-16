@@ -105,7 +105,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	public boolean hasRoom(int userId) {
-		return room_mapper.findRoomUserByUserId(userId) != null;
+		return room_mapper.findRoomByUserId(userId) != null;
 	}
 
 	@Override
