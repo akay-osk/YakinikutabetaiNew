@@ -1,89 +1,90 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>新規登録</title>
-</head>
-<body>
-    <h2>アカウント新規登録</h2>
 	
+	<div th:with="title='WELCOME'">
+		<div th:replace="common :: common-head(${title})"></div>
+	</div>
+
+	<!-- 各ページ用のcssはこの下に -->
+	<link rel="stylesheet" href="/css/Register.css">
+</head>
+
+<body>
+	<section th:with="title='WELCOME'">
+		<header th:replace="common :: header(${title})"></header>
+		
 <!--	th:object="${user}"はModel model.addAttribute("user", new User())がControllerにあること前提-->
 <!--	Userクラスのバリデーションを呼び出す-->
-    <form th:action="@{/register}" method="post" th:object="${user}" enctype="multipart/form-data">
+<!--	フォーム-->
+	
+	<div class="register-center">
+    <form th:action="@{/register}" method="post" th:object="${user}" class="register-form" enctype="multipart/form-data">
         
-        <div>
+        <div class="input-field">
             <label>ユーザーネーム：</label>
-            <input type="text" th:field="*{user_name}" />
+            <input type="text" th:field="*{user_name}" class="input" />
 <!--			ユーザー名のバリデーション表示-->
             <div th:if="${#fields.hasErrors('user_name')}" th:errors="*{user_name}" style="color: red;"></div>
         </div>
 		<br>
 		
-		<div>
+		<div class="input-field">
 		    <label>パスワード：</label>
-		    <input type="password" th:field="*{user_pass}" />
+		    <input type="password" th:field="*{user_pass}" class="input"/>
 <!--            パスワードのバリデーション表示-->
 			<div th:if="${#fields.hasErrors('user_pass')}" th:errors="*{user_pass}" style="color: red;"></div>
 		</div>
 		<br>
 
-        <div>
+        <div class="input-field">
             <label>年齢：</label>
-            <input type="number" th:field="*{user_age}" min="20" max="100" pattern="[0-9]+" title="半角数字で入力してください"/>
+            <input type="number" th:field="*{user_age}" class="input" min="20" max="100" pattern="[0-9]+" title="半角数字で入力してください"/>
 <!--			年齢のバリデーション表示-->
             <div th:if="${#fields.hasErrors('user_age')}" th:errors="*{user_age}" style="color: red;"></div>
         </div>
 		<br>
 
-        <div>
+        <div class="input-field">
             <label>性別：</label>
             <input type="radio" th:field="*{user_gender}" name="user_gender" value="true" /> 男性
             <input type="radio" th:field="*{user_gender}" name="user_gender" value="false" /> 女性
+<!--			user_genderの初期値がfalseの為、デフォルトで女性にチェックついてる(ラッパークラスのbooleanでnullにしたら出来そう)-->
         </div>
 		<br>
 
-        <div>
+        <div class="input-field">
             <label>好きな部位：</label>
-            <input type="text" th:field="*{user_likes}" />
+            <input type="text" th:field="*{user_likes}" class="input"/>
 <!--			好きな部位のバリデーションを表示-->
             <div th:if="${#fields.hasErrors('user_likes')}" th:errors="*{user_likes}" style="color: red;"></div>
         </div>
 		<br>
 
-        <div>
+        <div class="input-field">
             <label>紹介文：</label>
-			<style>
-			        textarea {
-			            min-height: 2cm; /* 初期の高さ */
-			            height: auto;
-			            overflow: hidden;
-			            resize: none; /* 手動リサイズを無効化 */
-			        }
-			    </style>
-
-            <!--			紹介分のバリデーションを表示-->
+			<textarea th:field="*{user_detail}" id="autoExpand" class="input"></textarea>
+			
+<!--			紹介分のバリデーションを表示-->
             <div th:if="${#fields.hasErrors('user_detail')}" th:errors="*{user_detail}" style="color: red;"></div>
         </div>
 		<br>
-		<textarea th:field="*{user_detail}" id="autoExpand"></textarea>
 		
-		
-
         <div>
             <label>アイコン画像：</label>
 <!--			 画像選択 -->
 			  <input type="file" id="fileInput" accept="image/*" />
-
+			  
 <!--			   プレビュー -->
 			  <div id="previewArea"></div>
-
+			
 			  <!-- Base64文字列を保持する hidden input -->
-			      <input type="hidden" th:field="*{user_icon}" id="base64Input" />
-			  </div>
-			  <br>
+			  <input type="hidden" th:field="*{user_icon}" id="base64Input" />
+		</div>
+			 
 
-		  </div>
-		<br>
+<!--		  </div>-->
+<!--		<br>-->
 
 <!--        <div>-->
 <!--            <label>メールアドレス：</label>-->
@@ -95,29 +96,32 @@
 		
 		
 <!--		ここから　タグの設定-->
-		<div>
-		    <label>タグ選択 (最大6つまで)：</label>
-		    <div>
-		        <input type="checkbox" th:field="*{tag_id}" value="1" class="tag-checkbox"> タバコ〇
-		        <input type="checkbox" th:field="*{tag_id}" value="2" class="tag-checkbox"> タバコ×
-		        <input type="checkbox" th:field="*{tag_id}" value="3" class="tag-checkbox"> お酒好き
-		        <input type="checkbox" th:field="*{tag_id}" value="4" class="tag-checkbox"> 下戸です
-		        <input type="checkbox" th:field="*{tag_id}" value="5" class="tag-checkbox"> 焼肉奉行！
-		        <input type="checkbox" th:field="*{tag_id}" value="6" class="tag-checkbox"> 食べる専門！
-		        <input type="checkbox" th:field="*{tag_id}" value="7" class="tag-checkbox"> ご飯派
-		        <input type="checkbox" th:field="*{tag_id}" value="8" class="tag-checkbox"> デザート必須
-		        <input type="checkbox" th:field="*{tag_id}" value="9" class="tag-checkbox"> よく焼き派
-		        <input type="checkbox" th:field="*{tag_id}" value="10" class="tag-checkbox"> 野菜必須！
-		        <input type="checkbox" th:field="*{tag_id}" value="11" class="tag-checkbox"> 冷麺必須！
-		    </div>
+		<div class="input-field">
+		<label class="label">タグ選択 (※6つまで選択可能)：</label>
+		<div class="tag-container">
+		    
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="1" class="tag-checkbox"><span>タバコ〇</span></label>
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="2" class="tag-checkbox"><span>タバコ×</span></label>
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="3" class="tag-checkbox"><span>お酒好き</span></label>
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="4" class="tag-checkbox"><span>下戸です</span></label>
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="5" class="tag-checkbox"><span>焼肉奉行！</span></label>
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="6" class="tag-checkbox"><span>食べる専門！</span></label>
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="7" class="tag-checkbox"><span>ご飯派</span></label> 
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="8" class="tag-checkbox"><span>デザート必須</span></label> 
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="9" class="tag-checkbox"><span>よく焼き派</span></label> 
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="10" class="tag-checkbox"><span>野菜必須！</span></label> 
+			<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="11" class="tag-checkbox"><span>冷麺必須！</span></label> 
+		
+		</div>
 		    <p style="color: red;" id="tagError"></p>
 		</div>
 	
-		
-        <div>
-            <button type="submit">登録</button>
+		<br>
+        <div class="button-wrapper">
+            <button type="submit" class="register-button">登録</button>
         </div>
     </form>
+	</div>
 
 		<script>
 					//画像処理
@@ -190,6 +194,8 @@
 		        }
 		    });
 		</script>
+<!--		フッター-->
+		<footer th:replace="common :: footer"></footer>
 </body>
 
 </html>

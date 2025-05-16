@@ -11,34 +11,36 @@
 	<section th:with="title='Profile Edit'">
 		<header th:replace="common :: header(${title})"></header>
 	
-		<form th:action="@{/user/update}" method="post" th:object="${user}" enctype="multipart/form-data">
+		<div class ="profile-edit-center">
+		<form th:action="@{/user/update}" method="post" th:object="${user}" class="profile-edit-form" enctype="multipart/form-data">
 
+			
         <!-- ユーザーネーム -->
-        <div>
+        <div class="input-field">
             <label>ユーザーネーム：</label>
-            <input type="text" th:field="*{user_name}" />
+            <input type="text" th:field="*{user_name}" class="input"/>
             <div th:if="${#fields.hasErrors('user_name')}" th:errors="*{user_name}" style="color: red;"></div>
         </div>
 		<br>
 		
 		<!-- パスワード（任意） -->
-        <div>
+        <div class="input-field">
             <label>パスワード（変更する場合のみ入力）：</label>
-            <input type="password" th:field="*{newPassword}" />
+            <input type="password" th:field="*{newPassword}" class="input"/>
             <div th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" style="color: red;"></div>
         </div>
 		<br>
 		
         <!-- 年齢 -->
-        <div>
+        <div class="input-field">
             <label>年齢：</label>
-            <input type="number" th:field="*{user_age}" min="20" max="100" />
+            <input type="number" th:field="*{user_age}" class="input" min="20" max="100" />
             <div th:if="${#fields.hasErrors('user_age')}" th:errors="*{user_age}" style="color: red;"></div>
         </div>
 		<br>
 
         <!-- 性別 -->
-        <div>
+        <div class="input-field">
             <label>性別：</label>
             <input type="radio" th:field="*{user_gender}" name="user_gender" value="true" /> 男性
             <input type="radio" th:field="*{user_gender}" name="user_gender" value="false" /> 女性
@@ -46,27 +48,19 @@
 		<br>
 
 		<!-- 好きな部位 -->
-		<div>
+		<div class="input-field">
 		    <label>好きな部位：</label>
-		    <input type="text" th:field="*{user_likes}" />
+		    <input type="text" th:field="*{user_likes}" class="input"/>
 		    <div th:if="${#fields.hasErrors('user_likes')}" th:errors="*{user_likes}" style="color: red;"></div>
 		</div>
 		<br>
 
 		<!-- 紹介文 -->
-		<div>
+		<div class="input-field">
 		    <label>紹介文：</label>
-		    <style>
-		        textarea {
-		            min-height: 2cm;
-		            height: auto;
-		            overflow: hidden;
-		            resize: none;
-		        }
-		    </style>
+		 	<textarea th:field="*{user_detail}" id="autoExpand" class="input"></textarea>
 
-		    <div th:if="${#fields.hasErrors('user_detail')}" th:errors="*{user_detail}" style="color: red;"></div>
-		    <textarea th:field="*{user_detail}" id="autoExpand"></textarea>
+		    <div th:if="${#fields.hasErrors('user_detail')}" th:errors="*{user_detail}" style="color: red;"></div> 
 		</div>
 		<br>
         
@@ -74,6 +68,7 @@
 		<!-- 新しいアイコン画像をアップロード（変更しない場合は未選択） -->
 		<div>
 		    <label>アイコン画像：</label>
+<!--			画像選択-->
 		    <input type="file" id="fileInput" accept="image/*" />
 		    <!-- プレビュー -->
 		    <div id="previewArea">
@@ -83,38 +78,38 @@
 		    <!-- Base64エンコードされた文字列を格納 -->
 		    <input type="hidden" th:field="*{user_icon}" id="base64Input" />
 		
-			<script>
-			</script>
 		</div>
 		<br>
 
         <!-- タグ選択 -->
-        <div>
-            <label>タグ選択 (最大6つまで)：</label>
-            <div>
-                <input type="checkbox" th:field="*{tag_id}" value="1" class="tag-checkbox"> タバコ〇
-                <input type="checkbox" th:field="*{tag_id}" value="2" class="tag-checkbox"> タバコ×
-                <input type="checkbox" th:field="*{tag_id}" value="3" class="tag-checkbox"> お酒好き
-                <input type="checkbox" th:field="*{tag_id}" value="4" class="tag-checkbox"> 下戸です
-				<input type="checkbox" th:field="*{tag_id}" value="5" class="tag-checkbox"> 焼肉奉行！
-				<input type="checkbox" th:field="*{tag_id}" value="6" class="tag-checkbox"> 食べる専門！
-				<input type="checkbox" th:field="*{tag_id}" value="7" class="tag-checkbox"> ご飯派
-				<input type="checkbox" th:field="*{tag_id}" value="8" class="tag-checkbox"> デザート必須
-				<input type="checkbox" th:field="*{tag_id}" value="9" class="tag-checkbox"> よく焼き派
-				<input type="checkbox" th:field="*{tag_id}" value="10" class="tag-checkbox"> 野菜必須！
-				<input type="checkbox" th:field="*{tag_id}" value="11" class="tag-checkbox"> 冷麺必須！
-            </div>
+        <div class="input-field">
+            <label>タグ選択 (※6つまで選択可能)：</label>
+            <div class="tag-container">
+				
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="1" class="tag-checkbox"><span>タバコ〇</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="2" class="tag-checkbox"><span>タバコ×</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="3" class="tag-checkbox"><span>お酒好き</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="4" class="tag-checkbox"><span>下戸です</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="5" class="tag-checkbox"><span>焼肉奉行！</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="6" class="tag-checkbox"><span>食べる専門！</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="7" class="tag-checkbox"><span>ご飯派</span></label> 
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="8" class="tag-checkbox"><span>デザート必須</span></label> 
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="9" class="tag-checkbox"><span>よく焼き派</span></label> 
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="10" class="tag-checkbox"><span>野菜必須！</span></label> 
+				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="11" class="tag-checkbox"><span>冷麺必須！</span></label> 
+			
+		 </div>
             <p style="color: red;" id="tagError"></p>
-        </div>
-		
+       	 </div>
 		<br>
 
         <!-- 送信ボタン -->
-        <div>
-            <button type="submit">プロフィールを編集</button>
+        <div class="button-wrapper">
+            <button type="submit" class="register-button">この設定で保存</button>
         </div>
-
     </form>
+	</div>
+	
 		<script>
 			    const fileInput = document.getElementById("fileInput");
 			    const base64Input = document.getElementById("base64Input");
