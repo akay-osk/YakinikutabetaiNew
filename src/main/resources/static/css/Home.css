@@ -11,7 +11,7 @@ body {
 }
 
 /* 見出し */
-h1 {
+h1.red-title {
     font-size: 1.8rem;
     text-align: center;
 	margin-bottom: 10px;
@@ -102,3 +102,24 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #f4511e;
 }
+
+/* マイページへリンクをボタン風に */
+.btn-link {
+    display: block;
+    text-align: center;
+    background-color: #ff7043;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-link:hover {
+    background-color: #f4511e;
+}
+

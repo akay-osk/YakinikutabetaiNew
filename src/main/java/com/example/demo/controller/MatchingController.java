@@ -82,7 +82,9 @@ public class MatchingController {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
 	    int userId = userDetails.getUserId();
-
+	    if (usersService.hasRoom(userId)) {
+	        return "redirect:/home"; // またはエラーページに遷移させる
+	    }
 	    // matchingにセット
 	    matching.setUser_id(userId);
 	

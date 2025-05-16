@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:with="title='MATCHIG'">
-		<div th:replace="common :: common-head(${title})"></div>	
-<link rel="stylesheet" href="/css/MatchingResult.css"> 
+<head>
+	<div th:with ="title='MATCHING'">
+		<div th:replace="common :: common-head(${title})"></div>
+				</div>
+			<!--meta head-->
+			<div th:fragment="common-head(title)">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+			<link th:href="@{/css/MatchingResult.css}" rel="stylesheet" type="text/css">
+</div>
 </head>
+
 <body>
-		<header th:replace="common :: header(${title})"></header>
-	<form action="/select" method="post">
+	<!--headder-->
+	<section th:with="title='MATCHING'">
+				<header th:replace="common :: header(${title})"></header>
+
+	
+	<form action="/select" method="post"style="padding-bottom: 80px">
 	    <div class="tag-candidates">
 	        <div class="tag-option-row" th:each="room : ${roomList}">
 				<div class="user-item">
@@ -39,7 +51,12 @@
 
 	    <!-- 参加するボタン -->
 	    <button type="submit" class="join-button">参加する</button>
-	</form>
+
+		<!-- ホームに戻るボタン　-->
+		<a href="/home" class="btn" style="margin-left: 10px;">ホームに戻る</a>
+
+			</form>
+	<!--footer-->
 	<footer th:replace="common :: footer"></footer>
 		</section>
 	<script>

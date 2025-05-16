@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="common.html :: common-head('マッチング待機中')">
+<head>
+	
+	<div th:with="title='NOT FOUNND'">
+		<div th:replace="common :: common-head(${title})"></div>
+	</div>
+	<!-- 共通CSS -->
+	<link th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/MatchingNotFound.css}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-<!--	<div th:replace="common.html :: header('マッチング待機中')"></div>-->
+	<section th:with="title='NOT MATCHING'">
+			<header th:replace="common :: header(${title})"></header>
 
-	<p>現在待機中です...<br>マッチング成立までしばらくお待ちください。</p>
 
-	<form action="/retry" method="post" style="display:inline;">
+	<p>マッチングできませんでした...<br>マッチングまでしばらくお待ちください。</p>
+
+	<form action="/retry" method="post">
 	    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 	    <button type="submit" class="btn">条件を変更する</button>
 	</form>
+	
+	<!-- ホームに戻るボタン　-->
+	<a href="/home" class="btn" style="margin-left: 10px;">ホームに戻る</a>
 
-<!--	<div th:replace="common.html :: footer"></div>-->
+	
+	
+	<fotter th:replace="common :: footer"></fotter>
+</section>
 
 	<script th:inline="javascript">
 		const userId = /*[[${user_id}]]*/ 0;

@@ -81,7 +81,7 @@ VALUES
 --  マッチング条件ダミーデータ
 INSERT INTO matching (user_id, matching_day, matching_time, matching_gender, matching_min_age, matching_max_age, matching_member, matching_area)
 VALUES
-(1, '2025-05-14', '夕方(16～19)', false, 24, 35, true, '梅田'),
+--(1, '2025-05-14', '夕方(16～19)', false, 24, 35, true, '梅田'),
 (2, '2025-05-14', '夕方(16～19)', false, 20, 30, false, 'どこでもよい'),
 (3, '2025-05-14', '夕方(16～19)', false, 20, 28, false, 'なんば'),
 (4, '2025-05-14', '夕方(16～19)', false, 22, 32, false, 'どこでもよい'),
@@ -100,7 +100,7 @@ VALUES
 -- roomダミーデータとuserの紐づけ
 INSERT INTO room_user (room_id, user_id)
 VALUES
-(1, 1), -- じろう　ルーム1
+--(1, 1), -- じろう　ルーム1
 (2, 5), -- ハラミちゃん　ルーム2
 (2, 2), -- すたみな太郎　ルーム2
 (2, 3), -- スマホ太郎　　ルーム2
