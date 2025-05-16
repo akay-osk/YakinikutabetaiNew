@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>プロフィール編集</title>
+    <div th:with="title='Profile Edit'">
+		<div th:replace="common :: common-head(${title})"></div>
+	</div>
+	<link rel="stylesheet" href="/css/ProfileEdit.css">
 </head>
-<body>
-    <h2>プロフィール編集</h2>
 
-	<form th:action="@{/user/update}" method="post" th:object="${user}" enctype="multipart/form-data">
+<body>
+	<section th:with="title='Profile Edit'">
+		<header th:replace="common :: header(${title})"></header>
+	
+		<form th:action="@{/user/update}" method="post" th:object="${user}" enctype="multipart/form-data">
 
         <!-- ユーザーネーム -->
         <div>
@@ -174,5 +178,8 @@
 				}
 			 });
 		</script>
+		
+		<footer th:replace="common :: footer"></footer>
+	</section>
 </body>
 </html>

@@ -27,11 +27,11 @@ public interface UsersMapper {
 	void insert(User users);
 	
 	//ユーザー情報更新
-	@Update("UPDATE users SET user_pass = #{user_pass},user_name = #{user_name},user_age = #{user_age},user_gender = #{user_gender} ,user_likes = #{user_likes},user_detail = #{user_detail} ,user_icon =  #{user_icon} ,user_address = #{user_address} WHERE user_id =#{id}")
+	@Update("UPDATE users SET user_pass = #{user_pass},user_name = #{user_name},user_age = #{user_age},user_gender = #{user_gender} ,user_likes = #{user_likes},user_detail = #{user_detail} ,user_icon =  #{user_icon} ,user_address = #{user_address} WHERE user_id =#{user_id}")
 	void update(User users);
 
 	//ユーザー情報削除
-	@Delete("DELETE FROM users WHERE user_id = #{id}")
+	@Delete("DELETE FROM users WHERE user_id = #{user_id}")
 	void delete(Integer id);
 
 	//ユーザー情報取得
