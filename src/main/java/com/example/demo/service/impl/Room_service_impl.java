@@ -90,4 +90,6 @@ public class Room_service_impl implements Room_service{
 	public List<RoomUser> getRoomUser(Integer roomId) {
 		return room_mapper.findByRoomId(roomId);
 	}
+	
+	
 }

@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.example.demo.entity.User;
+import com.example.demo.mapper.MatchingMapper;
+import com.example.demo.mapper.Room_mapper;
 import com.example.demo.mapper.UsersMapper;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.UserTagsService;
@@ -33,6 +35,8 @@ public class UsersServiceImpl implements UsersService {
 	private final UsersMapper usersMapper;
 	private final UserTagsService userTagsService; //DI上手くいかんから定義
 
+	private final Room_mapper room_mapper;
+	private final MatchingMapper matchingMapper;
 	
 		//ハッシュ化追加 キタガワ
 	private PasswordEncoder passwordEncoder;
@@ -91,12 +95,22 @@ public class UsersServiceImpl implements UsersService {
     public Optional<User> findByUsername(String username) {
         return Optional.ofNullable(usersMapper.findByUsername(username));
     }
-	
+	@Override
 	public int getCurrentUserId() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
 		int currentUserId = userDetails.getUserId();
         return currentUserId;
+	}
+
+	@Override
+	public boolean hasRoom(int userId) {
+		return room_mapper.findRoomByUserId(userId) != null;
+	}
+
+	@Override
+	public boolean hasWaitingCondition(int userId) {
+		return matchingMapper.countMatchingByUserId(userId) > 0;
 	}
 
 	 

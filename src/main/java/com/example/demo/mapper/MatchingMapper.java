@@ -38,7 +38,9 @@ public interface MatchingMapper {
 	@Select("SELECT * FROM matching WHERE user_id = #{userId} ORDER BY matching_id DESC LIMIT 1")
 	Matching selectByUserId(@Param("userId") int userId);
 	
-	@Delete("DELETE * FROM mathing WHERE matching_id =#{mayching_id}")
-	void delete(Integer matchingId);
+	@Delete("DELETE  FROM matching WHERE matching_id =#{matching_id}")
+	void delete(@Param("matchimg_id") Integer matching_id);
 	
+	@Select("SELECT COUNT(*) FROM matching WHERE user_id = #{userId}")
+    int countMatchingByUserId(@Param("userId") int userId) ;  // ← hasWaitingCondition用
 }

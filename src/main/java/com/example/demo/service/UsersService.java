@@ -26,4 +26,10 @@ public interface UsersService {
 
 	//CustomUserDetails用
 	Optional<User> findByUsername(String username);
+	
+	boolean hasRoom(int userId);
+	
+	boolean hasWaitingCondition(int userId);
+	
+	int getCurrentUserId(); 
 }
