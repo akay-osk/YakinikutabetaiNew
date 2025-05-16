@@ -17,14 +17,18 @@
 		
 		<!--プロフィールカード-->
 		<div class="profile-card">
+			<!--トップ部分：ID/ユーザーネーム表示-->
 			<div class="profile-top">
 				<span class="user-id" th:text="|ID: ${userId}|">ID:</span>
 				<span class="username" th:text="|ユーザーネーム: ${username}|">ユーザーネーム：</span>
 			</div>
 			
+			<!--真ん中部分：プロフィール画像/ひとこと/好きな部位表示-->
 			<div class="profile-mid">
 				<div class="profile-icon">
-					<img th:if="${profileImageBase64 != null}" th:src="'data:image'" class="profile-img">
+					<img th:if="${profileImageBase64 != null}" 
+						th:src="'data:image/jpeg;base64,' + ${profileImageBase64}" 
+						class="profile-img" alt="画像">
 				</div>
 				<div class="profile-info">
 					<div class="intro-comment" th:text="|ひとこと: ${introComment}|">ひとこと</div>
@@ -44,9 +48,9 @@
 		</div>
 	
 		<nav class="menu">
-			<a href="/profile/editt">
+			<form method="POST" action="/edit" style="display: inline;">>
 				<button class="menu-btn"><span class="icon">✏️</span>プロフィール編集</button>
-			</a>
+			</form>
 			
 			<form method="POST" action="/logout" style="display: inline;">
 				<button type="submit" class="menu-btn"><span class="icon">↩️</span>ログアウト</button>

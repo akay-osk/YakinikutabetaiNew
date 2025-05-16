@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.Base64;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,14 +28,16 @@ public class MypageController {
 		
 		//仮に現在ログインしているユーザーIDが取得済みとする
 		int currentUserId = userService.getCurrentUserId();
-		User user = userService.findByIdUsers(currentUserId);
+		User currentUser = userService.findByIdUsers(currentUserId);
 		
-		model.addAttribute("userId", user.getUser_id());
-		model.addAttribute("username", user.getUser_name());
-		model.addAttribute("introComment", user.getUser_detail());
-		model.addAttribute("favoritePart", user.getUser_likes());
-		model.addAttribute("tags", user.getTag_id());	//List<Integer>
-		model.addAttribute("profileImageBase64", user.getUser_icon());//フロントで画像処理お願いします。
+		System.out.println("Base64 profile image: " + currentUser.getUser_icon());
+		
+		model.addAttribute("userId", currentUser.getUser_id());
+		model.addAttribute("username", currentUser.getUser_name());
+		model.addAttribute("introComment", currentUser.getUser_detail());
+		model.addAttribute("favoritePart", currentUser.getUser_likes());
+		model.addAttribute("tags", currentUser.getTag_id());	//List<Integer>
+		model.addAttribute("profileImageBase64", currentUser.getUser_icon());//フロントで画像処理お願いします。
 		
 		return "Mypage";
 		
@@ -46,8 +46,8 @@ public class MypageController {
 	//プロフィールを編集画面を表示(仮)
 	@GetMapping("/edit")
 	public String showEditProfilePage(Model model) {
-			
-		return "UserProfileEditPage";
+//		model.addAttribute("user", currentUser);
+		return "UserProfileEdit";
 	}
 	
 	//編集されたプロフィールの情報を更新する(仮)
