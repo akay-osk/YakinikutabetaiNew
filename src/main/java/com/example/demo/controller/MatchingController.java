@@ -107,7 +107,7 @@ public class MatchingController {
 		// 結果の表示
 		if (!candidates.isEmpty()) {
 			model.addAttribute("candidates", candidates);
-			return "MatchingResult";
+			return "redirect:/select";
 		} else {
 			model.addAttribute("request", matching);
 			model.addAttribute("notFoundReason", "条件に合うユーザーが見つかりませんでした。条件を緩めて再検索してください。");
@@ -115,45 +115,6 @@ public class MatchingController {
 		}
 	
 	}
-	
-//	
-//	//マッチング候補から一つを選択し、チャットルームに参加する
-//	@PostMapping("/select")
-//	public String selectCandidate(@RequestParam Integer candidateId, @RequestParam Integer myUserId) {
-//		
-//		//すでに2人が参加しているルームがあるか確認
-//		List<Room> allRooms = roomService.getAllRooms();
-//		Room existingRoom = null;
-//		
-//		for(Room r : allRooms) {
-//			List<Integer> users = roomService.getUsersInRoom(r.getRoom_id());
-//			if(users.contains(myUserId) && users.contains(candidateId) && users.size() == 2) {
-//				existingRoom = r;
-//				break;
-//			}
-//		}
-//		
-//		Room room;
-//		 if (existingRoom != null) {
-//		        room = existingRoom;
-//		    } else {
-//		        // 新しいチャットルーム作成
-//		        room = new Room();
-//		        room.set_single(true);
-//		        room.set_full(true);
-//		        room.setDelete_at(null);
-//		        room.setMatching_id(0); // 必要に応じて設定
-//
-//		        roomService.insert(room);
-//
-//		        // 2人をroom_userに登録
-//		        roomService.addUserToRoom(room.getRoom_id(), myUserId);
-//		        roomService.addUserToRoom(room.getRoom_id(), candidateId);
-//		    }
-//
-//		    return "redirect:/Chatroom?room_id=" + room.getRoom_id();
-//	
-//	}
 	
 	@PostMapping("/select")
 	public String selectRoom(@RequestParam Integer selectedRoomId) {
@@ -176,7 +137,11 @@ public class MatchingController {
 	public String showMatchingSucceededPage(Model model) {
 	    List<Room> roomList = roomService.getAllRooms(); // 全ルーム取得でOK
 	    model.addAttribute("roomList", roomList);
-	    return "MatchingResult"; // ← これはHTMLファイル名に合わせて変更
+	    for (Room room : roomList) {
+	        List<RoomUser> roomUsers = roomService.getRoomUser(room.getRoom_id());
+	        room.setRoomUsers(roomUsers);
+	    }
+	    return "MatchingResult"; 
 	}
 
 	@GetMapping("/chatroom")
