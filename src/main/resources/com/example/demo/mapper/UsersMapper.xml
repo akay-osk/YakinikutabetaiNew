@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UsersMapper">
+
+  <resultMap id="userWithTagsResultMap" type="com.example.demo.entity.User">
+    <id property="user_id" column="user_id"/>
+    <result property="user_pass" column="user_pass"/>
+    <result property="user_name" column="user_name"/>
+    <result property="user_age" column="user_age"/>
+    <result property="user_gender" column="user_gender"/>
+    <result property="user_likes" column="user_likes"/>
+    <result property="user_detail" column="user_detail"/>
+    <result property="user_icon" column="user_icon"/>
+    <result property="user_address" column="user_address"/>
+    
+    <!-- tags のリストを JOIN で取得 -->
+    <collection property="tags" ofType="com.example.demo.entity.Tag">
+      <id property="tag_id" column="tag_id"/>
+      <result property="tag_name" column="tag_name"/>
+    </collection>
+  </resultMap>
+
+  <select id="selectByIdUsers" resultMap="userWithTagsResultMap">
+    SELECT u.*, t.tag_id, t.tag_name
+    FROM users u
+    LEFT JOIN user_tags ut ON u.user_id = ut.user_id
+    LEFT JOIN tags t ON ut.tag_id = t.tag_id
+    WHERE u.user_id = #{user_id}
+  </select>
+
+</mapper>

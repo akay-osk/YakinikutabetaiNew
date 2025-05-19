@@ -35,7 +35,7 @@ public interface UsersMapper {
 	void delete(Integer id);
 
 	//ユーザー情報取得
-	@Select("SELECT * FROM users WHERE user_id = #{user_id}")
+//	@Select("SELECT * FROM users WHERE user_id = #{user_id}")
 	User selectByIdUsers(@Param("user_id") Integer id);
 
 	//CustomUserDetails用
