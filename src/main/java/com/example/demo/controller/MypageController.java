@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class MypageController {
 	@GetMapping("/mypage")
 	public String showMypage(Model model) {
 		
-		//仮に現在ログインしているユーザーIDが取得済みとする
+		//現在ログインしているユーザーのIDを取得する
 		int currentUserId = userService.getCurrentUserId();
 		User currentUser = userService.findByIdUsers(currentUserId);
 		
@@ -39,10 +41,13 @@ public class MypageController {
 		model.addAttribute("introComment", currentUser.getUser_detail());
 		model.addAttribute("favoritePart", currentUser.getUser_likes());
 		
+		//タグの取得
 		List<String> tagNames= currentUser.getTags().stream()
 				.map(Tag::getTag_name)
 				.collect(Collectors.toList());
+		//デバッグ用
 		System.out.println(currentUser.getTags());
+		
 		model.addAttribute("tags", tagNames);
 		
 		model.addAttribute("profileImageBase64", currentUser.getUser_icon());//フロントで画像処理お願いします。
@@ -53,8 +58,10 @@ public class MypageController {
 	
 	//プロフィールを編集画面を表示(仮)
 	@GetMapping("/edit")
-	public String showEditProfilePage(Model model) {
-//		model.addAttribute("user", currentUser);
+	public String showEditProfilePage(Model model, Principal principal) {
+		String username= principal.getName();
+		Optional<User> user= userService.findByUsername(username);
+		model.addAttribute("user", user);
 		return "UserProfileEdit";
 	}
 	
