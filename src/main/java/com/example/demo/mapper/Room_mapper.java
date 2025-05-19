@@ -36,7 +36,7 @@ public interface Room_mapper {
 	void deleteRoom(@Param("room_id") int roomId);
 
 	@Insert("INSERT INTO room_user(room_id, user_id) VALUES (#{roomId}, #{userId})")
-	void insertRoomUser(int roomId, int userId);
+	void insertRoomUser(@Param("roomId") int roomId,@Param("userId") int userId);
 
 	@Select("SELECT user_id FROM room_user WHERE room_id = #{roomId}")
 	List<Integer> selectUserIdsInRoom(@Param("roomId") int roomId);
