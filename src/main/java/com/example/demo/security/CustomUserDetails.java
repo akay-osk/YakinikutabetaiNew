@@ -1,8 +1,10 @@
 package com.example.demo.security;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.demo.entity.User;
@@ -25,8 +27,9 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null; // 今回は権限不要のためnull
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
