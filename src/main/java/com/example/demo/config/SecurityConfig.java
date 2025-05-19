@@ -53,7 +53,7 @@ public class SecurityConfig {
 		//★ログアウトを処理するURLを指定
 		.logoutUrl("/logout")
 		//★ログアウト成功時のリダイレクト先を指定("/home")とか
-		.logoutSuccessUrl("/login?logout")
+		.logoutSuccessUrl("/login")
 		//ログアウト時にセッションを無効にする
 		.invalidateHttpSession(true)
 		//ログアウト時にCookieを削除する

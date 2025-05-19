@@ -52,7 +52,7 @@
 				<button class="menu-btn"><span class="icon">✏️</span>プロフィール編集</button>
 			</form>
 			
-			<form method="POST" action="/logout" style="display: inline;">
+				<form th:action="@{/logout}" method="post" th:method="post" style="display: inline;">
 				<button type="submit" class="menu-btn"><span class="icon">↩️</span>ログアウト</button>
 			</form>
 			
