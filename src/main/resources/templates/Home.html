@@ -5,27 +5,15 @@
 	<div th:with="title='HOME'">
 			<div th:replace="common :: common-head(${title})"></div>
 		</div>
-	<!--meta head-->
-	<div th:fragment="common-head(title)">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!--共通css-->
-		<!--導入？のページは仕様が違うようなのでログイン以降のページに適用-->
-		<link th:href="@{/css/home.css}" rel="stylesheet" type="text/css">
-		<!--google font-->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link
-			href="https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&family=Sigmar&display=swap"
-			rel="stylesheet">
-
-	</div>
+		
+		<link rel="stylesheet" href="/css/home.css">
 </head>
 
 <body>
 	<section th:with="title='HOME'">
 			<header th:replace="common :: header(${title})"></header>
 	
-			<!--マッチング状態バナー表示-->
+	<!--マッチング状態バナー表示-->
 	<div class="banner-container">
 	    <div th:if="${hasMatchingRoom}" class="banner matched">
 	        <a th:href="@{/chatroom(room_id=${roomId})}" class="banner-link">✨マッチングが成立しています！チャットルームへ</a>
@@ -92,11 +80,9 @@
 	    <a th:href="@{/mypage}" class="btn-link">マイページへ</a>
 	</div>
 
-
-	<!--footer-->
 	<!--フッター-->
-			<footer th:replace="common :: footer"></footer>
-		</section>
+		<footer th:replace="common :: footer"></footer>
+	</section>
 	
 	
 	<script>
