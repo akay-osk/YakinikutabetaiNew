@@ -1,13 +1,20 @@
 package com.example.demo.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
 
 import lombok.Data;
 
@@ -19,8 +26,10 @@ import lombok.Data;
  */
  
 @Data
+@Entity
 public class User {
-	
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private int user_id; //自動採番
 	
 	@NotBlank(message = "パスワードは必須です")
@@ -52,11 +61,16 @@ public class User {
     @Email(message = "メールアドレスの形式が正しくありません")
 	private String user_address;
 	
-	//選択されたタグのリスト
-	private List<Integer> tag_id;
-	
 	//パスワードアップデート時の一時受け取り（データベースには保存されない）
 	private String newPassword;
+	
+	@ManyToMany
+	@JoinTable(
+		name= "user_tags",
+		joinColumns= @JoinColumn(name= "user_id"),
+		inverseJoinColumns= @JoinColumn(name= "tag_id")
+	)
+	private List<Tag> tags= new ArrayList<>();
 
 }
 

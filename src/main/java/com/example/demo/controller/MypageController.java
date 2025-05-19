@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.entity.Tag;
 import com.example.demo.entity.User;
 import com.example.demo.service.impl.UsersServiceImpl;
 
@@ -30,13 +34,17 @@ public class MypageController {
 		int currentUserId = userService.getCurrentUserId();
 		User currentUser = userService.findByIdUsers(currentUserId);
 		
-		System.out.println("Base64 profile image: " + currentUser.getUser_icon());
-		
 		model.addAttribute("userId", currentUser.getUser_id());
 		model.addAttribute("username", currentUser.getUser_name());
 		model.addAttribute("introComment", currentUser.getUser_detail());
 		model.addAttribute("favoritePart", currentUser.getUser_likes());
-		model.addAttribute("tags", currentUser.getTag_id());	//List<Integer>
+		
+		List<String> tagNames= currentUser.getTags().stream()
+				.map(Tag::getTag_name)
+				.collect(Collectors.toList());
+		System.out.println(currentUser.getTags());
+		model.addAttribute("tags", tagNames);
+		
 		model.addAttribute("profileImageBase64", currentUser.getUser_icon());//フロントで画像処理お願いします。
 		
 		return "Mypage";

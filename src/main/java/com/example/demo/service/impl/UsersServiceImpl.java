@@ -1,7 +1,9 @@
 package com.example.demo.service.impl;
 
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.example.demo.entity.Tag;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.MatchingMapper;
 import com.example.demo.mapper.Room_mapper;
@@ -54,8 +57,11 @@ public class UsersServiceImpl implements UsersService {
 		usersMapper.insert(users);
 		
 		//タグ情報を保存
-		if (users.getTag_id() != null && !users.getTag_id().isEmpty()) {
-		    userTagsService.saveUserTags(users.getUser_id(), users.getTag_id());
+		if (users.getTags() != null && !users.getTags().isEmpty()) {
+			List<Integer> tagIds= users.getTags().stream()
+				.map(Tag::getTag_id)
+				.collect(Collectors.toList());
+		    userTagsService.saveUserTags(users.getUser_id(), tagIds);
 		}
 	}
 	
