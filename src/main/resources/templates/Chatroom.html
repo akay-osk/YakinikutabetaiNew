@@ -1,46 +1,52 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MEAT UP! - チャットルーム</title>
-  <link rel="stylesheet" th:href="@{/css/Chatroom.css}" />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>MEAT UP! - チャットルーム</title>
+	<link rel="stylesheet" th:href="@{/css/Chatroom.css}" />
 </head>
+
 <body>
-  <header>
-    <h1>チャットルーム</h1>
-    <form th:action="@{/chatroom/exit}" method="post" style="display: inline;">
-      <button type="submit" onclick="return confirm('本当に退出しますか？')">退出</button>
-    </form>
-  </header>
+	<!-- ヘッダー -->
+	<header>
+		<div class="reload-wrapper">
+		<div class="reload-icon" onclick="location.reload()" title="再読み込み"></div>
+		</div>
+		<h1>チャットルーム</h1>
+		<form th:action="@{/chatroom/exit}" method="post" style="display: inline;">
+			<button id="exit" type="submit" onclick="return confirm('本当に退出しますか？')">退出</button>
+		</form>
+	</header>
 
-  <main>
-    <!-- 再読み込みボタン -->
-    <form th:action="@{/chatroom}" method="get">
-      <button type="submit">再読み込み</button>
-    </form>
+	<!-- メイン -->
+	<main>
+		
+		<!-- チャット履歴 -->
+		<div id="chat">
+			<ul>
+				<li class="message" th:each="message : ${messages}"
+					th:classappend="${message.user_name == userName} ? ' self' : ' other'">
+					<div class="message-info">
+						<span class="username" th:text="${message.user_name}"></span>
+						<span class="timestamp"
+							th:text="'[' + ${#temporals.format(message.create_at, 'yyyy/MM/dd HH:mm')} + ']'"></span>
+					</div>
+					<div class="message-bubble" th:text="${message.chat_comment}"></div>
+				</li>
+			</ul>
+		</div>
 
-    <!-- チャット履歴 -->
-    <div id="chat">
-      <ul>
-        <li th:each="message : ${messages}"
-            th:classappend="${message.user_name == userName} ? 'self' : 'other'">
-          <div class="message-info">
-            <span th:text="${message.user_name}"></span>
-            <span th:text="'[' + ${#temporals.format(message.created_at, 'HH:mm')} + ']'"></span>
-          </div>
-          <div th:text="${message.chat_comment}"></div>
-        </li>
-      </ul>
-    </div>
-
-    <!-- メッセージ送信フォーム -->
-    <div class="input-area">
-      <form th:action="@{/chatroom/send}" method="post">
-        <input type="text" name="chat_comment" placeholder="メッセージを入力" required />
-        <button type="submit">送信</button>
-      </form>
-    </div>
-  </main>
+		<!-- メッセージ送信フォーム -->
+		<div class="input-area">
+			<form th:action="@{/chatroom/send}" method="post">
+				<input type="text" id="comment" name="chat_comment" placeholder="メッセージを入力" autocomplete="off"
+					required />
+				<button id="send" type="submit">送信</button>
+			</form>
+		</div>
+	</main>
 </body>
+
 </html>
