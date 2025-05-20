@@ -47,13 +47,12 @@
 }
 
 .login-button {
-  /*display: inline-block;*/
+	padding: 10px;
 	display: block;
-	width: 50%;
+	width: 75%;
 	margin: -30px auto 80px;
 	background-color: #FF5722;
-	overflow:hidden;
-	
+	overflow: hidden;
 	border-radius: 8px;
 	transition: background-color 0.3s ease;
 }
