@@ -71,6 +71,7 @@ public class User {
 		inverseJoinColumns= @JoinColumn(name= "tag_id")
 	)
 	private List<Tag> tags= new ArrayList<>();
+	
 
 }
 
