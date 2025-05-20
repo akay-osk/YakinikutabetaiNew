@@ -77,14 +77,18 @@
 							.then(response => response.json())
 							.then(data => {
 								popup.innerHTML = `
-                                    <img src="data:image/png;base64,${data.userIcon}" class="popup-icon" /><br>
-                                    <strong>${data.userName}</strong><br>
-                                    年齢：${data.userAge}歳<br>
+                                    <img src="${data.userIcon}" class="popup-icon" /><br>
+                                    <div><strong>${data.userName}</strong></div>
+                                    <div>年齢：${data.userAge}歳</div>
                                     性別：${data.gender}<br>
-                                    好きな部位：${data.likes}<br>
-                                    詳細：${data.detail}<br>
+                                   <div>好きな部位：${data.likes}</div>
+                                    <div>詳細：${data.detail}</div>
+									<div>
+										</div>
+										<div class="tags">
                                     タグ：${data.tags.map(tags => `<span class="tags">#${tags}</span>`).join(' ')}
-                                `;
+                               			</div>
+									 `;
 								fetched = true;
 								popup.style.display = 'block';
 							});
