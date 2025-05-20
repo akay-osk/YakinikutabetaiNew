@@ -5,7 +5,9 @@ package com.example.demo.controller;
  * 
  */
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.entity.Block;
 import com.example.demo.entity.User;
-import com.example.demo.entity.UserProfile;
 import com.example.demo.service.BlockService;
 import com.example.demo.service.UserTagsService;
 import com.example.demo.service.UsersService;
@@ -44,18 +45,19 @@ public class UserIconController {
 	
 	@GetMapping("/user/detail/{userId}")
 	@ResponseBody
-	public UserProfile getUsersDetails(@PathVariable int userId) {
+	public Map<String,Object> getUsersDetails(@PathVariable int userId) {
 		User user =  usersService.findByIdUsers(userId);
 		List<String> tagNames = userTagsService.getTagNamesForUser(user.getUser_id());
-		return new UserProfile(
-				user.getUser_name(),
-				user.getUser_age(),
-				user.isUser_gender(),
-				user.getUser_likes(),
-				user.getUser_detail(),
-				tagNames,
-				user.getUser_icon()
-				);	
+		
+		Map<String,Object> result = new HashMap<>();
+		result.put("userName", user.getUser_name());
+		result.put("userAge", user.getUser_age());
+		result.put("gender", user.isUser_gender() ? "女性" : "男性");
+		result.put("likes", user.getUser_likes());
+		result.put("detail", user.getUser_detail());
+		result.put("tags", tagNames);
+		result.put("userIcon", user.getUser_icon());
+		return result;
 	}
 	
 	@PostMapping("/block")

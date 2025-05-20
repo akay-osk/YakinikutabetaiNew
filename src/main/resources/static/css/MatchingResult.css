@@ -23,17 +23,22 @@
 }
 
 .tag-text {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: bold;
     color: #333;
-    margin-right: 12px;
+    margin-right: 15px;
     white-space: nowrap;
 }
 
 .tag-icons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+    gap: 0;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;              /* 中央部分を広げて中央に配置 */
+    flex-wrap: nowrap;         /* 折返しを防ぐ */
+    min-width: 0;              /* オーバーフロー対策 */
+    margin: 0 4px;
 }
 
 .user-icon {
@@ -44,15 +49,18 @@
     object-fit: cover;
     border: 2px solid #ccc;
     transition: transform 0.2s ease;
+	margin-right: 0;
 }
 .user-icon:hover {
     transform: scale(1.1);
 }
 
 .radio-button {
-    margin-left: auto;
+   flex-shrink: 0;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    min-width: 80px;
 }
 .radio-button input[type="radio"] {
     transform: scale(1.2);
@@ -69,17 +77,42 @@
 
 .user-item {
     display: flex;
-    align-items: center;
+    align-items: center;              /* 縦中央揃え */
+    justify-content: space-between;  /* 左・中央・右の配置 */
+    width: 100%;
     margin-bottom: 10px;
+    min-height: 60px;
+    padding: 10px 5x;
+    box-sizing: border-box;
 }
 
-.user-icon-wrapper {
-    margin-right: 10px;
+.user-label {
+    font-weight: bold;
+    font-size: 15px;
+    white-space: nowrap;
+    margin-left: 0;
+	padding-left: 0;
+    flex-shrink: 0;
 }
 
-.radio-button {
-    margin-left: 10px;
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+	flex-shrink: 1;
+    flex-grow: 1;
+	min-width:0;
 }
+
+.user-icon-wrapper{
+	 margin-left: 10px;
+	display: flex;
+    align-items: center;
+	position: relative;
+
+}
+
+
 
 .join-button {
     display: block;
@@ -108,12 +141,25 @@
 .popup-profile {
     display: none;
     position: absolute;
-    background-color: #f0f0f0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: #f2f7e8;
+    padding: 15px;
+	left : 50%;
+	bottom : 100%;
+	transform: translateX(-50%);
+    border: 3px solid #000;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     z-index: 1100;
+	width: 300px;
+	max-width: 90vw;
+	font-size: 14px;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	   opacity: 0;
+}
+
+.user-icon-wrapper:hover .popup-profile {
+    display: block;
+    opacity: 1;
 }
 
 /* ボタン共通スタイル */

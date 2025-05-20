@@ -17,13 +17,13 @@ CREATE TABLE users(
 	-- パスワード : 
 	user_pass VARCHAR(100) NOT NULL,
 	-- 登録名
-	user_name VARCHAR(50) NOT NULL,
+	user_name VARCHAR(10) NOT NULL,
 	-- 年齢
 	user_age INTEGER NOT NULL,
 	-- 性別
 	user_gender BOOLEAN NOT NULL,
 	-- 好きな部位
-	user_likes VARCHAR(20),
+	user_likes VARCHAR(7),
 	-- 紹介文
 	user_detail VARCHAR(15),
 	-- アイコン
