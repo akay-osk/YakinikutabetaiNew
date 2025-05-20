@@ -8,7 +8,6 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,12 +35,11 @@ public class UserIconController {
 	
 	@GetMapping("/user/icon/{userId}")
 	@ResponseBody
-	public ResponseEntity<String> getUserIcon(@PathVariable int userId) {
+	public String getUserIcon(@PathVariable int userId) {
 	    User user = usersService.findByIdUsers(userId);
-	    return ResponseEntity.ok()
-	        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-	        .body(user.getUser_icon());//String型に変更、表でBase64文字列から画像バイナリに変換して返す
-	}
+	    return "data:image/jpeg;base64," + user.getUser_icon();
+	    }
+	
 
 	
 	@GetMapping("/user/detail/{userId}")
@@ -55,7 +53,8 @@ public class UserIconController {
 				user.isUser_gender(),
 				user.getUser_likes(),
 				user.getUser_detail(),
-				tagNames
+				tagNames,
+				user.getUser_icon()
 				);	
 	}
 	

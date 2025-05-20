@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- RoomUserMapper.xml -->
+<resultMap id="RoomUserResultMap" type="com.example.demo.entity.RoomUser">
+    <id property="room_id" column="room_id" />
+    <id property="user_id" column="user_id" />
+    
+    <!-- Userの情報をassociationでネスト -->
+    <association property="user" javaType="com.example.demo.entity.User">
+        <id property="user_id" column="user_id" />
+        <result property="user_name" column="user_name" />
+        <result property="user_icon" column="user_icon" />
+        <!-- 必要に応じて他のUserプロパティもここに -->
+    </association>
+</resultMap>
+
+<!-- RoomUser一覧をroom_idで取得 -->
+<select id="selectRoomUsersByRoomId" parameterType="int" resultMap="RoomUserResultMap">
+    SELECT
+        ru.room_id,
+        ru.user_id,
+        u.user_name,
+        u.user_icon
+    FROM
+        room_user ru
+        INNER JOIN user u ON ru.user_id = u.user_id
+    WHERE
+        ru.room_id = #{roomId}
+</select>

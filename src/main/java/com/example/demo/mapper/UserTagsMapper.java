@@ -44,7 +44,7 @@ public interface UserTagsMapper {
 		})
 		void insertUserTags(@Param("userTags") List<UserTags> userTags);
 
-	@Select("SELECT t.name FROM user_tags ut JOIN tag t ON ut.tag_id = t.id WHERE ut.user_id =#{userId}")
+	@Select("SELECT t.tag_name FROM user_tags ut JOIN tags t ON ut.tag_id = t.tag_id WHERE ut.user_id =#{userId}")
 	List<String> findTagNamesByUserId(@Param("userId") int userId);
 
 }

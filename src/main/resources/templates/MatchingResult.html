@@ -29,10 +29,16 @@
 	            <div class="tag-icons">
 	                <div th:each="roomUser, stat : ${room.roomUsers}" th:if="${stat.index} < 3" class="user-item">
 	                    <!-- ユーザーアイコン -->
-	                    <div class="user-icon-wrapper">
-	                        <img th:src="@{'/user/icon/' + ${roomUser.user.user_icon}}" class="user-icon" th:alt="${roomUser.user.user_name}"
-	                             th:attr="data-user-id=${roomUser.user.user_id}">
-	                    </div>
+						<div class="user-icon-wrapper">
+							<img th:if="${roomUser.user.user_icon != null}"
+							     th:src="${roomUser.user.user_icon}"
+							     class="user-icon"
+							     th:alt="${roomUser.user.user_name}"
+							     th:data-user-id="${roomUser.user.user_id}" />
+
+
+
+
   						<!-- ポップアップ用プロフィール -->
 	                    <div class="popup-profile" th:id="'popup-profile-' + ${roomUser.user.user_id}">
 	                        <!-- Ajaxで補完される領域 -->
@@ -63,7 +69,7 @@
 		document.addEventListener("DOMContentLoaded", () => {
 		    document.querySelectorAll('.user-icon-wrapper').forEach(wrapper => {
 		        const icon = wrapper.querySelector('.user-icon');
-				const popup = wrapper.parentElement.querySelector('.popup-profile');
+				const popup = wrapper.querySelector('.popup-profile');
 		        const userId = icon.getAttribute("data-user-id");
 
 		        let fetched = false;
@@ -74,12 +80,13 @@
 		                    .then(response => response.json())
 		                    .then(data => {
 		                        popup.innerHTML = ` 
+								<img src="data:image/png;base64,${data.userIcon}" class="popup-icon" /><br>
 		                            <strong>${data.userName}</strong><br>
 		                            年齢：${data.userAge}歳<br>
 		                            性別：${data.gender}<br>
 		                            好きな部位：${data.likes}<br>
 		                            詳細：${data.detail}<br>
-		                            タグ：${data.tags.map(tag => `<span class="tag">#${tag}</span>`).join(' ')}
+		                            タグ：${data.tags.map(tags => `<span class="tags">#${tags}</span>`).join(' ')}
 		                        `;
 		                        fetched = true;
 		                        popup.style.display = 'block';

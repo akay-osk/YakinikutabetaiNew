@@ -18,14 +18,16 @@ public class UserProfile {
 	private String likes;
 	private String detail;
 	private List<String> tagNames;
+	private String userIcon;
 
-	public UserProfile(String userName, int userAge, boolean gender, String likes, String detail, List<String> tagNames) {
+	public UserProfile(String userName, int userAge, boolean gender, String likes, String detail, List<String> tagNames, String userIcon) {
 		this.userName = userName;
 		this.userAge = userAge;
 		this.gender = gender ? "女性" : "男性";
 		this.likes = likes;
 		this.detail = detail;
 		this.tagNames = tagNames;
+		this.userIcon = userIcon;
 	}
 	
 	

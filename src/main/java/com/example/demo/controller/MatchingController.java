@@ -135,6 +135,10 @@ public class MatchingController {
 
 	@GetMapping("/select")
 	public String showMatchingSucceededPage(Model model) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+	    Integer userId = userDetails.getUserId();
+	    
 	    List<Room> roomList = roomService.getAllRooms(); // 全ルーム取得でOK
 	    model.addAttribute("roomList", roomList);
 	    for (Room room : roomList) {
@@ -183,6 +187,18 @@ public class MatchingController {
 	    Integer userId = userDetails.getUserId();
 
 	    model.addAttribute("user_id", userId);
+	    
+	    List<Room> roomList = roomService.getAllRooms();
+	    model.addAttribute("roomList", roomList);
+	    for (Room room : roomList) {
+	        List<RoomUser> roomUsers = roomService.getRoomUser(room.getRoom_id());
+	        for (RoomUser ru : roomUsers) {
+	            System.out.println("User: " + ru.getUser().getUser_name() + ", Icon length: " 
+	                + (ru.getUser().getUser_icon() == null ? "null" : ru.getUser().getUser_icon().length()));
+	        }
+	        room.setRoomUsers(roomUsers);
+	    }
+	    
 	    return "MatchingNotFound";
 	}
 
