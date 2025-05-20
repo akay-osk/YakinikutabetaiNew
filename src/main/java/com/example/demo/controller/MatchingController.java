@@ -116,21 +116,26 @@ public class MatchingController {
 	
 	}
 	
-	@PostMapping("/select")
-	public String selectRoom(@RequestParam Integer selectedRoomId) {
+	@PostMapping("/chatroom")
+	public String selectRoom(@RequestParam Integer selectedRoomId, Model model) {
 
 	    // ログイン中のユーザー情報を取得
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 	    Integer myUserId = userDetails.getUserId();
 
-	    // ルームにユーザーを追加
+	    // ルームにユーザーを追加（まだ参加していなければ）
 	    if (roomService.findRoomByUserId(myUserId) == null) {
-	    	roomService.addUserToRoom(selectedRoomId, myUserId);
+	        roomService.addUserToRoom(selectedRoomId, myUserId);
 	    }
-	    // チャットルームに遷移
+
+	    // モデルにroomIdをセット（Thymeleafテンプレートで使うため）
+	    model.addAttribute("roomId", selectedRoomId);
+
+	    // チャットルームのThymeleafテンプレートに遷移
 	    return "Chatroom";
 	}
+
 
 	@GetMapping("/select")
 	public String showMatchingSucceededPage(Model model) {

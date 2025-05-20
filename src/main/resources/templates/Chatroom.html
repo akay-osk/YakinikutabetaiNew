@@ -1,143 +1,46 @@
 <!DOCTYPE html>
-<html lang="ja">
-
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>MEAT UP! - チャットルーム</title>
-	<link rel="stylesheet" href="/css/Chatroom.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MEAT UP! - チャットルーム</title>
+  <link rel="stylesheet" th:href="@{/css/Chatroom.css}" />
 </head>
-
 <body>
-	<header>
-		<h1>チャットルーム</h1>
-		<button id="exit">退出</button>
-	</header>
+  <header>
+    <h1>チャットルーム</h1>
+    <form th:action="@{/chatroom/exit}" method="post" style="display: inline;">
+      <button type="submit" onclick="return confirm('本当に退出しますか？')">退出</button>
+    </form>
+  </header>
 
-	<main>
-		<div id="chat"></div>
+  <main>
+    <!-- 再読み込みボタン -->
+    <form th:action="@{/chatroom}" method="get">
+      <button type="submit">再読み込み</button>
+    </form>
 
-		<button id="reload">再読み込み</button>
-		<div class="input-area">
-			<input type="text" id="comment" placeholder="メッセージを入力" />
-			<button id="send">送信</button>
-		</div>
-	</main>
+    <!-- チャット履歴 -->
+    <div id="chat">
+      <ul>
+        <li th:each="message : ${messages}"
+            th:classappend="${message.user_name == userName} ? 'self' : 'other'">
+          <div class="message-info">
+            <span th:text="${message.user_name}"></span>
+            <span th:text="'[' + ${#temporals.format(message.created_at, 'HH:mm')} + ']'"></span>
+          </div>
+          <div th:text="${message.chat_comment}"></div>
+        </li>
+      </ul>
+    </div>
 
-	<script>
-		const chatBox = document.getElementById("chat");
-		const commentInput = document.getElementById("comment");
-		const sendButton = document.getElementById("send");
-		const reloadButton = document.getElementById("reload");
-		const exitButton = document.getElementById("exit");
-
-		// ユーザー名取得
-		async function fetchUserName() {
-			try {
-				const res = await fetch('/getUserName');
-				if (res.ok) {
-					const userName = await res.text();  // ユーザー名を取得
-					console.log("Current user name:", userName);
-					return userName;  // ユーザー名を返す
-				} else {
-					throw new Error("認証されていないユーザーです");
-				}
-			} catch (error) {
-				console.error("Error fetching user name:", error);
-				alert(error.message);  // エラーメッセージを表示
-				return null;
-			}
-		}
-
-		// チャット履歴を取得
-		async function fetchChatHistory(userName) {
-			try {
-				const res = await fetch('/chatroom/history');
-				if (!res.ok) throw new Error('履歴取得失敗');
-				const messages = await res.json();
-
-				if (userName) {
-					displayMessages(messages, userName);  // ユーザー名を引数として渡して表示
-				}
-			} catch (err) {
-				console.error("履歴取得エラー:", err);
-				chatBox.innerHTML = "<p>チャット履歴の取得に失敗しました。</p>";
-			}
-		}
-
-		// チャットメッセージを表示
-		function displayMessages(messages, userName) {
-			chatBox.innerHTML = '';  // 古いメッセージをクリア
-			messages.forEach(message => {
-				const messageElement = document.createElement('div');
-				const isSelf = message.user_name === userName;
-
-				messageElement.classList.add('message');
-				messageElement.classList.add(isSelf ? 'self' : 'other');
-
-				messageElement.innerHTML = `
-		            <div class="message-info">${message.user_name} [${message.created_at}]</div>
-		            <div>${message.chat_comment}</div>
-		        `;
-
-				chatBox.appendChild(messageElement);
-			});
-
-			chatBox.scrollTop = chatBox.scrollHeight;
-		}
-
-		// 初回読み込み時にユーザー名を取得して履歴を表示
-		window.addEventListener("DOMContentLoaded", async () => {
-			const userName = await fetchUserName();
-			if (userName) {
-				await fetchChatHistory(userName);
-			}
-		});
-
-		// メッセージ送信
-		sendButton.addEventListener("click", async () => {
-			const comment = commentInput.value.trim();
-			if (!comment) return;
-
-			try {
-				const res = await fetch('/chatroom/insert', {
-					method: 'POST',
-					headers: {'Content-Type': 'application/json'},
-					body: JSON.stringify({chat_comment: comment})
-				});
-
-				if (!res.ok) throw new Error("送信失敗");
-				commentInput.value = '';
-				const userName = await fetchUserName();  // ユーザー名を取得
-				await fetchChatHistory(userName); // 送信後に履歴再読み込み
-			} catch (err) {
-				console.error("送信エラー:", err);
-				alert("メッセージの送信に失敗しました。");
-			}
-		});
-
-		// 再読み込み
-		reloadButton.addEventListener("click", async () => {
-			const userName = await fetchUserName();
-			if (userName) {
-				await fetchChatHistory(userName);
-			}
-		});
-
-		// 退出処理
-		exitButton.addEventListener("click", async () => {
-			if (!confirm("本当に退出しますか？")) return;
-
-			try {
-				const res = await fetch('/chatroom/exit', {method: 'POST'});
-				if (!res.ok) throw new Error("退出失敗");
-				window.location.href = "/home";
-			} catch (err) {
-				console.error("退出エラー:", err);
-				alert("退出に失敗しました。");
-			}
-		});
-	</script>
+    <!-- メッセージ送信フォーム -->
+    <div class="input-area">
+      <form th:action="@{/chatroom/send}" method="post">
+        <input type="text" name="chat_comment" placeholder="メッセージを入力" required />
+        <button type="submit">送信</button>
+      </form>
+    </div>
+  </main>
 </body>
-
 </html>
