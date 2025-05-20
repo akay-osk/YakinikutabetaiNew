@@ -1,18 +1,16 @@
 package com.example.demo.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
-import jakarta.validation.Valid;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Chat;
 import com.example.demo.entity.Room;
@@ -60,20 +58,19 @@ public class ChatController {
 
     // メッセージ送信
     @PostMapping("/send")
-    public String sendMessage(@Valid @ModelAttribute Chat chat, BindingResult result) {
-        if (result.hasErrors()) {
-            return "redirect:/chatroom"; // エラーがあっても戻る（必要ならバリデーションエラーを画面に出す）
-        }
-
+    public String sendMessage(@RequestParam("chat_comment") String chatComment) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
         int userId = userDetails.getUserId();
 
         Room room = room_service.findRoomByUserId(userId);
         if (room != null) {
+            Chat chat = new Chat();
             chat.setRoom_id(room.getRoom_id());
             chat.setUser_id(userId);
             chat.setUser_name(userDetails.getUsername());
+            chat.setChat_comment(chatComment);
+            chat.setCreate_at(LocalDateTime.now());
             chat_service.insertChat(chat);
         }
 
