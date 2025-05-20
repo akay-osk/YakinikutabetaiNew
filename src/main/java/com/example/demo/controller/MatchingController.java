@@ -116,22 +116,26 @@ public class MatchingController {
 	
 	}
 	
-	@PostMapping("/select")
-	public String selectRoom(@RequestParam Integer selectedRoomId) {
+	@PostMapping("/chatroom")
+	public String selectRoom(@RequestParam Integer selectedRoomId, Model model) {
 
 	    // ログイン中のユーザー情報を取得
-	    org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 	    Integer myUserId = userDetails.getUserId();
 
-	    
-	    
-	    // ルームにユーザーを追加
-	    roomService.addUserToRoom(selectedRoomId, myUserId);
+	    // ルームにユーザーを追加（まだ参加していなければ）
+	    if (roomService.findRoomByUserId(myUserId) == null) {
+	        roomService.addUserToRoom(selectedRoomId, myUserId);
+	    }
 
-	    // チャットルームに遷移
-	    return "redirect:/chatroom?room_id=" + selectedRoomId;
+	    // モデルにroomIdをセット（Thymeleafテンプレートで使うため）
+	    model.addAttribute("roomId", selectedRoomId);
+
+	    // チャットルームのThymeleafテンプレートに遷移
+	    return "Chatroom";
 	}
+
 
 	@GetMapping("/select")
 	public String showMatchingSucceededPage(Model model) {
@@ -147,21 +151,6 @@ public class MatchingController {
 	    }
 	    return "MatchingResult"; 
 	}
-
-	@GetMapping("/chatroom")
-	public String showChatRoom(@RequestParam("room_id") Integer roomId, Model model) {
-	    // roomIdを使って必要な情報を取得
-	    Room room = roomService.selectById(roomId);
-	    model.addAttribute("room", room);
-	    
-	    List<RoomUser> users = roomService.getRoomUser(roomId);
-	    model.addAttribute("roomUsers", users);
-	    
-	    return "ChatRoom"; // ← 実際のチャット画面のHTML名
-	}
-
-	
-	
 
 	@GetMapping("/check-status")
 	@ResponseBody

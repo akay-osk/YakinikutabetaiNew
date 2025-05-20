@@ -1,107 +1,112 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-	<div th:with ="title='MATCHING'">
+	<div th:with="title='MATCHING'">
 		<div th:replace="common :: common-head(${title})"></div>
-				</div>
-			<!--meta head-->
-			<div th:fragment="common-head(title)">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
-			<link th:href="@{/css/MatchingResult.css}" rel="stylesheet" type="text/css">
-</div>
+	</div>
+
+	<!-- meta head -->
+	<div th:fragment="common-head(title)">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link th:href="@{/css/MatchingResult.css}" rel="stylesheet" type="text/css">
+	</div>
 </head>
 
 <body>
-	<!--headder-->
+	<!-- header -->
 	<section th:with="title='MATCHING'">
-				<header th:replace="common :: header(${title})"></header>
+		<header th:replace="common :: header(${title})"></header>
 
-	
-	<form action="/select" method="post"style="padding-bottom: 80px">
-	    <div class="tag-candidates">
-	        <div class="tag-option-row" th:each="room : ${roomList}">
-				<div class="user-item">
-			
-				
-				<span class="tag-text">参加中のユーザー</span>
+		<!-- POSTで/chatroomに送信 -->
+		<form id="roomForm" th:action="@{/chatroom}" th:method="post" style="padding-bottom: 80px">
+			<!-- CSRFトークン -->
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-	            <div class="tag-icons">
-	                <div th:each="roomUser, stat : ${room.roomUsers}" th:if="${stat.index} < 3" class="user-item">
-	                    <!-- ユーザーアイコン -->
-						<div class="user-icon-wrapper">
-							<img th:if="${roomUser.user.user_icon != null}"
-							     th:src="${roomUser.user.user_icon}"
-							     class="user-icon"
-							     th:alt="${roomUser.user.user_name}"
-							     th:data-user-id="${roomUser.user.user_id}" />
+			<div class="tag-candidates">
+				<div class="tag-option-row" th:each="room : ${roomList}">
+					<div class="user-item">
+						<span class="tag-text">参加中のユーザー</span>
 
+						<div class="tag-icons">
+							<div th:each="roomUser, stat : ${room.roomUsers}" th:if="${stat.index} < 3"
+								class="user-item">
+								<div class="user-icon-wrapper">
+									<img th:if="${roomUser.user.user_icon != null}" th:src="${roomUser.user.user_icon}"
+										class="user-icon" th:alt="${roomUser.user.user_name}"
+										th:data-user-id="${roomUser.user.user_id}" />
 
+									<div class="popup-profile" th:id="'popup-profile-' + ${roomUser.user.user_id}">
+										<!-- Ajaxで補完される領域 -->
+									</div>
+								</div>
+							</div>
 
-
-  						<!-- ポップアップ用プロフィール -->
-	                    <div class="popup-profile" th:id="'popup-profile-' + ${roomUser.user.user_id}">
-	                        <!-- Ajaxで補完される領域 -->
-	                    </div>
-	                    </div>
-	                </div>	
-						<!-- ラジオボタン -->
-					  <div class="radio-button">
-					    <label>
-					      <input type="radio" name="selectedRoomId" th:value="${room.room_id}" required>
-					    </label>
+							<!-- ラジオボタン -->
+							<div class="radio-button">
+								<label>
+									<input type="radio" name="selectedRoomId" th:value="${room.room_id}" required>
+								</label>
+							</div>
+						</div>
+					</div>
 				</div>
-	            </div>
-	        </div>
-	    </div>
+			</div>
 
-	    <!-- 参加するボタン -->
-	    <button type="submit" class="join-button">参加する</button>
+			<!-- 参加するボタン -->
+			<button type="submit" class="join-button">参加する</button>
 
-		<!-- ホームに戻るボタン　-->
-		<a href="/home" class="btn" style="margin-left: 10px;">ホームに戻る</a>
+			<!-- ホームに戻るボタン -->
+			<a href="/home" class="btn" style="margin-left: 10px;">ホームに戻る</a>
+		</form>
 
-			</form>
-	<!--footer-->
-	<footer th:replace="common :: footer"></footer>
-		</section>
+		<!-- footer -->
+		<footer th:replace="common :: footer"></footer>
+	</section>
+
+	<!-- プロフィールポップアップのJS -->
 	<script>
 		document.addEventListener("DOMContentLoaded", () => {
-		    document.querySelectorAll('.user-icon-wrapper').forEach(wrapper => {
-		        const icon = wrapper.querySelector('.user-icon');
+			document.querySelectorAll('.user-icon-wrapper').forEach(wrapper => {
+				const icon = wrapper.querySelector('.user-icon');
 				const popup = wrapper.querySelector('.popup-profile');
-		        const userId = icon.getAttribute("data-user-id");
+				const userId = icon.getAttribute("data-user-id");
 
-		        let fetched = false;
+				let fetched = false;
 
-		        icon.addEventListener('mouseenter', () => {
-		            if (!fetched) {
-		                fetch(`/user/detail/${userId}`)
-		                    .then(response => response.json())
-		                    .then(data => {
-		                        popup.innerHTML = ` 
-								<img src="data:image/png;base64,${data.userIcon}" class="popup-icon" /><br>
-		                            <strong>${data.userName}</strong><br>
-		                            年齢：${data.userAge}歳<br>
-		                            性別：${data.gender}<br>
-		                            好きな部位：${data.likes}<br>
-		                            詳細：${data.detail}<br>
-		                            タグ：${data.tags.map(tags => `<span class="tags">#${tags}</span>`).join(' ')}
-		                        `;
-		                        fetched = true;
-		                        popup.style.display = 'block';
-		                    });
-		            } else {
-		                popup.style.display = 'block';
-		            }
-		        });
+				icon.addEventListener('mouseenter', () => {
+					if (!fetched) {
+						fetch(`/user/detail/${userId}`)
+							.then(response => response.json())
+							.then(data => {
+								popup.innerHTML = `
+                                    <img src="${data.userIcon}" class="popup-icon" /><br>
+                                    <div><strong>${data.userName}</strong></div>
+                                    <div>年齢：${data.userAge}歳</div>
+                                    性別：${data.gender}<br>
+                                    <div>好きな部位：${data.likes}</div>
+                                    <div>詳細：${data.detail}</div>
+                                    
+									<div>
+										</div>
+<div class="tags">
+                                        タグ：${data.tags.map(tags => `<span class="tags">#${tags}</span>`).join(' ')}
+                                    </div>
+                                `;
+								fetched = true;
+								popup.style.display = 'block';
+							});
+					} else {
+						popup.style.display = 'block';
+					}
+				});
 
-		        wrapper.addEventListener('mouseleave', () => {
-		            popup.style.display = 'none';
-		        });
-		    });
+				wrapper.addEventListener('mouseleave', () => {
+					popup.style.display = 'none';
+				});
+			});
 		});
 	</script>
-
 </body>
+
 </html>
