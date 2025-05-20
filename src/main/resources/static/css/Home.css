@@ -4,8 +4,6 @@
 body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
-    background-color: #fffdf9;
-    color: #333;
     padding:80px 10px 100px; /* ヘッダー＋フッター分の余白を確保 */
     box-sizing: border-box;
 }

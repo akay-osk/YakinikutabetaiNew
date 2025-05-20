@@ -18,8 +18,11 @@
 	<section th:with="title='MATCHING'">
 		<header th:replace="common :: header(${title})"></header>
 
-		<!-- idを付けたフォーム（submitイベントをJSで処理） -->
-		<form id="roomForm" style="padding-bottom: 80px">
+		<!-- POSTで/chatroomに送信 -->
+		<form id="roomForm" th:action="@{/chatroom}" th:method="post" style="padding-bottom: 80px">
+			<!-- CSRFトークン -->
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
 			<div class="tag-candidates">
 				<div class="tag-option-row" th:each="room : ${roomList}">
 					<div class="user-item">
@@ -61,7 +64,7 @@
 		<footer th:replace="common :: footer"></footer>
 	</section>
 
-	<!-- 既存のプロフィールポップアップ処理 -->
+	<!-- プロフィールポップアップのJS -->
 	<script>
 		document.addEventListener("DOMContentLoaded", () => {
 			document.querySelectorAll('.user-icon-wrapper').forEach(wrapper => {
@@ -81,14 +84,15 @@
                                     <div><strong>${data.userName}</strong></div>
                                     <div>年齢：${data.userAge}歳</div>
                                     性別：${data.gender}<br>
-                                   <div>好きな部位：${data.likes}</div>
+                                    <div>好きな部位：${data.likes}</div>
                                     <div>詳細：${data.detail}</div>
+                                    
 									<div>
 										</div>
-										<div class="tags">
-                                    タグ：${data.tags.map(tags => `<span class="tags">#${tags}</span>`).join(' ')}
-                               			</div>
-									 `;
+<div class="tags">
+                                        タグ：${data.tags.map(tags => `<span class="tags">#${tags}</span>`).join(' ')}
+                                    </div>
+                                `;
 								fetched = true;
 								popup.style.display = 'block';
 							});
@@ -101,35 +105,8 @@
 					popup.style.display = 'none';
 				});
 			});
-
-			//参加フォーム送信イベント処理（fetch＋遷移）
-			const form = document.getElementById("roomForm");
-			form.addEventListener("submit", function (event) {
-				event.preventDefault(); // 通常送信をキャンセル
-
-				const selectedRoomId = form.querySelector("input[name='selectedRoomId']:checked")?.value;
-				if (!selectedRoomId) {
-					alert("ルームを選択してください。");
-					return;
-				}
-
-				fetch("/select", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/x-www-form-urlencoded"
-					},
-					body: `selectedRoomId=${encodeURIComponent(selectedRoomId)}`
-				})
-					.then(response => {
-						if (!response.ok) throw new Error("参加に失敗しました");
-						// 遷移先：Chatroom.html
-						window.location.href = `/Chatroom.html?roomId=${selectedRoomId}`;
-					})
-					.catch(error => {
-						alert("エラーが発生しました：" + error.message);
-					});
-			});
 		});
 	</script>
 </body>
+
 </html>
