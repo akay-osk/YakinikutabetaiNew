@@ -23,16 +23,9 @@ public interface UserTagsMapper {
 	List<Integer> selectTagsByUserId(Integer user_id);
 	
 	//指定されたタグを削除
-	@Delete({
-		"<script>",
-        "DELETE FROM user_tags WHERE user_id = #{userId} AND tag_id IN",
-        "<foreach collection='tagsToRemove' item='tag' open='(' separator=',' close=')'>",
-        "#{tag}",
-        "</foreach>",
-        "</script>"
-    	})
-		void deleteTags(@Param("userId") Integer userId, @Param("tagsToRemove") List<Integer> tagsToRemove);
-
+	@Delete("DELETE FROM user_tags WHERE user_id = #{userId}")
+	void deleteAllTagsByUserId(@Param("userId") Integer userId);
+	
 	// 新しいタグの登録
 	@Insert({
 		"<script>",
