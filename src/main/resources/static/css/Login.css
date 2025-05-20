@@ -1,6 +1,14 @@
 /*作成者ナカムラ*/
 
 @charset "UTF-8";
+/*loginのみヘッダーのスタイルちょい変えてる*/
+
+#login .header .header_inner .upper {
+    height: 15px;
+}
+#login .header .header_inner .upper .logo {
+    display: none;
+}
 
 /* フォーム */
 .login-form {
