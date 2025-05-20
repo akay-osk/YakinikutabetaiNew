@@ -39,6 +39,6 @@ public interface UsersMapper {
 	User selectByIdUsers(@Param("user_id") Integer id);
 
 	//CustomUserDetails用
-	@Select("SELECT * FROM users WHERE user_name = #{user_name}")
-	User findByUsername(String username);
+	@Select("SELECT user_id, user_name, user_pass FROM users WHERE user_name = #{user_name}")
+	User findByUsername(@Param("user_name") String username);
 }
