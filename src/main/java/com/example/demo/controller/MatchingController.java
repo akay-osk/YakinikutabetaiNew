@@ -72,7 +72,7 @@ public class MatchingController {
 	    	// 🔽 マッチング中のルームIDを取得して渡す
 	    	if (room != null) {
 	    		List<Integer> usersInRoom = room_mapper.selectUserIdsInRoom(room.getRoom_id());
-	    		if (usersInRoom != null && usersInRoom.size() >= 1) {
+	    		if (usersInRoom != null && usersInRoom.size() >= 2) {
             // 2人以上いるならバナー表示
             hasMatchingRoom = true;
             roomIdToShow = room.getRoom_id();
@@ -83,7 +83,7 @@ public class MatchingController {
 	        model.addAttribute("matching", new Matching());
 	        model.addAttribute("hasMatchingRoom", hasMatchingRoom);
 	        model.addAttribute("isWaitingForMatch", isWaitingForMatch); 
-	         model.addAttribute("roomId", roomIdToShow); 
+	        model.addAttribute("roomId", roomIdToShow); 
 	        
 	   
 	        return "Home";  // ← HTMLファイル名が Home.html の場合
@@ -144,11 +144,31 @@ public class MatchingController {
 	    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 	    Integer myUserId = userDetails.getUserId();
 
-	    // ルームにユーザーを追加（まだ参加していなければ）
-	    if (roomService.findRoomByUserId(myUserId) == null) {
-	        roomService.addUserToRoom(selectedRoomId, myUserId);
-	    }
+	     // ✅ 現在所属しているルームがあれば削除
+    Room currentRoom = roomService.findRoomByUserId(myUserId);
+    if (currentRoom != null) {
+        int currentRoomId = currentRoom.getRoom_id();
 
+        // 中間テーブルから削除
+        room_mapper.deleteByUserId(myUserId);
+
+        // ルームに他のユーザーがいなければ削除
+        List<Integer> remainingUsers = room_mapper.selectUserIdsInRoom(currentRoomId);
+        if (remainingUsers == null || remainingUsers.isEmpty()) {
+            roomService.delete(currentRoomId);
+        }
+    }
+
+    // 🔁 新しいルームに参加
+    roomService.addUserToRoom(selectedRoomId, myUserId);
+
+    Matching matching = matchingService.findByUserId(myUserId);
+    if (matching != null) {
+        matchingService.delete(matching.getMatching_id());
+    }
+
+    model.addAttribute("roomId", selectedRoomId);
+    
 	    // モデルにroomIdをセット（Thymeleafテンプレートで使うため）
 	    model.addAttribute("roomId", selectedRoomId);
 
@@ -178,7 +198,7 @@ public class MatchingController {
             matchedRooms.add(room);
 	        }
 	    }
-	     model.addAttribute("roomList", roomList);
+	     model.addAttribute("roomList", matchedRooms);
 	    return "MatchingResult"; 
 	}
 

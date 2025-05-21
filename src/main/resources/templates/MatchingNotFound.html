@@ -49,7 +49,7 @@
 			fetch(`/check-status?userId=${userId}`)
 				.then(response => response.json())
 				.then(data => {
-					if (data.matched && data.roomId) {
+					if (data.matched && data.roomId && data.userCount >= 2) {
 						window.location.href = `/chatroom?room_id=${data.roomId}`;
 					}
 				})

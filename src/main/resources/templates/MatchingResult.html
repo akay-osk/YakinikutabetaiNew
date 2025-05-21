@@ -21,7 +21,7 @@
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		
 			<div class="tag-candidates">
-				<div class="tag-option-row" th:each="room : ${roomList}">
+				<div class="tag-option-row" th:each="room, stat : ${roomList}" th:if="${stat.index} < 3">
 					<div class="user-item">
 						<span class="tag-text">参加中のユーザー</span>
 
