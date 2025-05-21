@@ -16,6 +16,7 @@ import com.example.demo.entity.Chat;
 import com.example.demo.entity.Room;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.Chat_service;
+import com.example.demo.service.MatchingService;
 import com.example.demo.service.Room_service;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,8 @@ public class ChatController {
 
     private final Chat_service chat_service;
     private final Room_service room_service;
+    private final MatchingService matchingService;
+
 
     // チャットルーム画面表示（履歴読み込み）
     @GetMapping
@@ -84,6 +87,8 @@ public class ChatController {
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
         int userId = userDetails.getUserId();
 
+        matchingService.delete(matchingService.findByUserId(userId).getMatching_id());
+        
         room_service.exitByUserId(userId);
         return "redirect:/home"; // ホーム画面へリダイレクト
     }
