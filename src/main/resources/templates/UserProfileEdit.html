@@ -26,8 +26,8 @@
 		<!-- パスワード（任意） -->
         <div class="input-field">
             <label>パスワード（変更する場合のみ入力）：</label>
-            <input type="password" th:field="*{newPassword}" class="input"/>
-            <div th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" style="color: red;"></div>
+            <input type="password" th:field="*{user_pass}" class="input"/>
+            <div th:if="${#fields.hasErrors('user_pass')}" th:errors="*{user_pass}" style="color: red;"></div>
         </div>
 		<br>
 		

@@ -49,7 +49,9 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public void insertUsers(User users) {
 		//ハッシュ化追加 キタガワ
+		System.out.println("新規登録：平文パス＝"+users.getUser_pass());
 		String hashedPass = passwordEncoder.encode(users.getUser_pass());
+		System.out.println("新規登録：ハッシュ化パス＝"+hashedPass);
 		users.setUser_pass(hashedPass);
 		
 		
@@ -71,8 +73,8 @@ public class UsersServiceImpl implements UsersService {
 	    User existingUser = usersMapper.selectByIdUsers(users.getUser_id());
 
 	    // パスワードの更新判定（入力時ハッシュ化して更新）
-	    if (StringUtils.hasText(users.getNewPassword())) { 
-	        String hashedPass = passwordEncoder.encode(users.getNewPassword());
+	    if (StringUtils.hasText(users.getUser_pass())) { 
+	        String hashedPass = passwordEncoder.encode(users.getUser_pass());
 	        users.setUser_pass(hashedPass);
 	    } else {// 未入力なら既存のパスワードを保持
 	    	users.setUser_pass(existingUser.getUser_pass());

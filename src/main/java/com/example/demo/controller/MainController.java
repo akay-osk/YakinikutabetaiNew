@@ -54,11 +54,12 @@ public class MainController {
 	public String processRegistration(@ModelAttribute PreUser preUser) {
 		User user = new User();
 		user.setUser_name(preUser.getUser_name());
-		user.setNewPassword(preUser.getNewPassword());
+		user.setUser_pass(preUser.getUser_pass());
 		user.setUser_age(preUser.getUser_age());
 		user.setUser_gender(Boolean.parseBoolean(preUser.getUser_gender()));
+		user.setUser_likes(preUser.getUser_likes());
 		user.setUser_detail(preUser.getUser_detail());
-		user.setUser_icon("data:image/jpeg;base64,"+preUser.getUser_icon());
+		user.setUser_icon(preUser.getUser_icon());
 		System.out.println(user);
 	    usersService.insertUsers(user);
 	    Optional<User> ouser = usersService.findByUsername(preUser.getUser_name());
