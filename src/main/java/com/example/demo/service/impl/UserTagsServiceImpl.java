@@ -47,7 +47,7 @@ public class UserTagsServiceImpl implements UserTagsService {
 
         // 必要なタグを削除
         if (!tagsToRemove.isEmpty()) {
-            userTagsMapper.deleteTags(userId, tagsToRemove);
+            userTagsMapper.deleteAllTagsByUserId(userId);
         }
 
         // 既存タグ＋新規追加タグの合計が6を超えないよう制御
