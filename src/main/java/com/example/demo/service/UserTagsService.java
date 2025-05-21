@@ -12,5 +12,7 @@ public interface UserTagsService {
 	void saveUserTags(Integer user_id, List<Integer> tag_id);
 
 	List<String> getTagNamesForUser(int userId);
+	void deleteAllTags(Integer userId);
+
 
 }

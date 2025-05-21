@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <div th:with="title='Profile Edit'">
-		<div th:replace="common :: common-head(${title})"></div>
+	<div th:with="title='Profile Edit'">
+	<div th:replace="common :: common-head(${title})"></div>
 	</div>
 	<link rel="stylesheet" href="/css/ProfileEdit.css">
 </head>
@@ -12,7 +12,7 @@
 		<header th:replace="common :: header(${title})"></header>
 	
 		<div class ="profile-edit-center">
-		<form th:action="@{/user/update}" method="post" th:object="${user}" class="profile-edit-form" enctype="multipart/form-data">
+		<form th:action="@{/edit}" method="post" th:object="${user}" class="profile-edit-form" enctype="multipart/form-data">
 
 			
         <!-- ユーザーネーム -->
@@ -26,8 +26,8 @@
 		<!-- パスワード（任意） -->
         <div class="input-field">
             <label>パスワード（変更する場合のみ入力）：</label>
-            <input type="password" th:field="*{newPassword}" class="input"/>
-            <div th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}" style="color: red;"></div>
+            <input type="password" th:field="*{user_pass}" class="input"/>
+            <div th:if="${#fields.hasErrors('user_pass')}" th:errors="*{user_pass}" style="color: red;"></div>
         </div>
 		<br>
 		
@@ -76,7 +76,7 @@
 		        <img th:if="*{user_icon != null}" th:src="'data:image/png;base64,' + *{user_icon}" width="300" alt="現在のアイコン" />
 		    </div>
 		    <!-- Base64エンコードされた文字列を格納 -->
-		    <input type="hidden" th:field="*{user_icon}" id="base64Input" />
+		    <input type="hidden" th:field="*{user_icon}" th:value="*{user_icon}" id="base64Input" />
 		
 		</div>
 		<br>
@@ -86,17 +86,17 @@
             <label>タグ選択 (※6つまで選択可能)：</label>
             <div class="tag-container">
 				
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="1" class="tag-checkbox"><span>タバコ〇</span></label>
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="2" class="tag-checkbox"><span>タバコ×</span></label>
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="3" class="tag-checkbox"><span>お酒好き</span></label>
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="4" class="tag-checkbox"><span>下戸です</span></label>
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="5" class="tag-checkbox"><span>焼肉奉行！</span></label>
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="6" class="tag-checkbox"><span>食べる専門！</span></label>
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="7" class="tag-checkbox"><span>ご飯派</span></label> 
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="8" class="tag-checkbox"><span>デザート必須</span></label> 
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="9" class="tag-checkbox"><span>よく焼き派</span></label> 
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="10" class="tag-checkbox"><span>野菜必須！</span></label> 
-				<label class="tag-box"><input type="checkbox" th:field="*{tag_id}" value="11" class="tag-checkbox"><span>冷麺必須！</span></label> 
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="1" class="tag-checkbox"><span>タバコ〇</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="2" class="tag-checkbox"><span>タバコ×</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="3" class="tag-checkbox"><span>お酒好き</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="4" class="tag-checkbox"><span>下戸です</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="5" class="tag-checkbox"><span>焼肉奉行！</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="6" class="tag-checkbox"><span>食べる専門！</span></label>
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="7" class="tag-checkbox"><span>ご飯派</span></label> 
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="8" class="tag-checkbox"><span>デザート必須</span></label> 
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="9" class="tag-checkbox"><span>よく焼き派</span></label> 
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="10" class="tag-checkbox"><span>野菜必須！</span></label> 
+				<label class="tag-box"><input type="checkbox" th:field="*{tags}" value="11" class="tag-checkbox"><span>冷麺必須！</span></label> 
 			
 		 </div>
             <p style="color: red;" id="tagError"></p>
@@ -105,9 +105,9 @@
 
         <!-- 送信ボタン -->
         <div class="button-wrapper">
-            <button type="submit" class="register-button">この設定で保存</button>
-			<a th:href="@{/mypage}" class="register-button">キャンセル</a>
-
+            <button type="submit" class="profile-edit-button">この設定で保存</button>
+			
+			<a th:href="@{/mypage}" class="profile-edit-button cancel-button">キャンセル</a>
         </div>
     </form>
 	</div>

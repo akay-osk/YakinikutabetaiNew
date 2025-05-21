@@ -1,16 +1,9 @@
 @charset "UTF-8";
 
 /* ページ全体 */
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #fffdf9;
-    color: #444;
+.unsuccessful {
     text-align: center;
-    padding: 80px 20px 100px;
-}
-
-.page-title h1.ff-sigma {
-    font-size: 1.4rem;
+    padding: 50px 20px;
 }
 
 
@@ -26,6 +19,21 @@ body {
     max-width: 500px;
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.05);
 }
+.wrap{
+	border-radius: 10px;
+	margin: 20px 0;
+	height: 130px;
+}
+.wrap.retry {
+	border: 2px dotted #fc6577;
+}
+.wrap.back {
+	border: 2px dotted #65c2fc;	
+}
+.wrap.retry .btn,
+.wrap.back .btn {
+    margin-left: 0;
+}
 
 /* ボタン共通スタイル */
 .btn {
@@ -35,7 +43,8 @@ body {
     background-color: #ff7043;
     color: white;
     padding: 10px 18px;
-    margin: 10px 5px;
+    /*margin: 10px 5px;*/
+	margin-left: 20px;
     border: none;
     border-radius: 10px;
     font-size: 1rem;
@@ -57,15 +66,11 @@ button[type="submit"] {
 
 
 form {
-    display: block !important;
-    margin: 20px auto !important;
-    max-width: 500px;
 }
 
 p {
     font-size: 1.2rem;
     color: #333;
-    margin-top: 100px;
-	margin-bottom: 20px;
+	margin: 5px;
 }
 

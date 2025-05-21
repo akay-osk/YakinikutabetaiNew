@@ -62,7 +62,7 @@ public class User {
 	private String user_address;
 	
 	//パスワードアップデート時の一時受け取り（データベースには保存されない）
-	private String newPassword;
+//	private String newPassword;
 	
 	@ManyToMany
 	@JoinTable(

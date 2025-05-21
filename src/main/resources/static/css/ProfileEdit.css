@@ -76,6 +76,14 @@
     background-color: #444444;
 }
 
+/* キャンセルボタンに0.5cmの余白を上に追加 */
+.cancel-button {
+    display: inline-block;
+    text-decoration: none;
+    margin-top: 19px; /* 0.5cm ≒ 18.9px → 19pxに四捨五入 */
+}
+
+
 /* コンテナをグリッド配置 */
 .tag-container {
   display: grid;

@@ -142,7 +142,7 @@
     display: none;
     position: absolute;
     background-color: #f2f7e8;
-    padding: 15px;
+    padding: 10px;
 	left : 50%;
 	bottom : 100%;
 	transform: translateX(-50%);
@@ -150,12 +150,29 @@
     border-radius: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     z-index: 1100;
-	width: 300px;
+	width: 250px;
 	max-width: 90vw;
-	font-size: 14px;
+	font-size: 10px;
 	transition: opacity 0.2s ease, transform 0.2s ease;
 	   opacity: 0;
 }
+
+.popup-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between; /* ← 両端配置（左：アイコン、右：名前） */
+	gap: 5px;
+	margin-bottom: 3px;
+}
+
+.popup-icon {
+    width: 50px;     /* 小さく */
+    height: 50px;
+    border-radius: 50%; /* 丸く */
+    object-fit: cover;
+    border: 1px solid #ccc;
+    margin-bottom: 0;
+	}
 
 .user-icon-wrapper:hover .popup-profile {
     display: block;
