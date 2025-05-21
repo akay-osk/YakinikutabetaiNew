@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.dto.LoginForm;
+import com.example.demo.dto.PreUser;
 import com.example.demo.entity.User;
+import com.example.demo.service.UserTagsService;
 import com.example.demo.service.UsersService;
 
 /*
@@ -22,6 +26,8 @@ public class MainController {
 	
 	@Autowired
 	private UsersService usersService;
+	@Autowired
+	private UserTagsService userTagsService;
 	
 	//トップ画面表示 
 	@GetMapping("/")
@@ -45,10 +51,18 @@ public class MainController {
 	}
 	
 	@PostMapping("/register")
-	public String processRegistration(@ModelAttribute User user) {
-		//ユーザー登録処理
-		usersService.insertUsers(user);
-		
+	public String processRegistration(@ModelAttribute PreUser preUser) {
+		User user = new User();
+		user.setUser_name(preUser.getUser_name());
+		user.setNewPassword(preUser.getNewPassword());
+		user.setUser_age(preUser.getUser_age());
+		user.setUser_gender(Boolean.parseBoolean(preUser.getUser_gender()));
+		user.setUser_detail(preUser.getUser_detail());
+		user.setUser_icon("data:image/jpeg;base64,"+preUser.getUser_icon());
+		System.out.println(user);
+	    usersService.insertUsers(user);
+	    Optional<User> ouser = usersService.findByUsername(preUser.getUser_name());
+		userTagsService.saveUserTags(ouser.get().getUser_id(), preUser.getTags());
 		return "redirect:/login";
 	}
 
