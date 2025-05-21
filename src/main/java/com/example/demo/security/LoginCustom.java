@@ -39,7 +39,7 @@ public class LoginCustom implements AuthenticationProvider{
         	CustomUserDetails userDetails = usersService.findByUsername(user_name)
         			.map(CustomUserDetails::new)
         			.orElseThrow(() -> new UsernameNotFoundException("ユーザーが見つかりません: " + user_name));
-        	
+
         	//principal に CustomUserDetails を設定
             return new UsernamePasswordAuthenticationToken(
             		userDetails, 

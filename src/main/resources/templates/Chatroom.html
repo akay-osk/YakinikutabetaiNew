@@ -14,6 +14,7 @@
 		<div class="reload-wrapper">
 		<div class="reload-icon" onclick="location.reload()" title="再読み込み"></div>
 		</div>
+		<div class="upper"><h2 class="logo"><a th:href="@{/home}" class="ff-sigma">Meat UP!</a></h2></div>
 		<h1>チャットルーム</h1>
 		<form th:action="@{/chatroom/exit}" method="post" style="display: inline;">
 			<button id="exit" type="submit" onclick="return confirm('本当に退出しますか？')">退出</button>

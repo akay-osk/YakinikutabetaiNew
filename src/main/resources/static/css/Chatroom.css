@@ -17,24 +17,22 @@ body {
 }
 
 header {
-	background-color: #FED01B;
-	color: white;
-	padding: 10px 16px;
-	display: flex;
-	justify-content: space-between;
-	/* ← これで左右のアイコンを配置 */
-	align-items: center;
-	position: relative;
-	/* ← h1の中央固定の基準に */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background-color: #FED01B;
+  color: white;
+}
+
+.header-title {
+  flex-grow: 1;
+  text-align: center;
 }
 
 header h1 {
-	font-size: 1.6rem;
-	margin: 0;
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	white-space: nowrap;
+  font-size: 1.6rem;
+  margin: 0;
 }
 
 
