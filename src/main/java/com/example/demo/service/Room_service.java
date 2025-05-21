@@ -22,4 +22,6 @@ public interface Room_service {
 	Room findRoomByUserId(int userId);
 	void exitByUserId(int userId);
 	List<RoomUser>getRoomUser(Integer roomId);
+	void insertRoomUser(int room_id, int userId);
+
 }

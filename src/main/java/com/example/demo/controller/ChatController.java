@@ -87,7 +87,7 @@ public class ChatController {
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
         int userId = userDetails.getUserId();
 
-        matchingService.delete(matchingService.findByUserId(userId).getMatching_id());
+//        matchingService.delete(matchingService.findByUserId(userId).getMatching_id());
         
         room_service.exitByUserId(userId);
         return "redirect:/home"; // ホーム画面へリダイレクト

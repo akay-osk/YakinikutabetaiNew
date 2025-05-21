@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.entity.Matching;
 import com.example.demo.entity.Room;
 import com.example.demo.entity.RoomUser;
+import com.example.demo.mapper.Room_mapper;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.MatchingService;
 import com.example.demo.service.Room_service;
@@ -45,6 +46,8 @@ public class MatchingController {
 	@Autowired
 	private UsersService usersService;
 	
+	@Autowired
+	private Room_mapper room_mapper;
 	//マッチング希望条件検索
 	
 	/*
@@ -60,19 +63,28 @@ public class MatchingController {
 	    public String showHome(Model model) {
 	    	int userId = usersService.getCurrentUserId();
 
-	        boolean hasMatchingRoom = usersService.hasRoom(userId);
+	        boolean hasMatchingRoom = false;
 	        boolean isWaitingForMatch = usersService.hasWaitingCondition(userId);
+	    	Integer roomIdToShow = null;
+	        
+	    	Room room = roomService.findRoomByUserId(userId);
+	    	// 🔽 マッチング中のルームIDを取得して渡す
+	    	if (room != null) {
+	    		List<Integer> usersInRoom = room_mapper.selectUserIdsInRoom(room.getRoom_id());
+	    		if (usersInRoom != null && usersInRoom.size() > 1) {
+            // 2人以上いるならバナー表示
+            hasMatchingRoom = true;
+            roomIdToShow = room.getRoom_id();
+        }
+    }
+	    	
 	    	
 	        model.addAttribute("matching", new Matching());
-	        model.addAttribute("hasMatchingRoom", hasMatchingRoom); // or false
-	        model.addAttribute("isWaitingForMatch", isWaitingForMatch); // or true
+	        model.addAttribute("hasMatchingRoom", hasMatchingRoom);
+	        model.addAttribute("isWaitingForMatch", isWaitingForMatch); 
+	         model.addAttribute("roomId", roomIdToShow); 
 	        
-	        // 🔽 マッチング中のルームIDを取得して渡す
-	        Room room = roomService.findRoomByUserId(userId);
-	        if (room != null) {
-	            model.addAttribute("roomId", room.getRoom_id());
-	        }
-	        
+	   
 	        return "Home";  // ← HTMLファイル名が Home.html の場合
 	    }
 		
@@ -103,16 +115,23 @@ public class MatchingController {
 				userId
 				
 				);
-		
-		// 結果の表示
-		if (!candidates.isEmpty()) {
-			model.addAttribute("candidates", candidates);
-			return "redirect:/select";
-		} else {
-			model.addAttribute("request", matching);
-			model.addAttribute("notFoundReason", "条件に合うユーザーが見つかりませんでした。条件を緩めて再検索してください。");
-			return "MatchingNotFound";
-		}
+		   // Room作成とRoomUserへの登録処理
+	    Room room = new Room();
+	    room.setDelete_at(null);
+
+	    roomService.insert(room); // room_idがセットされる
+
+	    // 中間テーブルにユーザー登録
+	    roomService.insertRoomUser(room.getRoom_id(), userId);
+
+	    if (!candidates.isEmpty()) {
+	        model.addAttribute("candidates", candidates);
+	        return "redirect:/select"; // Select画面で候補ユーザー選択
+	    } else {
+	        model.addAttribute("request", matching);
+	        model.addAttribute("notFoundReason", "条件に合うユーザーが見つかりませんでした。条件を緩めて再検索してください。");
+	        return "MatchingNotFound";
+	    }
 	
 	}
 	
@@ -204,6 +223,21 @@ public class MatchingController {
 	    Matching matching = matchingService.findByUserId(userId);
 	    if (matching != null) {
 	        matchingService.delete(matching.getMatching_id());
+	    }
+	     // 現在のルーム情報を取得
+	        Room room = roomService.findRoomByUserId(userId); // RoomMapperのfindRoomByUserIdを使用
+
+	        if (room != null) {
+	            int roomId = room.getRoom_id();
+
+	            // 中間テーブル room_user から該当ユーザーを削除
+	            room_mapper.deleteByUserId(userId);
+
+	            // ルームに他のユーザーがいない場合、ルーム自体も削除（オプション）
+	            List<Integer> remainingUsers = room_mapper.selectUserIdsInRoom(roomId);
+	            if (remainingUsers == null || remainingUsers.isEmpty()) {
+	                roomService.delete(roomId);
+	            }
 	    }
 	 
 	    

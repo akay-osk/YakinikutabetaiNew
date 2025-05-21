@@ -28,10 +28,10 @@ public interface Room_mapper {
 	@Select("SELECT * FROM room WHERE room_id = #{id}")
 	Room selectById(@Param("id") Integer id);
 	
-	@Insert("INSERT INTO room(user_id, is_single, is_full, delete_at) VALUES(#{user_id}, #{is_single}, #{is_full}, #{delete_at})")
+	@Insert("INSERT INTO room(is_single, is_full, delete_at) VALUES(#{is_single}, #{is_full}, #{delete_at})")
 	@Options(useGeneratedKeys=true, keyProperty="room_id")
 	void insertRoom(Room room);
-	
+
 	@Delete("DELETE FROM room WHERE room_id = #{room_id}")
 	void deleteRoom(@Param("room_id") int roomId);
 
@@ -75,5 +75,6 @@ public interface Room_mapper {
 
 	@Select("SELECT * FROM room_user WHERE user_id = #{userId} LIMIT 1")
 	RoomUser findRoomUserByUserId(@Param("userId") int userId);
+
 
 }
