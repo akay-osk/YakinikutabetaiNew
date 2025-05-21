@@ -76,17 +76,21 @@
 						fetch(`/user/detail/${userId}`)
 							.then(response => response.json())
 							.then(data => {
+								const firstLineTags = data.tags.slice(0, 3).map(tag => `<span class="tags">#${tag}</span>`).join(' ');
+									const secondLineTags = data.tags.slice(3).map(tag => `<span class="tags">#${tag}</span>`).join(' ');
 								popup.innerHTML = `
-                                    <img src="${data.userIcon}" class="popup-icon" /><br>
-                                    <div><strong>${data.userName}</strong></div>
-                                    <div>年齢：${data.userAge}歳</div>
+								<div class="popup-header">
+                                    <img src="${data.userIcon}" class="popup-icon" />
+                                    <strong class ="popup-name">${data.userName}</strong>
+									</div>
+                                    年齢：${data.userAge}歳　
                                     性別：${data.gender}<br>
-                                   <div>好きな部位：${data.likes}</div>
+                                   好きな部位：${data.likes}
                                     <div>詳細：${data.detail}</div>
 									<div>
 										</div>
 										<div class="tags">
-                                    タグ：${data.tags.map(tags => `<span class="tags">#${tags}</span>`).join(' ')}
+											タグ：${firstLineTags}<br>${secondLineTags}
                                			</div>
 									 `;
 								fetched = true;
