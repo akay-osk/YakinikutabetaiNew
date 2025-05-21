@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,7 @@ public class MatchingController {
 	    	// 🔽 マッチング中のルームIDを取得して渡す
 	    	if (room != null) {
 	    		List<Integer> usersInRoom = room_mapper.selectUserIdsInRoom(room.getRoom_id());
-	    		if (usersInRoom != null && usersInRoom.size() > 1) {
+	    		if (usersInRoom != null && usersInRoom.size() >= 1) {
             // 2人以上いるならバナー表示
             hasMatchingRoom = true;
             roomIdToShow = room.getRoom_id();
@@ -163,11 +164,21 @@ public class MatchingController {
 	    Integer userId = userDetails.getUserId();
 	    
 	    List<Room> roomList = roomService.getAllRooms(); // 全ルーム取得でOK
-	    model.addAttribute("roomList", roomList);
+	    List<Room> matchedRooms = new ArrayList<>();
+	   
+	    
+	    
 	    for (Room room : roomList) {
 	        List<RoomUser> roomUsers = roomService.getRoomUser(room.getRoom_id());
-	        room.setRoomUsers(roomUsers);
+	        
+	        boolean containsSelf = roomUsers.stream()
+	        		.anyMatch(ru -> ru.getUser_id()==(userId));
+	        if (!containsSelf) {
+            room.setRoomUsers(roomUsers);
+            matchedRooms.add(room);
+	        }
 	    }
+	     model.addAttribute("roomList", roomList);
 	    return "MatchingResult"; 
 	}
 
